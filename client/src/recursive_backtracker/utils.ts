@@ -56,23 +56,25 @@ export function printMaze (maze: Maze) {
 
 export function htmlMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRenderingContext2D {
 	const CELL_SIDE = 10;
+	const WIDTH = maze.width;
+	const HEIGHT = maze.height;
 
 	// NOTE draw outer walls
 	// top
 	ctx.moveTo(0, 0);
-	ctx.lineTo(CELL_SIDE * maze.width, 0);
+	ctx.lineTo(CELL_SIDE * WIDTH, 0);
 
 	// right
-	ctx.moveTo(CELL_SIDE * maze.width, 0);
-	ctx.lineTo(CELL_SIDE * maze.width, CELL_SIDE * maze.height);
+	ctx.moveTo(CELL_SIDE * WIDTH, 0);
+	ctx.lineTo(CELL_SIDE * WIDTH, CELL_SIDE * HEIGHT);
 
 	// left
 	ctx.moveTo(0, 0);
-	ctx.lineTo(0, CELL_SIDE * maze.height);
+	ctx.lineTo(0, CELL_SIDE * HEIGHT);
 
 	// bottom
-	ctx.moveTo(0, CELL_SIDE * maze.height);
-	ctx.lineTo(CELL_SIDE * maze.width, CELL_SIDE * maze.height);
+	ctx.moveTo(0, CELL_SIDE * HEIGHT);
+	ctx.lineTo(CELL_SIDE * WIDTH, CELL_SIDE * HEIGHT );
 
 	maze.grid.forEach((row, ri) => {
 		row.forEach((cell, ci) => {
@@ -91,19 +93,19 @@ export function htmlMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRende
 
 			if (neighbors.top) {
 				ctx.moveTo(CELL_SIDE * ci, CELL_SIDE * ri);
-				ctx.lineTo(CELL_SIDE * ci + 10, CELL_SIDE * ri);
+				ctx.lineTo(CELL_SIDE * ci + CELL_SIDE, CELL_SIDE * ri);
 			}
 			if (neighbors.bottom) {
-				ctx.moveTo(CELL_SIDE * ci, CELL_SIDE * ri + 10);
-				ctx.lineTo(CELL_SIDE * ci + 10, CELL_SIDE * ri + 10);
+				ctx.moveTo(CELL_SIDE * ci, CELL_SIDE * ri + CELL_SIDE);
+				ctx.lineTo(CELL_SIDE * ci + CELL_SIDE, CELL_SIDE * ri + CELL_SIDE);
 			}
 			if (neighbors.left) {
 				ctx.moveTo(CELL_SIDE * ci, CELL_SIDE * ri);
-				ctx.lineTo(CELL_SIDE * ci, CELL_SIDE * ri + 10);
+				ctx.lineTo(CELL_SIDE * ci, CELL_SIDE * ri + CELL_SIDE);
 			}
 			if (neighbors.right) {
-				ctx.moveTo(CELL_SIDE * ci + 10, CELL_SIDE * ri);
-				ctx.lineTo(CELL_SIDE * ci + 10, CELL_SIDE * ri + 10);
+				ctx.moveTo(CELL_SIDE * ci + CELL_SIDE, CELL_SIDE * ri);
+				ctx.lineTo(CELL_SIDE * ci + CELL_SIDE, CELL_SIDE * ri + CELL_SIDE);
 			}
 			ctx.stroke();
 		});
