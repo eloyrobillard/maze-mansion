@@ -1,0 +1,17 @@
+#maze {
+  width: 100%;
+  height: 100vh;
+
+  text-align: center;
+
+  resize: none;
+}
+
+#canvas {
+  height: 80vh;
+  padding: 1rem;
+
+  margin: auto;
+
+  border: 3px solid black;
+}
