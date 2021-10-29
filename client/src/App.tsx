@@ -1,7 +1,7 @@
 // import React, {useState, useEffect} from 'react';
 import './App.css';
 // import ApiClient from './ApiService';
-import Settings from './Settings';
+import Settings from './Settings/Settings';
 
 function Maze() {
   // const [maze, setMaze] = useState('');
