@@ -13,14 +13,13 @@ function SpeedSetting() {
 
   return (
     <form>
-      <label htmlFor="fps">Choose FPS</label>
+      <label htmlFor="fps">FPS設定</label>
       <input type="number"
         min="1"
         max="10"
         name="fps" 
         value={fps} 
         onChange={handleFps}/>
-      <button></button>
     </form>
   )
 }
@@ -28,10 +27,10 @@ function SpeedSetting() {
 export default function SpeedToggle() {
   const [fpsElement, setFpsElement] = useState(
     <form>
-      <label>Maze rendering speed</label>
+      <label>レンダー速度</label>
       <div id="speed-choice">
-        <button onClick={handleSpeedInstant}>Instantaneous?</button>
-        <button onClick={handleSpeedSetting}>Choose speed?</button>
+        <button onClick={handleSpeedInstant}>瞬間的？</button>
+        <button onClick={handleSpeedSetting}>調整する？</button>
       </div>
     </form>
   );
@@ -40,8 +39,8 @@ export default function SpeedToggle() {
     e.preventDefault();
     setFpsElement(
       <div>
-        <label>Maze rendering speed</label>
-        <h2>Instantaneous</h2>
+        <label>レンダー速度</label>
+        <h2>完了。</h2>
       </div>
     );
   }

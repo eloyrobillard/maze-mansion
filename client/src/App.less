@@ -5,24 +5,42 @@
 
   padding-top: 10%;
   display:flex;
+  justify-content: space-around;
 }
 
 #maze {
-  width: 60%;
+  background-color: white;
+  width: 55%;
   height: 100%;
 
   text-align: center;
 
-  resize: none;
+  box-shadow: 0 0 0.25rem grey;
 }
 
 #canvas {
-  background-color: white;
   width: 80%;
-  // height: 80vh;
   padding: 2rem;
   
-  box-shadow: 0 0 0.25rem grey;
+}
+
+#top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+
+  background-color: #316745;
+  box-shadow: 0 0.2rem 0.3rem #244d33;
+
+  text-align: center;
+  color: white;
+  font-family: 'ポプらむ☆キュート', 'ピグモ', 'マメロン', '白川 篆文', '春秋tsu-教育漢字', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
+}
+
+#settings, 
+#settings input, 
+#settings button {
+  font-family: 'マメロン', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
 }
 
 .App {

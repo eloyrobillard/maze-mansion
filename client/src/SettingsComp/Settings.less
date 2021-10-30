@@ -1,17 +1,29 @@
 #settings {
-  background-color: white;
+  background-color: #4c9b69;
+  color: white;
   width: 40%;
   min-height: 60vh;
 
   border-radius: 1%;
   box-shadow: 0 0 0.25rem grey;
 
+  // NOTE remove tiny arrow buttons from number input fields
+  & input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  & input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
   & h1 {
     text-align: center;
   }
 
   & #settings-content {
-    height: 80%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,17 +60,17 @@
       }
     }
 
-    & button {
-      background-color: rgb(240, 166, 28);
-      color: white;
+    // & button {
+    //   background-color: rgb(240, 166, 28);
+    //   color: white;
       
-      border: none;
-      border-radius: 2%;
+    //   border: none;
+    //   border-radius: 2%;
 
-      &:hover {
-        background-color: rgba(240, 166, 28, 0.411);
-        color: rgb(255, 113, 113);
-      }
-    }
+    //   &:hover {
+    //     background-color: rgba(240, 166, 28, 0.411);
+    //     color: rgb(255, 113, 113);
+    //   }
+    // }
   }
 }

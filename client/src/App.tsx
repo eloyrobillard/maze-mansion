@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
-import './App.css';
-// import ApiClient from './ApiService';
+import ApiClient from './ApiService';
 import Settings from './SettingsComp/Settings';
+import './App.css';
 
 
-function Maze() {
-  // const [context, setContext]: any = useState();
-  
-  // useEffect(() => {
-    //     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    //     const canvasContext = canvas!.getContext('2d');
-    //     setContext(ApiClient.mazeToScreen(canvasContext!, 20, 20));
-    // },[])
+function Maze({width, height, fps}: {width: number, height: number, fps: number}) {
+  function handleClick (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+
+    const oldCanvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const maze = document.getElementById('maze');
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'canvas';
+    const canvasContext = canvas!.getContext('2d');
+    ApiClient.mazeToScreen(canvasContext!, width, height);
+
+    maze!.replaceChild(canvas, oldCanvas);
+  }
     
   return (
     <div id="maze">
       <canvas id='canvas'></canvas>
+      <button type="submit" onClick={handleClick}>Create</button>
     </div>
   );
 }
@@ -26,7 +33,8 @@ export const SettingsContext = React.createContext({
   mazeHeight: 10,
   setHeight: (_: number) => {return},
   fps: 5, 
-  setFps: (_: number) => {return}
+  setFps: (_: number) => {return},
+  createMaze: () => {return}
 });
 
 function Dashboard() {
@@ -35,18 +43,22 @@ function Dashboard() {
 
   const [fps, setFps] = useState(5);
 
+  function createMaze() {
+
+  }
 
   return (
     <div id="dashboard">
+      <Maze width={mazeWidth} height={mazeHeight} fps={fps} />  
       <SettingsContext.Provider value={{
           mazeWidth,
           setWidth,
           mazeHeight,
           setHeight,
           fps, 
-          setFps
+          setFps,
+          createMaze
         }}>
-        <Maze />  
         <Settings />
       </SettingsContext.Provider>
       
@@ -57,6 +69,9 @@ function Dashboard() {
 function App() {
   return (
     <div className="App">
+      <div id="top-bar">
+        <h2>迷路の屋敷</h2>
+      </div>
       <Dashboard />
     </div>
   );

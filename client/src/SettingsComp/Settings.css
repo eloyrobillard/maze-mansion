@@ -1,15 +1,24 @@
 #settings {
-  background-color: white;
+  background-color: #4c9b69;
+  color: white;
   width: 40%;
   min-height: 60vh;
   border-radius: 1%;
   box-shadow: 0 0 0.25rem grey;
 }
+#settings input[type=number]::-webkit-outer-spin-button,
+#settings input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+#settings input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
 #settings h1 {
   text-align: center;
 }
 #settings #settings-content {
-  height: 80%;
+  height: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,14 +47,4 @@
 #settings form#dimensions #dimension-inputs label,
 #settings form#dimensions #dimension-inputs input {
   width: 43%;
-}
-#settings form button {
-  background-color: #f0a61c;
-  color: white;
-  border: none;
-  border-radius: 2%;
-}
-#settings form button:hover {
-  background-color: rgba(240, 166, 28, 0.411);
-  color: #ff7171;
 }

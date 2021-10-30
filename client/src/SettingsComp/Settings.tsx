@@ -31,12 +31,12 @@ export default function Settings() {
 
   return (
     <div id="settings">
-      <h1>Settings</h1>
+      <h1>設定</h1>
       <div id="settings-content">
         <form id="dimensions">
           <div id="dimension-inputs">
-            <label htmlFor="width">Width</label>
-            <label htmlFor="height">Height</label>
+            <label htmlFor="width">幅</label>
+            <label htmlFor="height">高さ</label>
             <input type="number"
               min="2" 
               name="width" 
@@ -48,20 +48,8 @@ export default function Settings() {
               value={mazeHeight} 
               onChange={(e) => handleInput(e, 'h')}/>
           </div>
-          <button type="submit">Submit dimensions</button>
         </form>
         <SpeedToggle />
-        {/* <form>
-          <label htmlFor="width height">Maze dimensions</label>
-            <input type="number"
-              min="1" 
-              name="width" 
-              value={mazeWidth} 
-              placeholder="Maze width..." 
-              onChange={(e) => handleInput(e, 'w')}/>
-            <input type="number" name="height" value={mazeHeight} placeholder="Maze height..." />
-            <button type="submit">Submit dimensions</button>
-          </form> */}
       </div>
     </div>
   )
