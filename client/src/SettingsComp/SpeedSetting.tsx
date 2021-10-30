@@ -1,9 +1,9 @@
 import React, {useState, useContext} from 'react';
-import { FpsContext } from './Settings';
+import { SettingsContext } from '../App';
 import './SpeedSettings.css';
 
 function SpeedSetting() {
-  const {fps, setFps} = useContext(FpsContext);
+  const {fps, setFps} = useContext(SettingsContext);
 
   function handleFps(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();

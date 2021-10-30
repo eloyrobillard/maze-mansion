@@ -1,13 +1,15 @@
 #dashboard {
-  padding: 1rem;
-  padding-top: 6rem;
+  width: 90%;
+  height: 70%;
+  margin: auto;
 
+  padding-top: 10%;
   display:flex;
 }
 
 #maze {
   width: 60%;
-  min-height: 60vh;
+  height: 100%;
 
   text-align: center;
 
@@ -15,9 +17,15 @@
 }
 
 #canvas {
+  background-color: white;
   width: 80%;
   // height: 80vh;
   padding: 2rem;
   
-  border: 3px solid black;
+  box-shadow: 0 0 0.25rem grey;
+}
+
+.App {
+  background-image: url('./bg-maze.svg');
+  height: 100%;
 }

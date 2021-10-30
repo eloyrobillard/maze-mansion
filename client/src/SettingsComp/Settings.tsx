@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import SpeedToggle from './SpeedSetting';
+import { SettingsContext } from '../App';
 import './Settings.css';
 
-export const FpsContext = React.createContext({fps: 5, setFps: (_: number) => {return}});
+// export const FpsContext = React.createContext({fps: 5, setFps: (_: number) => {return}});
 
 export default function Settings() {
-  const [mazeWidth, setWidth] = useState(10);
-  const [mazeHeight, setHeight] = useState(10);
-
-  const [fps, setFps] = useState(5);
+  const { 
+    mazeWidth, 
+    setWidth,
+    mazeHeight,
+    setHeight } = useContext(SettingsContext);
 
   function handleInput(e: React.ChangeEvent<HTMLInputElement>, target: string) {
     e.preventDefault();
@@ -48,9 +50,7 @@ export default function Settings() {
           </div>
           <button type="submit">Submit dimensions</button>
         </form>
-        <FpsContext.Provider value={{fps, setFps: (x) => setFps(x)}}>
-          <SpeedToggle />
-        </FpsContext.Provider>
+        <SpeedToggle />
         {/* <form>
           <label htmlFor="width height">Maze dimensions</label>
             <input type="number"
