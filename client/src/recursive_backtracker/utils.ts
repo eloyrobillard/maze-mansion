@@ -1,5 +1,5 @@
 import { Maze } from './maze';
-import { Step } from './recursive-backtracker';
+import { Step } from '../ApiService';
 
 export function getRand (max: number) {
 	return Math.floor(Math.random() * max);
@@ -114,7 +114,7 @@ export function canvasMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRen
 	return ctx;
 }
 
-export function cellMaze(maze: Maze) {
+export function generateClassLists(maze: Maze) {
 	return maze.grid.map((row, ri, grid) => {
 		return row.map((cell, ci) => {
 			let classList = 'cell';
@@ -123,7 +123,7 @@ export function cellMaze(maze: Maze) {
 				classList = `${classList} wall-top`;
 			}
 			if (ri + 1 >= maze.height) {
-				classList = `${classList} wall-bot`;
+				classList = `${classList} wall-bottom`;
 			}
 			if (ci - 1 < 0) {
 				classList = `${classList} wall-left`;
@@ -138,7 +138,7 @@ export function cellMaze(maze: Maze) {
 			}
 
 			if (neighbors.bottom) {
-				classList = `${classList} wall-bot`
+				classList = `${classList} wall-bottom`
 			}
 			if (neighbors.right) {
 				classList = `${classList} wall-right`;
@@ -147,7 +147,7 @@ export function cellMaze(maze: Maze) {
 			if (ri + 1 < maze.height) {
 				const neighborsBot = grid[ri + 1][ci].neighbors;
 				if (neighborsBot && neighborsBot.top) {
-					classList = `${classList} wall-bot`;
+					classList = `${classList} wall-bottom`;
 				}
 			}
 			if (ci + 1 < maze.width) {
@@ -161,8 +161,29 @@ export function cellMaze(maze: Maze) {
 	});
 }
 
-export function updateCellMaze(classLists: string[][], change: Step) {
+export function updateClassLists(classLists: string[][], change: Step) {
 	const { prev, current } = change;
+	if (!current) {
+		return classLists;
+	}
 
-	
+	const { x: px, y: py } = prev!;
+	const { x: cx, y: cy } = current;
+	const direction = `wall-${getChangeDirections(px, py, cx ,cy)}`;
+
+	classLists[py][px] = classLists[py][px].replace('current', '').replace(` ${direction}`, '');
+	classLists[cy][cx] = `${classLists[cy][cx]} current`;
+
+	return classLists;
+}
+
+function getChangeDirections(x1: number, y1: number, x2: number, y2: number) {
+	const xDiff = x2 - x1;
+	if (xDiff) {
+		return xDiff > 0 ? 'right' : 'left';
+	}
+	const yDiff = y2 - y1;
+	if (yDiff) {
+		return yDiff > 0 ? 'top' : 'bottom';
+	}
 }

@@ -1,16 +1,6 @@
+import { MazeDescriptor } from '../ApiService';
 import { Cell, Maze } from './maze';
 import { getRand } from './utils' ;
-
-export type Step = { 
-  prev: Cell; 
-  current: Cell | null; 
-}
-
-type MazeDescriptor = { 
-  initial: Maze;
-  steps: Step[];
-  final: Maze | null;
-}
 
 export default function RecursiveBacktracker (width: number, height: number) {
   const maze = new Maze(width, height);

@@ -2,6 +2,8 @@ import React, {useState, useContext} from 'react';
 import { SettingsContext } from '../App';
 import './SpeedSettings.css';
 
+export const FPS_INSTANT = 0;
+
 function SpeedSetting() {
   const {fps, setFps} = useContext(SettingsContext);
 
@@ -25,6 +27,7 @@ function SpeedSetting() {
 }
 
 export default function SpeedToggle() {
+  const {setFps} = useContext(SettingsContext);
   const [fpsElement, setFpsElement] = useState(
     <form>
       <label>レンダー速度</label>
@@ -37,6 +40,7 @@ export default function SpeedToggle() {
 
   function handleSpeedInstant(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
+    setFps(FPS_INSTANT);
     setFpsElement(
       <div>
         <label>レンダー速度</label>

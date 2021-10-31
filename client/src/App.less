@@ -13,8 +13,8 @@
 
 #maze {
   background-color: white;
-  width: 55%;
-  height: 100%;
+  min-width: 55%;
+  min-height: 80vh;
   padding: 0.25rem;
 
   box-shadow: 0 0 0.25rem grey;
@@ -28,8 +28,8 @@
   }
 
   & #grid-container {
-    height: 100%;
-    width: 100%;
+    min-height: 100%;
+    min-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +54,7 @@
         &.wall-top {
           border-top: 2px solid black;
         }
-        &.wall-bot {
+        &.wall-bottom {
           border-bottom: 2px solid black;
         }
         &.wall-left {
@@ -63,13 +63,6 @@
         &.wall-right {
           border-right: 2px solid black; 
         }
-
-        // &:not(.wall-bot)::after {
-        //   position: relative;
-        //   left: 48px;
-        //   bottom: 18px;
-        //   content: '.';
-        // }
       }
     }
   }
