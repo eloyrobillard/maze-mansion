@@ -1,14 +1,12 @@
 @chitose-green: #316745;
-@canvas-height: 80%;
 
 #dashboard {
-  width: 90%;
-  height: 70%;
-  margin: auto;
+  min-height: 70%;
 
-  padding-top: 10%;
+  padding-top: 9%;
   display:flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 #maze {
@@ -22,9 +20,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 
-  & button {
-    bottom: 0;
+  & #commands {
+    width: 60%;
+
+    display: flex;
+    justify-content: space-around;
   }
 
   & #grid-container {
@@ -48,6 +50,7 @@
 
         &:hover {
           background-color: @chitose-green;
+          background-image: url('./bg-maze-white.svg');
           box-shadow: 0 0 0.25rem @chitose-green;
         }
         
@@ -94,5 +97,5 @@
 
 .App {
   background-image: url('./bg-maze.svg');
-  height: 100%;
+  min-height: 100%;
 }

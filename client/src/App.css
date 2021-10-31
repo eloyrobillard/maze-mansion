@@ -1,10 +1,9 @@
 #dashboard {
-  width: 90%;
-  height: 70%;
-  margin: auto;
-  padding-top: 10%;
+  min-height: 70%;
+  padding-top: 9%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 #maze {
   background-color: white;
@@ -15,9 +14,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
-#maze button {
-  bottom: 0;
+#maze #commands {
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
 }
 #maze #grid-container {
   min-height: 100%;
@@ -38,6 +40,7 @@
 }
 #maze #grid-container #grid .cell:hover {
   background-color: #316745;
+  background-image: url('bg-maze-white.svg');
   box-shadow: 0 0 0.25rem #316745;
 }
 #maze #grid-container #grid .cell.wall-top {
@@ -72,5 +75,5 @@
 }
 .App {
   background-image: url('bg-maze.svg');
-  height: 100%;
+  min-height: 100%;
 }

@@ -17,11 +17,11 @@ export default function Settings() {
 
     switch (target) {
       case 'w':
-        setWidth(Number(e.target.value));
+        setWidth(Math.max(1, Number(e.target.value)));
         break;
       
       case 'h':
-        setHeight(Number(e.target.value));
+        setHeight(Math.max(1, Number(e.target.value)));
         break;
 
       default:
@@ -38,12 +38,12 @@ export default function Settings() {
             <label htmlFor="width">幅</label>
             <label htmlFor="height">高さ</label>
             <input type="number"
-              min="2" 
+              min="1" 
               name="width" 
               value={mazeWidth} 
               onChange={(e) => handleInput(e, 'w')}/>
             <input type="number" 
-              min="2"
+              min="1"
               name="height" 
               value={mazeHeight} 
               onChange={(e) => handleInput(e, 'h')}/>

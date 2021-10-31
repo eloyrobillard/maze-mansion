@@ -38,13 +38,14 @@ export default function SpeedToggle() {
     </form>
   );
 
+  // TODO reset speed setting display with new maze
   function handleSpeedInstant(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     setFps(FPS_INSTANT);
     setFpsElement(
       <div>
         <label>レンダー速度</label>
-        <h2>完了。</h2>
+        <h2>瞬間的</h2>
       </div>
     );
   }

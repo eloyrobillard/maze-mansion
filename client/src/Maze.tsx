@@ -5,6 +5,7 @@ import * as M from './recursive_backtracker/maze';
 import './App.css';
 
 function Commands() {
+  // TODO change return when fps = instant vs not
   return (
     <div id="commands">
       <button id="previous-state">⏮️</button>
@@ -23,20 +24,27 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     steps: [{ prev: null, current: null }],
     final: new M.Maze(0, 0)
   });
+
+  // TODO implement maze steps
   const [stepCount, setStepCount]: [number, any] = useState(0);
 
   function getCellDimensions() {
-    const grid = document.getElementById('grid') as HTMLDivElement;
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    
-    // NOTE force style instantiation
-    grid.appendChild(cell);
-    const cellWidth = cell.getBoundingClientRect().width;
-    const cellHeight = cell.getBoundingClientRect().height;
-    grid.removeChild(cell);
+    let cellWidth, cellHeight;
+    return (() => {
+      if (!(cellWidth && cellHeight)) {
+        const grid = document.getElementById('grid') as HTMLDivElement;
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        
+        // NOTE force style instantiation
+        grid.appendChild(cell);
+        cellWidth = cell.getBoundingClientRect().width;
+        cellHeight = cell.getBoundingClientRect().height;
+        grid.removeChild(cell);
+      }
 
-    return { cellWidth, cellHeight };
+      return { cellWidth, cellHeight };
+    })()
   }
   
   useEffect(() => {
@@ -50,6 +58,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     // const gridHeight = Math.floor(gridContainer.getBoundingClientRect().height);
 
     // if (cellWidth * width < (gridWidth - cellWidth)) {
+    // TODO fix grid size limit issues
     grid.style.width = `${cellWidth * width}px`;
     // }
     // if (cellHeight * height < (gridHeight - cellHeight)) {
@@ -58,17 +67,22 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     // return grid;
   }, [width, height])
 
-  function handleClick (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function handleUpdate (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     
     try { 
-      // setGridElUp();
       setClassLists(fps === FPS_INSTANT 
         ? ApiClient.mazeToClassListsInstant(descriptor!.final)
         : ApiClient.mazeToClassListsStep(classLists, descriptor!.steps[stepCount]));
     } catch (e) {
       console.log(e);
     }
+  }
+
+  function handleReset (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+
+    setClassLists(ApiClient.mazeToClassListsInstant(descriptor.initial));
   }
 
   useEffect(() => {
@@ -91,7 +105,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
         </div>
       </div>
       <Commands />
-      <button type="submit" onClick={handleClick}>Create</button>
+      <button type="submit" onClick={handleReset}>Reset</button>
     </div>
   );
 }
