@@ -5,6 +5,8 @@ import './App.css';
 
 
 function Maze({width, height, fps}: {width: number, height: number, fps: number}) {
+  const [classLists, setClassLists]: [string[][], React.Dispatch<React.SetStateAction<string[][]>>] = useState([['']]);
+
   function getCellDimensions() {
     const grid = document.getElementById('grid') as HTMLDivElement;
     const cell = document.createElement('div');
@@ -19,42 +21,44 @@ function Maze({width, height, fps}: {width: number, height: number, fps: number}
     return { cellWidth, cellHeight };
   }
   
-  function setGridUp() {
+  function setGridElUp() {
     const { cellWidth, cellHeight } = getCellDimensions();
 
-    const oldGrid = document.getElementById('grid') as HTMLDivElement;
+    const grid = document.getElementById('grid') as HTMLDivElement;
     // NOTE use gridContainer rect -> coherent with maze size
     const gridContainer = document.getElementById('grid-container') as HTMLDivElement;
     // LINK https://javascript.programmer-reference.com/js-width-height/
-    const oldGridWidth = Math.floor(gridContainer.getBoundingClientRect().width);
-    const oldGridHeight = Math.floor(gridContainer.getBoundingClientRect().height);
+    const gridWidth = Math.floor(gridContainer.getBoundingClientRect().width);
+    const gridHeight = Math.floor(gridContainer.getBoundingClientRect().height);
 
-    const newGrid = document.createElement('div');
-    newGrid.id = 'grid';
-    gridContainer.replaceChild(newGrid, oldGrid!);
-
-    if (cellWidth * width < (oldGridWidth - cellWidth)) {
-      newGrid.style.width = `${cellWidth * width}px`;
+    if (cellWidth * width < (gridWidth - cellWidth)) {
+      grid.style.width = `${cellWidth * width}px`;
     }
-    if (cellHeight * height < (oldGridHeight - cellHeight)) {
-      newGrid.style.height = `${cellHeight * height}px`;
+    if (cellHeight * height < (gridHeight - cellHeight)) {
+      grid.style.height = `${cellHeight * height}px`;
     }
-    return newGrid;
+    return grid;
   }
 
   function handleClick (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     
-    const cellArs = ApiClient.mazeToCells(width, height);
-    console.log(cellArs);
-    const grid = setGridUp();
-    cellArs.forEach((ar) => ar.forEach((cell) => grid.appendChild(cell)));
+    try { 
+      setGridElUp();
+      setClassLists(ApiClient.mazeToClassLists(width, height));
+    } catch (e) {
+      console.log(e);
+    }
   }
     
   return (
     <div id="maze">
       <div id="grid-container">
-        <div id="grid"></div>
+        <div id="grid">
+          {classLists.reduce((acc, row) => acc.concat(row)).map((list, i) => <div key={i} 
+            onClick={() => console.log(i % width, Math.floor(i / width))}
+            className={list}></div>)}
+        </div>
       </div>
       <button type="submit" onClick={handleClick}>Create</button>
     </div>

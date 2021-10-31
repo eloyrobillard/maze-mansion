@@ -26,6 +26,7 @@ export class Maze {
 	grid: Cell[][];
 	cellStack: Cell[] = [];
 	visited = 0;
+	prev: Cell | null = null;
 	current: Cell | null = null;
 
 	constructor (width: number, height: number) {

@@ -1,24 +1,50 @@
 import { Cell, Maze } from './maze';
 import { getRand } from './utils' ;
 
+export type Step = { 
+  prev: Cell; 
+  current: Cell | null; 
+}
+
+type MazeDescriptor = { 
+  initial: Maze;
+  steps: Step[];
+  final: Maze | null;
+}
+
 export default function RecursiveBacktracker (width: number, height: number) {
   const maze = new Maze(width, height);
+  const mazeGen = mazeGenerator(maze, width, height);
+  
+  let curStep = mazeGen.next();
+  const res: MazeDescriptor = { 
+    initial: new Maze(width, height), 
+    steps: [], 
+    final: maze};
 
+  while(!curStep.done) {
+    res.steps.push(curStep.value);
+    curStep = mazeGen.next();
+  }
+
+  return res;
+}
+
+function * mazeGenerator(maze: Maze, width: number, height: number) {
   const firstCell = new Cell(getRand(width), getRand(height));
   firstCell.visited = true;
   maze.cellStack.push(firstCell);
   maze.visited = 1;
 
-  let next = maze.getNext(firstCell);
+  let current = maze.getNext(firstCell);
   const toVisit = width * height;
   while (maze.visited <= toVisit && maze.cellStack.length) {
-    while (next === null && maze.cellStack.length) {
-      next = maze.cellStack.pop()!;
+    if (current === null) {
+      current = maze.cellStack.pop()!;
     }
-    // maze.current = next;
-    // printGrid(maze);
-    next = maze.getNext(next);
-  }
+    maze.prev = current;
+    current = maze.getNext(current);
 
-  return maze;
+    yield { prev: maze.prev, current };
+  }
 }

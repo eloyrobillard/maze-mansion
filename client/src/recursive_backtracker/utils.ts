@@ -1,4 +1,5 @@
 import { Maze } from './maze';
+import { Step } from './recursive-backtracker';
 
 export function getRand (max: number) {
 	return Math.floor(Math.random() * max);
@@ -116,47 +117,52 @@ export function canvasMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRen
 export function cellMaze(maze: Maze) {
 	return maze.grid.map((row, ri, grid) => {
 		return row.map((cell, ci) => {
-			const div = document.createElement('div');
-			div.className = 'cell';
+			let classList = 'cell';
 
 			if (ri - 1 < 0) {
-				div.classList.add('wall-top');
+				classList = `${classList} wall-top`;
 			}
 			if (ri + 1 >= maze.height) {
-				div.classList.add('wall-bot');
+				classList = `${classList} wall-bot`;
 			}
 			if (ci - 1 < 0) {
-				div.classList.add('wall-left');
+				classList = `${classList} wall-left`;
 			}
 			if (ci + 1 >= maze.width) {
-				div.classList.add('wall-right');
+				classList = `${classList} wall-right`;
 			}
 
 			const neighbors = cell.neighbors;
 			if (!neighbors) {
-				return div;
+				return classList;
 			}
 
 			if (neighbors.bottom) {
-				div.classList.add('wall-bot');
+				classList = `${classList} wall-bot`
 			}
 			if (neighbors.right) {
-				div.classList.add('wall-right');
+				classList = `${classList} wall-right`;
 			}
 			// NOTE keep all walls to bot/right to avoid breaks in wall lines
 			if (ri + 1 < maze.height) {
 				const neighborsBot = grid[ri + 1][ci].neighbors;
 				if (neighborsBot && neighborsBot.top) {
-					div.classList.add('wall-bot');
+					classList = `${classList} wall-bot`;
 				}
 			}
 			if (ci + 1 < maze.width) {
 				const neighborsRight = grid[ri][ci + 1].neighbors;
 				if (neighborsRight && neighborsRight.left) {
-					div.classList.add('wall-right');
+					classList = `${classList} wall-right`;
 				}
 			}
-			return div;
+			return classList;
 		});
 	});
+}
+
+export function updateCellMaze(classLists: string[][], change: Step) {
+	const { prev, current } = change;
+
+	
 }
