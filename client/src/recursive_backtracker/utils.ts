@@ -54,7 +54,7 @@ export function printMaze (maze: Maze) {
   return res;
 }
 
-export function htmlMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRenderingContext2D {
+export function canvasMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRenderingContext2D {
 	const CELL_SIDE = 10;
 	const WIDTH = maze.width;
 	const HEIGHT = maze.height;
@@ -111,4 +111,52 @@ export function htmlMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRende
 		});
 	});
 	return ctx;
+}
+
+export function cellMaze(maze: Maze) {
+	return maze.grid.map((row, ri, grid) => {
+		return row.map((cell, ci) => {
+			const div = document.createElement('div');
+			div.className = 'cell';
+
+			if (ri - 1 < 0) {
+				div.classList.add('wall-top');
+			}
+			if (ri + 1 >= maze.height) {
+				div.classList.add('wall-bot');
+			}
+			if (ci - 1 < 0) {
+				div.classList.add('wall-left');
+			}
+			if (ci + 1 >= maze.width) {
+				div.classList.add('wall-right');
+			}
+
+			const neighbors = cell.neighbors;
+			if (!neighbors) {
+				return div;
+			}
+
+			if (neighbors.bottom) {
+				div.classList.add('wall-bot');
+			}
+			if (neighbors.right) {
+				div.classList.add('wall-right');
+			}
+			// NOTE keep all walls to bot/right to avoid breaks in wall lines
+			if (ri + 1 < maze.height) {
+				const neighborsBot = grid[ri + 1][ci].neighbors;
+				if (neighborsBot && neighborsBot.top) {
+					div.classList.add('wall-bot');
+				}
+			}
+			if (ci + 1 < maze.width) {
+				const neighborsRight = grid[ri][ci + 1].neighbors;
+				if (neighborsRight && neighborsRight.left) {
+					div.classList.add('wall-right');
+				}
+			}
+			return div;
+		});
+	});
 }

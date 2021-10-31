@@ -1,3 +1,6 @@
+@chitose-green: #316745;
+@canvas-height: 80%;
+
 #dashboard {
   width: 90%;
   height: 70%;
@@ -12,29 +15,80 @@
   background-color: white;
   width: 55%;
   height: 100%;
-
-  text-align: center;
+  padding: 0.25rem;
 
   box-shadow: 0 0 0.25rem grey;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  & button {
+    bottom: 0;
+  }
+
+  & #grid-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & #grid {
+  
+      display: flex;
+      flex-wrap: wrap;
+  
+      & .cell {
+        width: 50px;
+        height: 50px;
+        background-color: white;
+        box-sizing: border-box;
+
+        &:hover {
+          background-color: @chitose-green;
+        }
+        
+        &.wall-top {
+          border-top: 2px solid black;
+        }
+        &.wall-bot {
+          border-bottom: 2px solid black;
+        }
+        &.wall-left {
+          border-left: 2px solid black;
+        }
+        &.wall-right {
+          border-right: 2px solid black; 
+        }
+        
+        // &:not(.wall-bot)::after {
+        //   position: relative;
+        //   left: 48px;
+        //   bottom: 18px;
+        //   content: '.';
+        // }
+      }
+    }
+  }
 }
 
-#canvas {
-  width: 80%;
-  padding: 2rem;
-  
-}
 
 #top-bar {
   position: fixed;
   top: 0;
   width: 100%;
 
-  background-color: #316745;
+  background-color: @chitose-green;
   box-shadow: 0 0.2rem 0.3rem #244d33;
 
   text-align: center;
   color: white;
   font-family: 'ポプらむ☆キュート', 'ピグモ', 'マメロン', '白川 篆文', '春秋tsu-教育漢字', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
+
+  & h1 {
+    margin: 1rem;
+  }
 }
 
 #settings, 

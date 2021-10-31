@@ -11,9 +11,9 @@ export default function RecursiveBacktracker (width: number, height: number) {
 
   let next = maze.getNext(firstCell);
   const toVisit = width * height;
-  while (maze.visited <= toVisit) {
-    if (next === null && maze.cellStack.length) {
-      next = maze.cellStack.pop() || null;
+  while (maze.visited <= toVisit && maze.cellStack.length) {
+    while (next === null && maze.cellStack.length) {
+      next = maze.cellStack.pop()!;
     }
     // maze.current = next;
     // printGrid(maze);

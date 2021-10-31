@@ -5,23 +5,57 @@ import './App.css';
 
 
 function Maze({width, height, fps}: {width: number, height: number, fps: number}) {
+  function getCellDimensions() {
+    const grid = document.getElementById('grid') as HTMLDivElement;
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    
+    // NOTE force style instantiation
+    grid.appendChild(cell);
+    const cellWidth = cell.getBoundingClientRect().width;
+    const cellHeight = cell.getBoundingClientRect().height;
+    grid.removeChild(cell);
+
+    return { cellWidth, cellHeight };
+  }
+  
+  function setGridUp() {
+    const { cellWidth, cellHeight } = getCellDimensions();
+
+    const oldGrid = document.getElementById('grid') as HTMLDivElement;
+    // NOTE use gridContainer rect -> coherent with maze size
+    const gridContainer = document.getElementById('grid-container') as HTMLDivElement;
+    // LINK https://javascript.programmer-reference.com/js-width-height/
+    const oldGridWidth = Math.floor(gridContainer.getBoundingClientRect().width);
+    const oldGridHeight = Math.floor(gridContainer.getBoundingClientRect().height);
+
+    const newGrid = document.createElement('div');
+    newGrid.id = 'grid';
+    gridContainer.replaceChild(newGrid, oldGrid!);
+
+    if (cellWidth * width < (oldGridWidth - cellWidth)) {
+      newGrid.style.width = `${cellWidth * width}px`;
+    }
+    if (cellHeight * height < (oldGridHeight - cellHeight)) {
+      newGrid.style.height = `${cellHeight * height}px`;
+    }
+    return newGrid;
+  }
+
   function handleClick (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-
-    const oldCanvas = document.getElementById('canvas') as HTMLCanvasElement;
-    const maze = document.getElementById('maze');
-
-    const canvas = document.createElement('canvas');
-    canvas.id = 'canvas';
-    const canvasContext = canvas!.getContext('2d');
-    ApiClient.mazeToScreen(canvasContext!, width, height);
-
-    maze!.replaceChild(canvas, oldCanvas);
+    
+    const cellArs = ApiClient.mazeToCells(width, height);
+    console.log(cellArs);
+    const grid = setGridUp();
+    cellArs.forEach((ar) => ar.forEach((cell) => grid.appendChild(cell)));
   }
     
   return (
     <div id="maze">
-      <canvas id='canvas'></canvas>
+      <div id="grid-container">
+        <div id="grid"></div>
+      </div>
       <button type="submit" onClick={handleClick}>Create</button>
     </div>
   );
@@ -34,7 +68,6 @@ export const SettingsContext = React.createContext({
   setHeight: (_: number) => {return},
   fps: 5, 
   setFps: (_: number) => {return},
-  createMaze: () => {return}
 });
 
 function Dashboard() {
@@ -42,10 +75,6 @@ function Dashboard() {
   const [mazeHeight, setHeight] = useState(10);
 
   const [fps, setFps] = useState(5);
-
-  function createMaze() {
-
-  }
 
   return (
     <div id="dashboard">
@@ -57,7 +86,6 @@ function Dashboard() {
           setHeight,
           fps, 
           setFps,
-          createMaze
         }}>
         <Settings />
       </SettingsContext.Provider>
@@ -70,7 +98,7 @@ function App() {
   return (
     <div className="App">
       <div id="top-bar">
-        <h2>迷路の屋敷</h2>
+        <h1>迷路屋敷</h1>
       </div>
       <Dashboard />
     </div>
