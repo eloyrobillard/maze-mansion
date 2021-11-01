@@ -1,6 +1,6 @@
 import { getRand } from './utils';
 
-interface Neighbors {
+export interface Neighbors {
 	[top: string]: Cell | null;
 	top: Cell | null;
 	right: Cell | null;
@@ -38,12 +38,17 @@ export class Maze {
 	}
 
 	getNeighbors (cell: Cell): Neighbors {
+		if (cell.neighbors) {
+			return cell.neighbors;
+		}
+
 		const neighbors: Neighbors = {
 			top: null,
 			bottom: null,
 			left: null,
 			right: null
 		};
+
 		const { x, y } = cell;
 		if (y - 1 >= 0) {
 			const neighbor = this.grid[y - 1][x];
@@ -70,7 +75,7 @@ export class Maze {
 		if (cell === null) {
 			return null;
 		}
-		const neighbors = cell.neighbors ? cell.neighbors : this.getNeighbors(cell);
+		const neighbors = this.getNeighbors(cell);
 		const visitables = Object.entries(neighbors).filter(([ , value ]) => value && !value.visited);
 		if (visitables.length === 0) {
 			return null;

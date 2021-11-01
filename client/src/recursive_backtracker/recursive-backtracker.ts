@@ -21,12 +21,11 @@ export default function RecursiveBacktracker (width: number, height: number) {
 }
 
 function * mazeGenerator(maze: Maze, width: number, height: number) {
-  const firstCell = new Cell(getRand(width), getRand(height));
-  firstCell.visited = true;
-  maze.cellStack.push(firstCell);
+  let current: Cell | null = new Cell(getRand(width), getRand(height));
+  current.visited = true;
+  maze.cellStack.push(current);
   maze.visited = 1;
 
-  let current = maze.getNext(firstCell);
   const toVisit = width * height;
   while (maze.visited <= toVisit && maze.cellStack.length) {
     if (current === null) {
@@ -35,6 +34,6 @@ function * mazeGenerator(maze: Maze, width: number, height: number) {
     maze.prev = current;
     current = maze.getNext(current);
 
-    yield { prev: maze.prev, current };
+    yield { prev: maze.prev, prevNeighs: maze.getNeighbors(maze.prev), current, currentNeighs: current ? maze.getNeighbors(current) : null };
   }
 }

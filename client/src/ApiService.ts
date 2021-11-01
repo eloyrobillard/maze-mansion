@@ -17,14 +17,14 @@ function getMazeDescriptor(width: number, height: number) {
 	return RecursiveBacktracker(width, height);
 }
 
-function mazeToClassListsInstant (maze: Maze) {
+function mazeToClassLists(maze: Maze) {
 	return generateClassLists(maze);
 }
 
-function mazeToClassListsStep (classLists: string[][], change: Step) {
-	return updateClassLists(classLists, change);
+function updateMaze (maze: Maze, classLists: string[][], change: Step) {
+	return updateClassLists(maze, classLists, change);
 }
 
-const ApiClient = { mazeToText, mazeToCanvas, mazeToClassListsInstant, mazeToClassListsStep, getMazeDescriptor };
+const ApiClient = { mazeToText, mazeToCanvas, mazeToClassLists, updateMaze, getMazeDescriptor };
 
 export default ApiClient;

@@ -1,4 +1,4 @@
-import { Maze } from './maze';
+import { Maze, Cell, Neighbors } from './maze';
 import { Step } from '../ApiTypes';
 
 export function getRand (max: number) {
@@ -119,13 +119,13 @@ export function generateClassLists(maze: Maze) {
 		return row.map((cell, ci) => {
 			let classList = 'cell';
 
-			if (ri - 1 < 0) {
+			if (ri === 0) {
 				classList = `${classList} wall-top`;
 			}
 			if (ri + 1 >= maze.height) {
 				classList = `${classList} wall-bottom`;
 			}
-			if (ci - 1 < 0) {
+			if (ci === 0) {
 				classList = `${classList} wall-left`;
 			}
 			if (ci + 1 >= maze.width) {
@@ -161,29 +161,25 @@ export function generateClassLists(maze: Maze) {
 	});
 }
 
-export function updateClassLists(classLists: string[][], change: Step) {
-	const { prev, current } = change;
-	if (!current) {
+export function updateClassLists(maze: Maze, classLists: string[][], change: Step) {
+	const { prev, prevNeighs, current, currentNeighs } = change;
+	if (!currentNeighs || !current) {
 		return classLists;
 	}
 
 	const { x: px, y: py } = prev!;
 	const { x: cx, y: cy } = current;
-	const direction = `wall-${getChangeDirections(px, py, cx ,cy)}`;
 
-	classLists[py][px] = classLists[py][px].replace('current', '').replace(` ${direction}`, '');
-	classLists[cy][cx] = `${classLists[cy][cx]} current`;
-
-	return classLists;
+	classLists[py][px] = prevNeighs ? getClassList(prevNeighs, px, py, maze) : classLists[py][px];
+	classLists[cy][cx] = currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx];
+	return [...classLists];
 }
 
-function getChangeDirections(x1: number, y1: number, x2: number, y2: number) {
-	const xDiff = x2 - x1;
-	if (xDiff) {
-		return xDiff > 0 ? 'right' : 'left';
-	}
-	const yDiff = y2 - y1;
-	if (yDiff) {
-		return yDiff > 0 ? 'top' : 'bottom';
-	}
+function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
+	const innerWallLists = `cell ${Object.entries(neighbors)
+		.filter(([, value]) => value)
+		.map(([key, ]) => `wall-${key}`)
+		.join(' ')}`;
+
+	return `${innerWallLists} ${x === 0 ? 'wall-left' : x === maze.width - 1 ? 'wall-right' : ''} ${y === 0 ? 'wall-top' : y === maze.height - 1 ? 'wall-bottom' : ''}`;
 }

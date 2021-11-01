@@ -6,20 +6,21 @@ import * as M from './recursive_backtracker/maze';
 import './App.css';
 
 type CommandProps = { 
-  handleUpdate: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  // handleUpdate: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleReset: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  setStepCount: React.Dispatch<React.SetStateAction<number>>;
+  maxSteps: number;
 }
 
-function Commands({handleUpdate, handleReset}: CommandProps) {
-  // TODO change return when fps = instant vs not
+function Commands({handleReset, setStepCount, maxSteps}: CommandProps) {
   return (
     <div id="commands">
       <div id="player-commands">
-        <button id="previous-state" title="前へ移動">⏮️</button>
-        <button id="first-state" title="最初へ移動">⏪</button>
-        <button id="toggle-play" onClick={handleUpdate} title="再生">⏯️</button>
-        <button id="last-state" title="最後へ移動">⏩</button>
-        <button id="next-state" title="次へ移動">⏭️</button>
+        <button id="previous-state" onClick={() => setStepCount(0)} title="最初へ移動">⏮️</button>
+        <button id="first-state" onClick={() => setStepCount((prev) => Math.max(0, prev - 1))} title="前へ移動">⏪</button>
+        <button id="toggle-play" title="再生">⏯️</button>
+        <button id="last-state" onClick={() => setStepCount((prev) => Math.min(prev + 1, maxSteps - 1))} title="次へ移動">⏩</button>
+        <button id="next-state" onClick={() => setStepCount(maxSteps - 1)} title="最後へ移動">⏭️</button>
       </div>
       <button type="submit" onClick={handleReset} title="新しい迷路">Reset</button>
     </div>
@@ -30,12 +31,12 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   const [classLists, setClassLists]: [string[][], any] = useState([['']]);
   const [descriptor, setDescriptor]: [MazeDescriptor, any] = useState({
     initial: new M.Maze(0, 0),
-    steps: [{ prev: null, current: null }],
+    steps: [{ prev: null, prevNeighs: null, current: null, currentNeighs: null }],
     final: new M.Maze(0, 0)
   });
 
   // TODO implement maze steps
-  const [stepCount, setStepCount]: [number, any] = useState(0);
+  const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(0);
 
   function getCellDimensions() {
     let cellWidth, cellHeight;
@@ -95,33 +96,58 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     // return grid;
   }, [width, height])
 
-  function handleUpdate (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
+  // function handleUpdate (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  //   e.preventDefault();
     
+  //   try { 
+  //     setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+  //       if (fps === FPS_INSTANT) {
+  //         // NOTE properly set step count to last otherwise can't use player commands
+  //         setStepCount(descriptor!.steps.length - 1);
+  //       } else {
+  //         setClassLists(ApiClient.mazeToClassListsStep(classLists, descriptor!.steps[stepCount]));
+  //       }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
+
+  function handleReset (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+
     try { 
-      setClassLists(fps === FPS_INSTANT 
-        ? ApiClient.mazeToClassListsInstant(descriptor!.final)
-        : ApiClient.mazeToClassListsStep(classLists, descriptor!.steps[stepCount]));
+      setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+        if (fps === FPS_INSTANT) {
+          // NOTE properly set step count to last otherwise can't use player commands
+          setStepCount(descriptor!.steps.length - 1);
+        } else {
+          setStepCount(0);
+        }
     } catch (e) {
       console.log(e);
     }
   }
 
-  function handleReset (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-
-    setClassLists(ApiClient.mazeToClassListsInstant(descriptor.initial));
-  }
-
-  useEffect(() => {
-    if (descriptor) {
-      setClassLists(ApiClient.mazeToClassListsInstant(descriptor.initial));
-    }
-  }, [descriptor]);
-
+  // NOTE fetch descriptor
   useEffect(() => {
     setDescriptor(ApiClient.getMazeDescriptor(width, height));
   }, [width, height]);
+
+  useEffect(() => {
+    console.log(classLists);
+  }, [classLists]);
+
+  // NOTE update state of maze
+  useEffect(() => {
+    console.log(stepCount)
+    if (stepCount === 0) {
+      setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
+    } else if (stepCount === descriptor!.steps.length - 1) {
+      setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+    } else {
+      setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor!.initial, cls, descriptor!.steps[stepCount]));
+    }
+  }, [stepCount, descriptor])
     
   return (
     <div id="maze">
@@ -132,7 +158,10 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
             className={list}></div>)}
         </div>
       </div>
-      <Commands handleUpdate={handleUpdate} handleReset={handleReset}/>
+      <Commands  
+        handleReset={handleReset} 
+        setStepCount={setStepCount} 
+        maxSteps={descriptor.steps.length}/>
     </div>
   );
 }
