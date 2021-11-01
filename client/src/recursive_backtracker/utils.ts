@@ -171,7 +171,7 @@ export function updateClassLists(maze: Maze, classLists: string[][], change: Ste
 
 function updateForward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
-	
+	console.log(prev, current);
 	if (prev) {
 		const { x: px, y: py } = prev;
 		classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
@@ -207,7 +207,7 @@ function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): s
 		.filter(([, value]) => value)
 		.map(([key, ]) => `wall-${key}`)
 		.join(' ');
-		console.log(innerWallList);
+	// console.log(innerWallList);
 
 	return `cell ${innerWallList} ${x === 0 ? 'wall-left' : x === maze.width - 1 ? 'wall-right' : ''} ${y === 0 ? 'wall-top' : y === maze.height - 1 ? 'wall-bottom' : ''}`;
 }
