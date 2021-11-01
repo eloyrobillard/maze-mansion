@@ -1,4 +1,4 @@
-import { Maze, Cell, Neighbors } from './maze';
+import { Maze, Neighbors } from './maze';
 import { Step } from '../ApiTypes';
 
 export function getRand (max: number) {
@@ -171,24 +171,18 @@ export function updateClassLists(maze: Maze, classLists: string[][], change: Ste
 
 function updateForward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
-
-	if (!current) {
-		// classLists[py][px] = `${classLists[py][px]} current`;
-		return [...classLists];
-	}
+	console.log(prev, prevNeighs, current, currentNeighs);
 	
 	if (prev) {
-		try {
-			const { x: px, y: py } = prev;
-			classLists[py][px] = classLists[py][px].replace(' current', '');
-			classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
-		} catch (err) {
-			console.log('error', classLists, change);
-		}
+		const { x: px, y: py } = prev;
+		classLists[py][px] = classLists[py][px].replace(' current', '');
+		classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
 	}
 	
-	const { x: cx, y: cy } = current;
-	classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)} current`;
+	if (current) {
+		const { x: cx, y: cy } = current;
+		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)} current`;
+	}
 
 	return [...classLists];
 }
@@ -199,10 +193,11 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 
 function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
 	// TODO only use wall-bot/right to allow backward update
-	const innerWallLists = Object.entries(neighbors)
+	const innerWallList = Object.entries(neighbors)
 		.filter(([, value]) => value)
 		.map(([key, ]) => `wall-${key}`)
 		.join(' ');
+		console.log(innerWallList);
 
-	return `cell ${innerWallLists} ${x === 0 ? 'wall-left' : x === maze.width - 1 ? 'wall-right' : ''} ${y === 0 ? 'wall-top' : y === maze.height - 1 ? 'wall-bottom' : ''}`;
+	return `cell ${innerWallList} ${x === 0 ? 'wall-left' : x === maze.width - 1 ? 'wall-right' : ''} ${y === 0 ? 'wall-top' : y === maze.height - 1 ? 'wall-bottom' : ''}`;
 }

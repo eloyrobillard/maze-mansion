@@ -10,7 +10,8 @@ export default function RecursiveBacktracker (width: number, height: number) {
   const res: MazeDescriptor = { 
     initial: new Maze(width, height), 
     steps: [], 
-    final: maze};
+    final: maze
+  };
 
   while(!curStep.done) {
     res.steps.push(curStep.value);
@@ -21,18 +22,17 @@ export default function RecursiveBacktracker (width: number, height: number) {
 }
 
 function * mazeGenerator(maze: Maze, width: number, height: number) {
-  let current: Cell | null = new Cell(getRand(width), getRand(height));
+  let current: Cell | null = maze.grid[getRand(height)][getRand(width)];
   current.visited = true;
   maze.cellStack.push(current);
   maze.visited = 1;
 
   const toVisit = width * height;
   while (maze.visited <= toVisit && maze.cellStack.length) {
-    // TODO don't check neighs if already there
     yield { 
-      prev: maze.prev ? Object.assign({}, maze.prev) : null, 
+      prev: maze.prev, 
       prevNeighs: maze.prev ? {...maze.getNeighbors(maze.prev)} : null, 
-      current: current ? Object.assign({}, current) : null,
+      current,
       currentNeighs: current ? {...maze.getNeighbors(current)} : null 
     };
     

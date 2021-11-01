@@ -66,9 +66,9 @@ export class Maze {
 			const neighbor = this.grid[y][x + 1];
 			neighbors.right = !neighbor.visited ? neighbor : null;
 		}
-		cell.neighbors = neighbors;
 
-		return cell.neighbors;
+		cell.neighbors = neighbors;
+		return neighbors;
 	}
 
 	getNext (cell: Cell | null): Cell | null {
