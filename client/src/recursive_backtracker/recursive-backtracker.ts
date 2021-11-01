@@ -29,11 +29,10 @@ function * mazeGenerator(maze: Maze, width: number, height: number) {
 
   const toVisit = width * height;
   while (maze.visited <= toVisit && maze.cellStack.length) {
-    
     if (current === null) {
       current = maze.cellStack.pop()!;
     }
-    
+
     yield { 
       prev: maze.prev, 
       prevNeighs: maze.prev ? {...maze.getNeighbors(maze.prev)} : null, 
