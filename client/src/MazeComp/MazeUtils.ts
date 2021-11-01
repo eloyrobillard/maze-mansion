@@ -77,22 +77,40 @@ export function handleReset ({e, setStepCount, setDescriptor, firstStep, width, 
 type UpdateArgs = {
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
   setStepCount: Dispatch<SetStateAction<number>>;
+  updateDir: number;
+  setUpdateDir: Dispatch<SetStateAction<number>>;
   descriptor: MazeDescriptor;
   firstStep: number;
 }
 
-export function handleUpdate ({e, setStepCount, descriptor, firstStep}: UpdateArgs) {
+export function handleUpdate ({e, setStepCount, updateDir, setUpdateDir, descriptor, firstStep}: UpdateArgs) {
   e.preventDefault();
 
   // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
   switch (e.currentTarget.id.split('-')[0]) {
-    case 'next':
-      setStepCount((prev) => Math.min(prev + 1, descriptor.steps.length));
+    case 'next': {
+      // NOTE doubling setUpdateDir cause may or may not update before if is evaluated
+      if (updateDir > 0) {
+        setUpdateDir(1);
+        setStepCount((prev) => Math.min(prev + 1, descriptor.steps.length));
+      } else {
+        // NOTE if switching updateDir, stay in place once to undo previous change
+        setUpdateDir(1);
+      }
       break;
+    }
 
-    case 'previous': 
-      setStepCount((prev) => Math.max(firstStep, prev - 1));
+    case 'previous': {
+      // NOTE doubling setUpdateDir cause may or may not update before if is evaluated
+      if (updateDir < 0) {
+        setUpdateDir(-1);
+        setStepCount((prev) => Math.max(firstStep, prev - 1));
+      } else {
+        // NOTE if switching updateDir, stay in place once to undo previous change
+        setUpdateDir(-1);
+      }
       break;
+    }
 
     case 'last':
       setStepCount(descriptor.steps.length);

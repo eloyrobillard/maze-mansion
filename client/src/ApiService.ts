@@ -21,8 +21,9 @@ function mazeToClassLists(maze: Maze) {
 	return generateClassLists(maze);
 }
 
-function updateMaze (maze: Maze, classLists: string[][], change: Step) {
-	return updateClassLists(maze, classLists, change, '+');
+// TODO implement backward update
+function updateMaze (maze: Maze, classLists: string[][], change: Step, updateDir: number) {
+	return updateClassLists(maze, classLists, change, updateDir);
 }
 
 const ApiClient = { mazeToText, mazeToCanvas, mazeToClassLists, updateMaze, getMazeDescriptor };

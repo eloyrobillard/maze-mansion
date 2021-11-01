@@ -161,8 +161,8 @@ export function generateClassLists(maze: Maze) {
 	});
 }
 
-export function updateClassLists(maze: Maze, classLists: string[][], change: Step, dir: string): string[][] {
-	if (dir === '+') {
+export function updateClassLists(maze: Maze, classLists: string[][], change: Step, updateDir: number): string[][] {
+	if (updateDir > 0) {
 		return updateForward(maze, classLists, change);
 	}
 
@@ -171,11 +171,9 @@ export function updateClassLists(maze: Maze, classLists: string[][], change: Ste
 
 function updateForward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
-	console.log(prev, prevNeighs, current, currentNeighs);
 	
 	if (prev) {
 		const { x: px, y: py } = prev;
-		classLists[py][px] = classLists[py][px].replace(' current', '');
 		classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
 	}
 	
@@ -188,7 +186,19 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 }
 
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
-	return classLists;
+	const { prev, prevNeighs, current, currentNeighs } = change;
+	
+	if (prev) {
+		const { x: px, y: py } = prev;
+		classLists[py][px] = `${getClassList(prevNeighs!, px, py, maze)} current`;
+	}
+	
+	if (current) {
+		const { x: cx, y: cy } = current;
+		classLists[cy][cx] = getClassList(currentNeighs!, cx, cy, maze);
+	}
+
+	return [...classLists];
 }
 
 function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
