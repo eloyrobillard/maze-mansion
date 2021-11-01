@@ -4,13 +4,17 @@ import { FPS_INSTANT } from './SettingsComp/SpeedSetting';
 import * as M from './recursive_backtracker/maze';
 import './App.css';
 
-function Commands() {
+type CommandProps = { 
+  handleUpdate: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+function Commands({handleUpdate}: CommandProps) {
   // TODO change return when fps = instant vs not
   return (
     <div id="commands">
       <button id="previous-state" title="前へ移動">⏮️</button>
       <button id="first-state" title="最初へ移動">⏪</button>
-      <button id="toggle-play" title="再生">⏯️</button>
+      <button id="toggle-play" onClick={handleUpdate} title="再生">⏯️</button>
       <button id="last-state" title="最後へ移動">⏩</button>
       <button id="next-state" title="次へ移動">⏭️</button>
     </div>
@@ -50,19 +54,38 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   useEffect(() => {
     const { cellWidth, cellHeight } = getCellDimensions();
 
-    const grid = document.getElementById('grid') as HTMLDivElement;
-    // NOTE use gridContainer rect -> coherent with maze size
-    // const gridContainer = document.getElementById('grid-container') as HTMLDivElement;
-    // LINK https://javascript.programmer-reference.com/js-width-height/
-    // const gridWidth = Math.floor(gridContainer.getBoundingClientRect().width);
-    // const gridHeight = Math.floor(gridContainer.getBoundingClientRect().height);
+    let grid, 
+        mazeDiv, 
+        mazeWidth: number, 
+        mazeHeight: number;
+    return (() => {
+      if (!grid || !mazeDiv) {
+        grid = document.getElementById('grid') as HTMLDivElement;
+        mazeDiv = document.getElementById('maze') as HTMLDivElement;
+        // LINK https://javascript.programmer-reference.com/js-width-height/
+        mazeWidth = Math.floor(mazeDiv.getBoundingClientRect().width);
+        mazeHeight = Math.floor(mazeDiv.getBoundingClientRect().height);
+      }
 
-    // if (cellWidth * width < (gridWidth - cellWidth)) {
-    // TODO fix grid size limit issues
-    grid.style.width = `${cellWidth * width}px`;
-    // }
-    // if (cellHeight * height < (gridHeight - cellHeight)) {
-    grid.style.height = `${cellHeight * height}px`;
+      // NOTE minWidth/Height to avoid pushing button commands out of div
+      if (cellWidth * width > (mazeWidth! - cellWidth)) {
+        mazeDiv.style.minWidth = `${cellWidth * (width + 1)}px`;
+      } else if (width <= 10) {
+        mazeDiv.style.minWidth = `${cellWidth * 11}px`;
+      }
+      if (cellHeight * height > (mazeHeight! - cellHeight)) {
+        mazeDiv.style.minHeight = `${cellHeight * (height + 1)}px`;
+      } else if (height <= 10) {
+        mazeDiv.style.minHeight = `${cellHeight * 11}px`;
+      }
+
+      // if (cellWidth * width < (gridWidth - cellWidth)) {
+      // TODO fix grid size limit issues
+      grid.style.width = `${cellWidth * width}px`;
+      // }
+      // if (cellHeight * height < (gridHeight - cellHeight)) {
+      grid.style.height = `${cellHeight * height}px`;
+    })();
     // }
     // return grid;
   }, [width, height])
@@ -104,7 +127,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
             className={list}></div>)}
         </div>
       </div>
-      <Commands />
+      <Commands handleUpdate={handleUpdate}/>
       <button type="submit" onClick={handleReset}>Reset</button>
     </div>
   );
