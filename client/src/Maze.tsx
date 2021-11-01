@@ -3,7 +3,7 @@ import ApiClient from './ApiService';
 import { MazeDescriptor }  from './ApiTypes';
 import { FPS_INSTANT } from './Dashboard';
 import * as M from './recursive_backtracker/maze';
-import './App.css';
+import './Maze.css';
 
 type CommandProps = { 
   // handleUpdate: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -112,30 +112,17 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   //   }
   // }
 
+  // TODO implement reset functionality
   function handleReset (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
 
-    try { 
-      setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
-        if (fps === FPS_INSTANT) {
-          // NOTE properly set step count to last otherwise can't use player commands
-          setStepCount(descriptor!.steps.length - 1);
-        } else {
-          setStepCount(0);
-        }
-    } catch (e) {
-      console.log(e);
-    }
+    // setDescriptor(ApiClient.getMazeDescriptor(width, height));
   }
 
   // NOTE fetch descriptor
   useEffect(() => {
     setDescriptor(ApiClient.getMazeDescriptor(width, height));
   }, [width, height]);
-
-  useEffect(() => {
-    console.log(classLists);
-  }, [classLists]);
 
   // NOTE update state of maze
   useEffect(() => {

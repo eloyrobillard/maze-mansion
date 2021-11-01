@@ -171,7 +171,10 @@ export function updateClassLists(maze: Maze, classLists: string[][], change: Ste
 	const { x: cx, y: cy } = current;
 
 	classLists[py][px] = prevNeighs ? getClassList(prevNeighs, px, py, maze) : classLists[py][px];
-	classLists[cy][cx] = currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx];
+	classLists[cy][cx] = `${currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx]} current`;
+	
+	classLists[py][px] = classLists[py][px].replace(' current', '');
+
 	return [...classLists];
 }
 
