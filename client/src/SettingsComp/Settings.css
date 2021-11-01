@@ -1,7 +1,7 @@
 #settings {
   background-color: #4c9b69;
   color: white;
-  width: 40vw;
+  width: 40%;
   height: 60vh;
   flex-shrink: 0;
   border-radius: 1%;
@@ -41,6 +41,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 #settings form#dimensions #dimension-inputs label {
   text-align: center;
