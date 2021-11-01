@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ApiClient from '../ApiService';
 import { MazeDescriptor }  from '../ApiTypes';
-import { handleReset, handleUpdate, getCellDimensions } from './MazeUtils';
+import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
 import * as M from '../recursive_backtracker/maze';
 import Commands from './Commands';
 import './Maze.css';
@@ -20,49 +20,11 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   // TODO implement backwards maze steps
   const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(FIRST_STATE);  
   
-  useEffect(() => {
-    const { cellWidth, cellHeight } = getCellDimensions();
-
-    let grid, 
-        mazeDiv, 
-        mazeWidth: number, 
-        mazeHeight: number;
-    return (() => {
-      if (!grid || !mazeDiv) {
-        grid = document.getElementById('grid') as HTMLDivElement;
-        mazeDiv = document.getElementById('maze') as HTMLDivElement;
-        // LINK https://javascript.programmer-reference.com/js-width-height/
-        mazeWidth = Math.floor(mazeDiv.getBoundingClientRect().width);
-        mazeHeight = Math.floor(mazeDiv.getBoundingClientRect().height);
-      }
-
-      // NOTE minWidth/Height to avoid pushing button commands out of div
-      // TODO set commands/settings position: fixed when maze becomes too large
-      if (cellWidth * width > (mazeWidth! - cellWidth)) {
-        mazeDiv.style.minWidth = `${cellWidth * (width + 1)}px`;
-      } else if (width <= 10) {
-        mazeDiv.style.minWidth = `${cellWidth * 11}px`;
-      }
-      if (cellHeight * height > (mazeHeight! - cellHeight)) {
-        mazeDiv.style.minHeight = `${cellHeight * (height + 1)}px`;
-      } else if (height <= 10) {
-        mazeDiv.style.minHeight = `${cellHeight * 11}px`;
-      }
-
-      // if (cellWidth * width < (gridWidth - cellWidth)) {
-      grid.style.width = `${cellWidth * width}px`;
-      // }
-      // if (cellHeight * height < (gridHeight - cellHeight)) {
-      grid.style.height = `${cellHeight * height}px`;
-    })();
-    // }
-    // return grid;
-  }, [width, height])
-
-  
+  useEffect(() => resizeMazeElements(width, height), [width, height]);
 
   // NOTE fetch descriptor
   useEffect(() => {
+    setStepCount(FIRST_STATE);
     setDescriptor(ApiClient.getMazeDescriptor(width, height));
   }, [width, height]);
   
