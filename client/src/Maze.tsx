@@ -8,11 +8,11 @@ function Commands() {
   // TODO change return when fps = instant vs not
   return (
     <div id="commands">
-      <button id="previous-state">⏮️</button>
-      <button id="first-state">⏪</button>
-      <button id="toggle-play">⏯️</button>
-      <button id="last-state">⏩</button>
-      <button id="next-state">⏭️</button>
+      <button id="previous-state" title="前へ移動">⏮️</button>
+      <button id="first-state" title="最初へ移動">⏪</button>
+      <button id="toggle-play" title="再生">⏯️</button>
+      <button id="last-state" title="最後へ移動">⏩</button>
+      <button id="next-state" title="次へ移動">⏭️</button>
     </div>
   )
 }
