@@ -163,26 +163,24 @@ export function generateClassLists(maze: Maze) {
 
 export function updateClassLists(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
-	if (!currentNeighs || !current) {
-		return classLists;
-	}
-
-	const { x: px, y: py } = prev!;
-	const { x: cx, y: cy } = current;
-
-	classLists[py][px] = prevNeighs ? getClassList(prevNeighs, px, py, maze) : classLists[py][px];
-	classLists[cy][cx] = `${currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx]} current`;
 	
+	const { x: px, y: py } = prev!;	
+	classLists[py][px] = prevNeighs ? getClassList(prevNeighs, px, py, maze) : classLists[py][px];
 	classLists[py][px] = classLists[py][px].replace(' current', '');
+	
+	if (current) {
+		const { x: cx, y: cy } = current;
+		classLists[cy][cx] = `${currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx]} current`;
+	}
 
 	return [...classLists];
 }
 
 function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
-	const innerWallLists = `cell ${Object.entries(neighbors)
+	const innerWallLists = Object.entries(neighbors)
 		.filter(([, value]) => value)
 		.map(([key, ]) => `wall-${key}`)
-		.join(' ')}`;
+		.join(' ');
 
-	return `${innerWallLists} ${x === 0 ? 'wall-left' : x === maze.width - 1 ? 'wall-right' : ''} ${y === 0 ? 'wall-top' : y === maze.height - 1 ? 'wall-bottom' : ''}`;
+	return `cell ${innerWallLists} ${x === 0 ? 'wall-left' : x === maze.width - 1 ? 'wall-right' : ''} ${y === 0 ? 'wall-top' : y === maze.height - 1 ? 'wall-bottom' : ''}`;
 }

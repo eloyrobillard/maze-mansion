@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ApiClient from './ApiService';
 import { MazeDescriptor }  from './ApiTypes';
-import { FPS_INSTANT } from './Dashboard';
 import * as M from './recursive_backtracker/maze';
 import './Maze.css';
 
@@ -22,7 +21,7 @@ function Commands({handleReset, setStepCount, maxSteps}: CommandProps) {
         <button id="last-state" onClick={() => setStepCount((prev) => Math.min(prev + 1, maxSteps - 1))} title="次へ移動">⏩</button>
         <button id="next-state" onClick={() => setStepCount(maxSteps - 1)} title="最後へ移動">⏭️</button>
       </div>
-      <button type="submit" onClick={handleReset} title="新しい迷路">Reset</button>
+      <button type="submit" onClick={handleReset} title="新しい迷路">新しい迷路</button>
     </div>
   )
 }
