@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Settings from './SettingsComp/Settings';
-import Maze from './Maze';
+import Maze from './MazeComp/Maze';
 import './App.css';
 
 export const FPS_INSTANT = 0;

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ApiClient from './ApiService';
-import { MazeDescriptor }  from './ApiTypes';
-import * as M from './recursive_backtracker/maze';
+import ApiClient from '../ApiService';
+import { MazeDescriptor }  from '../ApiTypes';
+import { handleReset, handleUpdate, getCellDimensions } from './MazeUtils';
+import * as M from '../recursive_backtracker/maze';
 import './Maze.css';
 
 type CommandProps = { 
@@ -11,7 +12,6 @@ type CommandProps = {
   maxSteps: number;
 }
 
-const FIRST_STATE = 0;
 
 function Commands({handleUpdate, handleReset, setStepCount, maxSteps}: CommandProps) {
   // TODO implement auto-play
@@ -29,35 +29,19 @@ function Commands({handleUpdate, handleReset, setStepCount, maxSteps}: CommandPr
   )
 }
 
+const FIRST_STATE = 0;
+const mockDescriptor: MazeDescriptor = {
+  initial: new M.Maze(0, 0),
+  steps: [{ prev: null, prevNeighs: null, current: null, currentNeighs: null }],
+  final: new M.Maze(0, 0)
+}
+
 export default function Maze({width, height, fps}: {width: number, height: number, fps: number}) {
-  const [classLists, setClassLists]: [string[][], any] = useState([['']]);
-  const [descriptor, setDescriptor]: [MazeDescriptor, any] = useState({
-    initial: new M.Maze(0, 0),
-    steps: [{ prev: null, prevNeighs: null, current: null, currentNeighs: null }],
-    final: new M.Maze(0, 0)
-  });
+  const [classLists, setClassLists]: [string[][], React.Dispatch<React.SetStateAction<string[][]>>] = useState([['']]);
+  const [descriptor, setDescriptor]: [MazeDescriptor, React.Dispatch<React.SetStateAction<MazeDescriptor>>] = useState(mockDescriptor);
 
   // TODO implement backwards maze steps
-  const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(FIRST_STATE);
-
-  function getCellDimensions() {
-    let cellWidth, cellHeight;
-    return (() => {
-      if (!(cellWidth && cellHeight)) {
-        const grid = document.getElementById('grid') as HTMLDivElement;
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        
-        // NOTE force style instantiation
-        grid.appendChild(cell);
-        cellWidth = cell.getBoundingClientRect().width;
-        cellHeight = cell.getBoundingClientRect().height;
-        grid.removeChild(cell);
-      }
-
-      return { cellWidth, cellHeight };
-    })()
-  }
+  const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(FIRST_STATE);  
   
   useEffect(() => {
     const { cellWidth, cellHeight } = getCellDimensions();
@@ -98,12 +82,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     // return grid;
   }, [width, height])
 
-  function handleReset (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-
-    setStepCount(FIRST_STATE);
-    setDescriptor(ApiClient.getMazeDescriptor(width, height));
-  }
+  
 
   // NOTE fetch descriptor
   useEffect(() => {
@@ -120,31 +99,6 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
       setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor.initial, cls, descriptor.steps[stepCount]));
     }
   }, [stepCount, descriptor])
-  
-  function handleUpdate (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-
-    // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
-    switch (e.currentTarget.id.split('-')[0]) {
-      case 'next':
-        setStepCount((prev) => Math.min(prev + 1, descriptor.steps.length));
-        break;
-
-      case 'previous': 
-        setStepCount(Math.max(FIRST_STATE, stepCount - 1));
-        break;
-
-      case 'last':
-        setStepCount(descriptor.steps.length);
-        break;
-
-      case 'first':
-        setStepCount(FIRST_STATE);
-        break;
-
-      default: break;
-    }
-  }
 
   return (
     <div id="maze">
@@ -155,8 +109,8 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
             className={list}></div>)}
         </div>
       </div>
-      <Commands handleUpdate={handleUpdate}
-        handleReset={handleReset} 
+      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, descriptor, firstStep: FIRST_STATE})}
+        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, firstStep: FIRST_STATE, width, height})} 
         setStepCount={setStepCount} 
         maxSteps={descriptor.steps.length}/>
     </div>

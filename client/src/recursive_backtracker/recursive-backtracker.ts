@@ -28,10 +28,11 @@ function * mazeGenerator(maze: Maze, width: number, height: number) {
 
   const toVisit = width * height;
   while (maze.visited <= toVisit && maze.cellStack.length) {
+    // TODO don't check neighs if already there
     yield { 
-      prev: maze.prev, 
+      prev: maze.prev ? Object.assign({}, maze.prev) : null, 
       prevNeighs: maze.prev ? {...maze.getNeighbors(maze.prev)} : null, 
-      current, 
+      current: current ? Object.assign({}, current) : null,
       currentNeighs: current ? {...maze.getNeighbors(current)} : null 
     };
     

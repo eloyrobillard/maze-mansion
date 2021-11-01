@@ -198,6 +198,7 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 }
 
 function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
+	// TODO only use wall-bot/right to allow backward update
 	const innerWallLists = Object.entries(neighbors)
 		.filter(([, value]) => value)
 		.map(([key, ]) => `wall-${key}`)
