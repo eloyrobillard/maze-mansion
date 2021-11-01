@@ -172,16 +172,23 @@ export function updateClassLists(maze: Maze, classLists: string[][], change: Ste
 function updateForward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
 
-	const { x: px, y: py } = prev!;	
 	if (!current) {
-		classLists[py][px] = `${classLists[py][px]} current`;
+		// classLists[py][px] = `${classLists[py][px]} current`;
 		return [...classLists];
 	}
-	classLists[py][px] = classLists[py][px].replace(' current', '');
-	classLists[py][px] = prevNeighs ? getClassList(prevNeighs, px, py, maze) : classLists[py][px];
+	
+	if (prev) {
+		try {
+			const { x: px, y: py } = prev;
+			classLists[py][px] = classLists[py][px].replace(' current', '');
+			classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
+		} catch (err) {
+			console.log('error', classLists, change);
+		}
+	}
 	
 	const { x: cx, y: cy } = current;
-	classLists[cy][cx] = `${currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx]} current`;
+	classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)} current`;
 
 	return [...classLists];
 }

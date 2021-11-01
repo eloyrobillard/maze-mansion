@@ -11,6 +11,8 @@ type CommandProps = {
   maxSteps: number;
 }
 
+const FIRST_STATE = 0;
+
 function Commands({handleUpdate, handleReset, setStepCount, maxSteps}: CommandProps) {
   // TODO implement auto-play
   return (
@@ -36,7 +38,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   });
 
   // TODO implement backwards maze steps
-  const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(0);
+  const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(FIRST_STATE);
 
   function getCellDimensions() {
     let cellWidth, cellHeight;
@@ -96,11 +98,10 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     // return grid;
   }, [width, height])
 
-  // TODO implement reset functionality
   function handleReset (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
 
-    setStepCount(0);
+    setStepCount(FIRST_STATE);
     setDescriptor(ApiClient.getMazeDescriptor(width, height));
   }
 
@@ -108,11 +109,17 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   useEffect(() => {
     setDescriptor(ApiClient.getMazeDescriptor(width, height));
   }, [width, height]);
-
-  // NOTE initialize maze on descriptor load
+  
   useEffect(() => {
-    setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
-  }, [descriptor])
+    console.log(stepCount)
+    if (stepCount === FIRST_STATE) {
+      setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
+    } else if (stepCount === descriptor.steps.length) {
+      setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+    } else {
+      setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor.initial, cls, descriptor.steps[stepCount]));
+    }
+  }, [stepCount, descriptor])
   
   function handleUpdate (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -120,23 +127,19 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
     switch (e.currentTarget.id.split('-')[0]) {
       case 'next':
-        setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor!.initial, cls, descriptor!.steps[stepCount + 1]));
-        setStepCount((prev) => Math.min(prev + 1, descriptor.steps.length - 1))
+        setStepCount((prev) => Math.min(prev + 1, descriptor.steps.length));
         break;
 
-      case 'previous':
-        setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor!.initial, cls, descriptor!.steps[stepCount - 1]));
-        setStepCount((prev) => Math.max(0, prev - 1));
+      case 'previous': 
+        setStepCount(Math.max(FIRST_STATE, stepCount - 1));
+        break;
+
+      case 'last':
+        setStepCount(descriptor.steps.length);
         break;
 
       case 'first':
-        setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
-        setStepCount(0);
-        break;
-      
-      case 'last':
-        setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
-        setStepCount(descriptor!.steps.length - 1);
+        setStepCount(FIRST_STATE);
         break;
 
       default: break;
