@@ -161,19 +161,33 @@ export function generateClassLists(maze: Maze) {
 	});
 }
 
-export function updateClassLists(maze: Maze, classLists: string[][], change: Step) {
-	const { prev, prevNeighs, current, currentNeighs } = change;
-	
-	const { x: px, y: py } = prev!;	
-	classLists[py][px] = prevNeighs ? getClassList(prevNeighs, px, py, maze) : classLists[py][px];
-	classLists[py][px] = classLists[py][px].replace(' current', '');
-	
-	if (current) {
-		const { x: cx, y: cy } = current;
-		classLists[cy][cx] = `${currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx]} current`;
+export function updateClassLists(maze: Maze, classLists: string[][], change: Step, dir: string): string[][] {
+	if (dir === '+') {
+		return updateForward(maze, classLists, change);
 	}
 
+	return updateBackward(maze, classLists, change);
+}
+
+function updateForward(maze: Maze, classLists: string[][], change: Step) {
+	const { prev, prevNeighs, current, currentNeighs } = change;
+
+	const { x: px, y: py } = prev!;	
+	if (!current) {
+		classLists[py][px] = `${classLists[py][px]} current`;
+		return [...classLists];
+	}
+	classLists[py][px] = classLists[py][px].replace(' current', '');
+	classLists[py][px] = prevNeighs ? getClassList(prevNeighs, px, py, maze) : classLists[py][px];
+	
+	const { x: cx, y: cy } = current;
+	classLists[cy][cx] = `${currentNeighs ? getClassList(currentNeighs, cx, cy, maze) : classLists[cy][cx]} current`;
+
 	return [...classLists];
+}
+
+function updateBackward(maze: Maze, classLists: string[][], change: Step) {
+	return classLists;
 }
 
 function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {

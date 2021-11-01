@@ -22,7 +22,7 @@ function mazeToClassLists(maze: Maze) {
 }
 
 function updateMaze (maze: Maze, classLists: string[][], change: Step) {
-	return updateClassLists(maze, classLists, change);
+	return updateClassLists(maze, classLists, change, '+');
 }
 
 const ApiClient = { mazeToText, mazeToCanvas, mazeToClassLists, updateMaze, getMazeDescriptor };
