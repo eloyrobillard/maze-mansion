@@ -43,9 +43,16 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     <div id="maze">
       <div id="grid-container">
         <div id="grid">
-          {classLists.reduce((acc, row) => acc.concat(row), []).map((list, i) => <div key={i} 
-            onClick={() => console.log(i % width, Math.floor(i / width))}
-            className={list}></div>)}
+          {
+            classLists.reduce((acc, row) => acc.concat(row), []).map((list, i) => {
+              if (list.includes('stuck')) console.log(i % width, Math.floor(i / width), list);
+              return (
+                <div key={i} 
+                  onClick={() => console.log(i % width, Math.floor(i / width))}
+                  className={list}>  
+                </div>
+            )})
+          }
         </div>
       </div>
       <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, descriptor, firstStep: FIRST_STATE})}

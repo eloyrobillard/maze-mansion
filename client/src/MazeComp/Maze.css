@@ -35,6 +35,9 @@
 #maze #grid-container #grid .cell.current {
   background-color: #316745;
 }
+#maze #grid-container #grid .cell.stuck {
+  background-color: red;
+}
 #maze #grid-container #grid .cell.wall-top {
   border-top: 2px solid black;
 }
