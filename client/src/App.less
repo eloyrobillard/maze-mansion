@@ -10,6 +10,18 @@
   flex-wrap: wrap;
 }
 
+#commands {
+  width: 300px;
+  
+  display: flex;
+  flex-direction: column;
+  
+  & #player-commands {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
 #maze {
   background-color: white;
   min-width: 55%;
@@ -23,13 +35,6 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-
-  & #commands {
-    width: 60%;
-
-    display: flex;
-    justify-content: space-around;
-  }
 
   & #grid-container {
     min-height: 100%;

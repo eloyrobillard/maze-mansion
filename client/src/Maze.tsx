@@ -6,17 +6,21 @@ import './App.css';
 
 type CommandProps = { 
   handleUpdate: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleReset: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-function Commands({handleUpdate}: CommandProps) {
+function Commands({handleUpdate, handleReset}: CommandProps) {
   // TODO change return when fps = instant vs not
   return (
     <div id="commands">
-      <button id="previous-state" title="前へ移動">⏮️</button>
-      <button id="first-state" title="最初へ移動">⏪</button>
-      <button id="toggle-play" onClick={handleUpdate} title="再生">⏯️</button>
-      <button id="last-state" title="最後へ移動">⏩</button>
-      <button id="next-state" title="次へ移動">⏭️</button>
+      <div id="player-commands">
+        <button id="previous-state" title="前へ移動">⏮️</button>
+        <button id="first-state" title="最初へ移動">⏪</button>
+        <button id="toggle-play" onClick={handleUpdate} title="再生">⏯️</button>
+        <button id="last-state" title="最後へ移動">⏩</button>
+        <button id="next-state" title="次へ移動">⏭️</button>
+      </div>
+      <button type="submit" onClick={handleReset}>Reset</button>
     </div>
   )
 }
@@ -80,7 +84,6 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
       }
 
       // if (cellWidth * width < (gridWidth - cellWidth)) {
-      // TODO fix grid size limit issues
       grid.style.width = `${cellWidth * width}px`;
       // }
       // if (cellHeight * height < (gridHeight - cellHeight)) {
@@ -127,8 +130,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
             className={list}></div>)}
         </div>
       </div>
-      <Commands handleUpdate={handleUpdate}/>
-      <button type="submit" onClick={handleReset}>Reset</button>
+      <Commands handleUpdate={handleUpdate} handleReset={handleReset}/>
     </div>
   );
 }
