@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { SettingsContext } from '../App';
+import { SettingsContext } from '../Dashboard';
 import './SpeedSettings.css';
 
 export const FPS_INSTANT = 0;

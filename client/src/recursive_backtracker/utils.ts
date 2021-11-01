@@ -1,5 +1,5 @@
 import { Maze } from './maze';
-import { Step } from '../ApiService';
+import { Step } from '../ApiTypes';
 
 export function getRand (max: number) {
 	return Math.floor(Math.random() * max);

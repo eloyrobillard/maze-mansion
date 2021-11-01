@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import SpeedToggle from './SpeedSetting';
-import { SettingsContext } from '../App';
+import { SettingsContext } from '../Dashboard';
 import './Settings.css';
-
-// export const FpsContext = React.createContext({fps: 5, setFps: (_: number) => {return}});
 
 export default function Settings() {
   const { 

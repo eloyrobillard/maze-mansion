@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ApiClient, { MazeDescriptor, Step } from './ApiService';
+import ApiClient from './ApiService';
+import { MazeDescriptor }  from './ApiTypes';
 import { FPS_INSTANT } from './SettingsComp/SpeedSetting';
 import * as M from './recursive_backtracker/maze';
 import './App.css';
@@ -20,7 +21,7 @@ function Commands({handleUpdate, handleReset}: CommandProps) {
         <button id="last-state" title="最後へ移動">⏩</button>
         <button id="next-state" title="次へ移動">⏭️</button>
       </div>
-      <button type="submit" onClick={handleReset}>Reset</button>
+      <button type="submit" onClick={handleReset} title="新しい迷路">Reset</button>
     </div>
   )
 }
@@ -72,6 +73,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
       }
 
       // NOTE minWidth/Height to avoid pushing button commands out of div
+      // TODO set commands/settings position: fixed when maze becomes too large
       if (cellWidth * width > (mazeWidth! - cellWidth)) {
         mazeDiv.style.minWidth = `${cellWidth * (width + 1)}px`;
       } else if (width <= 10) {

@@ -1,17 +1,7 @@
 import RecursiveBacktracker from './recursive_backtracker/recursive-backtracker';
 import { printMaze, canvasMaze, generateClassLists, updateClassLists } from './recursive_backtracker/utils';
-import { Maze, Cell } from './recursive_backtracker/maze';
-
-export type Step = { 
-  prev: Cell | null; 
-  current: Cell | null; 
-}
-
-export type MazeDescriptor = { 
-  initial: Maze;
-  steps: Step[];
-  final: Maze;
-}
+import { Maze } from './recursive_backtracker/maze';
+import { Step } from './ApiTypes';
 
 function mazeToText (width: number, height: number) {
 	const mazeDescriptor = RecursiveBacktracker(width, height);

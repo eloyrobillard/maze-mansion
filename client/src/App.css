@@ -13,13 +13,16 @@
 }
 #commands #player-commands {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+#commands button {
+  font-size: 1.5rem;
 }
 #maze {
   background-color: white;
   min-width: 55%;
   min-height: 80vh;
-  padding: 0.25rem;
+  padding: 0.5rem;
   box-shadow: 0 0 0.25rem grey;
   display: flex;
   flex-direction: column;
