@@ -3,6 +3,8 @@ import Settings from './SettingsComp/Settings';
 import Maze from './Maze';
 import './App.css';
 
+export const FPS_INSTANT = 0;
+
 export const SettingsContext = React.createContext({
   mazeWidth: 10,
   setWidth: (_: number) => {return},
@@ -18,7 +20,7 @@ export default function Dashboard() {
 
 
   // NOTE
-  const [fps, setFps] = useState(0);
+  const [fps, setFps] = useState(FPS_INSTANT);
 
   return (
     <div id="dashboard">

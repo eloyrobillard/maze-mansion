@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ApiClient from './ApiService';
 import { MazeDescriptor }  from './ApiTypes';
-import { FPS_INSTANT } from './SettingsComp/SpeedSetting';
+import { FPS_INSTANT } from './Dashboard';
 import * as M from './recursive_backtracker/maze';
 import './App.css';
 

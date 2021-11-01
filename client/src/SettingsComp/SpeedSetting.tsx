@@ -1,8 +1,6 @@
 import React, {useState, useContext} from 'react';
-import { SettingsContext } from '../Dashboard';
+import { SettingsContext, FPS_INSTANT } from '../Dashboard';
 import './SpeedSettings.css';
-
-export const FPS_INSTANT = 0;
 
 function SpeedSetting() {
   const {fps, setFps} = useContext(SettingsContext);
