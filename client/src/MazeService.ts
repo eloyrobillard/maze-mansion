@@ -25,6 +25,6 @@ function updateMaze (maze: Maze, classLists: string[][], change: Step, updateDir
 	return updateClassLists(maze, classLists, change, updateDir);
 }
 
-const ApiClient = { mazeToText, mazeToCanvas, mazeToClassLists, updateMaze, getMazeDescriptor };
+const MazeApi = { mazeToText, mazeToCanvas, mazeToClassLists, updateMaze, getMazeDescriptor };
 
-export default ApiClient;
+export default MazeApi;

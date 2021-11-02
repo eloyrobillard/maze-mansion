@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext, useRef, Dispatch, SetStateAction } from 'react';
-import ApiClient from '../MazeService';
+import MazeApi from '../MazeService';
 import { MazeDescriptor }  from '../ApiTypes';
 import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
 import * as M from '../recursive_backtracker/ts/maze';
@@ -41,12 +41,12 @@ export default function Maze() {
       clearInterval(intervalRef.current);
     }
     intervalRef.current = setInterval(() => {
-      setStepCount(c => {
+      setStepCount(count => {
         // console.log('interval');
         if (updateDir > 0) {
-          return Math.min(LAST_STATE, c + 1);
+          return Math.min(LAST_STATE, count + 1);
         }
-        return Math.max(FIRST_STATE, c - 1);
+        return Math.max(FIRST_STATE, count - 1);
       });
     }, Math.floor(1000 / fps));
   }, [updateDir, fps, LAST_STATE]);
@@ -65,7 +65,7 @@ export default function Maze() {
       return play();
     }
     return pause();
-  }, [isPlaying, play, pause, stepCount, descriptor]);
+  }, [isPlaying, play, pause]);
 
   // NOTE pause automatically when at the end
   useEffect(() => {
@@ -114,19 +114,20 @@ export default function Maze() {
 
   // NOTE fetch descriptor and set to initial
   useEffect(() => {
+    setDescriptor(MazeApi.getMazeDescriptor(mazeWidth, mazeHeight));
     setStepCount(FIRST_STATE);
-    setDescriptor(ApiClient.getMazeDescriptor(mazeWidth, mazeHeight));
   }, [mazeWidth, mazeHeight]);
   
   // NOTE handle maze update (front AND back)
   useEffect(() => {
     if (stepCount === FIRST_STATE) {
-      setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
+      setClassLists(MazeApi.mazeToClassLists(descriptor!.initial));
     } else if (stepCount === LAST_STATE) {
-      setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+      setClassLists(MazeApi.mazeToClassLists(descriptor!.final));
     } else {
+      console.log(stepCount, descriptor.steps[stepCount]);
       setClassLists((cls: string[][]) => 
-        ApiClient.updateMaze(
+        MazeApi.updateMaze(
           descriptor.initial, 
           cls, 
           descriptor.steps[stepCount], 
@@ -134,7 +135,7 @@ export default function Maze() {
         )
       );
     }
-  }, [stepCount, descriptor, updateDir, LAST_STATE]);
+  }, [descriptor, stepCount, updateDir, LAST_STATE]);
 
   return (
     <div id="maze">

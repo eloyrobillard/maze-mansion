@@ -185,8 +185,9 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)} current`;
 	}
 
+	return [...classLists];
 	// return [...classLists.map((list) => [...list])];
-	return classLists;
+	// return classLists;
 }
 
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
@@ -209,7 +210,8 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)}`;
 	} 
 	
-	return [...classLists.map((list) => [...list])];
+	return [...classLists];
+	// return [...classLists.map((list) => [...list])];
 	// return classLists;
 }
 
