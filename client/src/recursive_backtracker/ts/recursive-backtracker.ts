@@ -38,7 +38,8 @@ function * mazeGenerator(maze: Maze, width: number, height: number) {
       prev: maze.prev, 
       prevNeighs: maze.prev ? {...maze.getNeighbors(maze.prev)} : null, 
       current,
-      currentNeighs: current ? {...maze.getNeighbors(current)} : null 
+      firstVisit: current!.neighbors === null ? true : false,
+      currentNeighs: {...maze.getNeighbors(current!)} 
     };
     
     maze.prev = current;
@@ -50,6 +51,7 @@ function * mazeGenerator(maze: Maze, width: number, height: number) {
     prev: maze.prev, 
     prevNeighs: {...maze.prev!.neighbors!}, 
     current,
+    firstVisit: true,
     currentNeighs: {...maze.getNeighbors(current!)} 
   };
 }

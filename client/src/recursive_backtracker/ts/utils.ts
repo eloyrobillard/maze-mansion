@@ -189,20 +189,8 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 	return classLists;
 }
 
-function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
-	// TODO only use wall-bot/right to allow backward update
-	const innerWallList = Object.entries(neighbors)
-		.filter(([, value]) => value)
-		.map(([key, ]) => `wall-${key}`)
-		.join(' ');
-
-	return `cell visited ${innerWallList}${x === 0 ? ' wall-left' : x === maze.width - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === maze.height - 1 ? ' wall-bottom' : ''}`;
-}
-
-// TODO fix backward update
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
-	const { prev, prevNeighs, current, currentNeighs } = change;
-	if (!currentNeighs) console.log(prev, current);
+	const { prev, prevNeighs, current, firstVisit, currentNeighs } = change;
 	
 	const { x: cx, y: cy } = current!;
 	if (!prev) {
@@ -211,37 +199,23 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 	} 
 	
 	const { x: px, y: py } = prev;
-	classLists[py][px] = `${getBackClassList(prevNeighs!, px, py, maze)} current`;
+	classLists[py][px] = `${getClassList(prevNeighs!, px, py, maze)} current`;
 	
-	const dir = changeDir(px, py, cx, cy);
-	// NOTE if about to visit current for first time
-	if (dir === '') {
+	if (cx === px && cy === py) {
 		classLists[py][px] = `${classLists[py][px]} stuck`;
-	} else if (prevNeighs![dir]) {
+	} else if (firstVisit) {
+		// NOTE if about to visit current for first time
 		classLists[cy][cx] = `cell`;
 	} else {
-		classLists[cy][cx] = `${getBackClassList(currentNeighs!, cx, cy, maze)}`;
-	}
+		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)}`;
+	} 
 	
 	return [...classLists.map((list) => [...list])];
 	// return classLists;
 }
 
-function changeDir(px: number, py: number, cx: number, cy: number) {
-	const xDiff = cx - px;
-	if (xDiff) {
-		return xDiff < 0 ? 'left' : 'right';
-	}
 
-	const yDiff = cy - py;
-	if (yDiff) {
-		return yDiff < 0 ? 'top' : 'bottom';
-	}
-	return '';
-}
-
-function getBackClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
-	// TODO only use wall-bot/right to allow backward update
+function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {
 	const innerWallList = Object.entries(neighbors)
 		.filter(([, value]) => value)
 		.map(([key, ]) => `wall-${key}`)

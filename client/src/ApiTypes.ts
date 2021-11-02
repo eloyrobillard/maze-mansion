@@ -4,6 +4,7 @@ export type Step = {
   prev: Cell | null;
   prevNeighs: Neighbors | null; 
   current: Cell | null;
+  firstVisit: boolean;
   currentNeighs: Neighbors | null; 
 }
 

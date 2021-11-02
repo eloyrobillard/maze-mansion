@@ -9,7 +9,7 @@ import './Maze.css';
 const FIRST_STATE = -1;
 const mockDescriptor: MazeDescriptor = {
   initial: new M.Maze(0, 0),
-  steps: [{ prev: null, prevNeighs: null, current: null, currentNeighs: null }],
+  steps: [{ prev: null, prevNeighs: null, current: null, firstVisit: false, currentNeighs: null }],
   final: new M.Maze(0, 0)
 }
 
@@ -45,7 +45,7 @@ export default function Maze({width, height, fps}: MazeProps) {
     }
     intervalRef.current = setInterval(() => {
       setStepCount(c => {
-        // console.log('interval');
+        console.log('interval');
         if (updateDir > 0) {
           return Math.min(LAST_STATE, c + 1);
         }
@@ -72,13 +72,13 @@ export default function Maze({width, height, fps}: MazeProps) {
 
   // NOTE pause automatically when at the end
   useEffect(() => {
-    if (stepCount === LAST_STATE) {
+    if (stepCount === LAST_STATE || stepCount === FIRST_STATE) {
       setIsPlaying(false);
     }
   }, [stepCount, LAST_STATE]);
 
   function togglePlay() {
-    if (!isPlaying && stepCount < LAST_STATE) {
+    if (!isPlaying && stepCount > FIRST_STATE && stepCount < LAST_STATE) {
       return setIsPlaying(true);
     }
     return setIsPlaying(false);
