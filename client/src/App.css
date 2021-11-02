@@ -1,6 +1,6 @@
 #dashboard {
   min-height: 70%;
-  padding-top: 9%;
+  padding-top: 6.5%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -29,7 +29,7 @@
   font-family: 'ポプらむ☆キュート', 'ピグモ', 'マメロン', '白川 篆文', '春秋tsu-教育漢字', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
 }
 #top-bar h1 {
-  margin: 1rem;
+  margin: 0.75rem;
 }
 #settings,
 #settings input,
