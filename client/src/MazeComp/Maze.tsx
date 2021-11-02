@@ -78,10 +78,13 @@ export default function Maze({width, height, fps}: MazeProps) {
   }, [stepCount, LAST_STATE]);
 
   function togglePlay() {
-    if (!isPlaying && stepCount > FIRST_STATE && stepCount < LAST_STATE) {
+    if (!isPlaying && (stepCount > FIRST_STATE || stepCount < LAST_STATE)) {
       return setIsPlaying(true);
-    }
-    return setIsPlaying(false);
+    } else if (stepCount === FIRST_STATE) {
+      // NOTE update dir already set away from current bound ?
+      return setIsPlaying(updateDir > 0);
+    } 
+    return setIsPlaying(updateDir < 0);
   }
 
   useEffect(() => {
