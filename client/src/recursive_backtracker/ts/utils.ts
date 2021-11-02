@@ -185,13 +185,14 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)} current`;
 	}
 
-	return [...classLists.map((list) => [...list])];
+	// return [...classLists.map((list) => [...list])];
+	return classLists;
 }
 
 // TODO fix backward update
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
-	console.log(prev, current);
+	// console.log(prev, current);
 	if (prev) {
 		const { x: px, y: py } = prev;
 		classLists[py][px] = `${getClassList(prevNeighs!, px, py, maze)} current`;
@@ -202,7 +203,8 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 		classLists[cy][cx] = getClassList(currentNeighs!, cx, cy, maze);
 	}
 
-	return [...classLists];
+	// return [...classLists.map((list) => [...list])];
+	return classLists;
 }
 
 function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): string {

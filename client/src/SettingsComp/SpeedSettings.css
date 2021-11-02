@@ -51,6 +51,7 @@
   appearance: none;
   cursor: pointer;
   border: 2px solid rgba(0, 0, 0, 0.7);
+  background-color: #e8ffef;
   width: 27px;
   height: 27px;
   display: block;
