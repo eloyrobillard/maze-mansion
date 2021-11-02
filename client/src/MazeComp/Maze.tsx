@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef, Dispatch, SetStateAction } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useRef, Dispatch, SetStateAction } from 'react';
 import ApiClient from '../MazeService';
 import { MazeDescriptor }  from '../ApiTypes';
 import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
 import * as M from '../recursive_backtracker/ts/maze';
+import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
 import './Maze.css';
 
@@ -13,13 +14,9 @@ const mockDescriptor: MazeDescriptor = {
   final: new M.Maze(0, 0)
 }
 
-type MazeProps = {
-  width: number, 
-  height: number, 
-  fps: number
-};
+export default function Maze() {
+  const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
-export default function Maze({width, height, fps}: MazeProps) {
   const [cellWidth, setCellWidth]: [number, Dispatch<SetStateAction<number>>] = useState(50); 
   const [cellHeight, setCellHeight]: [number, Dispatch<SetStateAction<number>>] = useState(50);
 
@@ -88,8 +85,8 @@ export default function Maze({width, height, fps}: MazeProps) {
   }
 
   useEffect(() => {
-    resizeMazeElements({width, height, setCellWidth, setCellHeight})
-  }, [width, height]);
+    resizeMazeElements({mazeWidth, mazeHeight, setCellWidth, setCellHeight})
+  }, [mazeWidth, mazeHeight]);
 
   useEffect(() => {
     let grid; 
@@ -97,16 +94,16 @@ export default function Maze({width, height, fps}: MazeProps) {
       if (!grid) {
         grid = document.getElementById('grid') as HTMLDivElement;
       }
-      grid.style.width = `${cellWidth * width}px`;
-      grid.style.height = `${cellHeight * height}px`;
+      grid.style.width = `${cellWidth * mazeWidth}px`;
+      grid.style.height = `${cellHeight * mazeHeight}px`;
     })();
-  }, [cellWidth, cellHeight, width, height]);
+  }, [cellWidth, cellHeight, mazeWidth, mazeHeight]);
 
   // NOTE fetch descriptor
   useEffect(() => {
     setStepCount(FIRST_STATE);
-    setDescriptor(ApiClient.getMazeDescriptor(width, height));
-  }, [width, height]);
+    setDescriptor(ApiClient.getMazeDescriptor(mazeWidth, mazeHeight));
+  }, [mazeWidth, mazeHeight]);
   
   // NOTE handle maze update (front AND back)
   useEffect(() => {
@@ -122,7 +119,7 @@ export default function Maze({width, height, fps}: MazeProps) {
   return (
     <div id="maze">
       <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, FIRST_STATE, LAST_STATE})}
-        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, FIRST_STATE, width, height})}
+        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, FIRST_STATE, mazeWidth, mazeHeight})}
         togglePlay={togglePlay}/>
       <div id="grid-container">
         <div id="grid">
@@ -131,7 +128,7 @@ export default function Maze({width, height, fps}: MazeProps) {
               return (
                 <div key={i}
                   style={{width: cellWidth + 'px', height: cellHeight + 'px'}}
-                  title={`x: ${i % width}\ny: ${Math.floor(i / width)}`}
+                  title={`x: ${i % mazeWidth}\ny: ${Math.floor(i / mazeWidth)}`}
                   className={list}>  
                 </div>
             )})

@@ -22,7 +22,6 @@ export default function Dashboard() {
 
   return (
     <div id="dashboard">
-      <Maze width={mazeWidth} height={mazeHeight} fps={fps} />  
       <SettingsContext.Provider value={{
           mazeWidth,
           setWidth,
@@ -31,6 +30,7 @@ export default function Dashboard() {
           fps, 
           setFps,
         }}>
+        <Maze />  
         <Settings />
       </SettingsContext.Provider>
       

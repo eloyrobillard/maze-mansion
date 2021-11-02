@@ -3,24 +3,24 @@ import { MazeDescriptor } from '../ApiTypes';
 import ApiClient from '../MazeService';
 
 type ResizeArgs = { 
-  width: number, 
-  height: number, 
+  mazeWidth: number, 
+  mazeHeight: number, 
   setCellWidth: Dispatch<SetStateAction<number>>, 
   setCellHeight: Dispatch<SetStateAction<number>>
 }
 
-export function resizeMazeElements({width, height, setCellWidth, setCellHeight}: ResizeArgs) {
+export function resizeMazeElements({mazeWidth, mazeHeight, setCellWidth, setCellHeight}: ResizeArgs) {
   let gridContainer;
 
   return (() => {
     if (!gridContainer) {
       gridContainer = document.getElementById('grid-container') as HTMLDivElement;
     }
-    // LINK https://javascript.programmer-reference.com/js-width-height/
+    // LINK https://javascript.programmer-reference.com/js-mazeWidth-mazeHeight/
     const gridConWidth = Math.floor(gridContainer.getBoundingClientRect().width);
     const gridConHeight = Math.floor(gridContainer.getBoundingClientRect().height)
 
-    const min = Math.min(50, Math.floor(gridConWidth / width), Math.floor(gridConHeight / height));
+    const min = Math.min(50, Math.floor(gridConWidth / mazeWidth), Math.floor(gridConHeight / mazeHeight));
     setCellWidth(min);
     setCellHeight(min);
   })();
@@ -31,15 +31,15 @@ type ResetArgs = {
   setStepCount: Dispatch<SetStateAction<number>>;
   setDescriptor: Dispatch<SetStateAction<MazeDescriptor>>;
   FIRST_STATE: number;
-  width: number;
-  height: number;
+  mazeWidth: number;
+  mazeHeight: number;
 }
 
-export function handleReset ({e, setStepCount, setDescriptor, FIRST_STATE, width, height}: ResetArgs) {
+export function handleReset ({e, setStepCount, setDescriptor, FIRST_STATE, mazeWidth, mazeHeight}: ResetArgs) {
   e.preventDefault();
 
   setStepCount(FIRST_STATE);
-  setDescriptor(ApiClient.getMazeDescriptor(width, height));
+  setDescriptor(ApiClient.getMazeDescriptor(mazeWidth, mazeHeight));
 }
 
 type UpdateArgs = {

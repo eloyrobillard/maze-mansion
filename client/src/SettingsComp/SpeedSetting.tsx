@@ -1,9 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SettingsContext } from '../Dashboard';
 import './SpeedSettings.css';
 
 export default function SpeedSetting() {
-  const {fps, setFps} = useContext(SettingsContext);
+  const {mazeWidth, mazeHeight, fps, setFps} = useContext(SettingsContext);
+  const [max, setMax] = useState(100);
+
+  useEffect(() => {
+    // NOTE 100 <= max <= 1000
+    setMax(Math.max(100, Math.min(mazeWidth * mazeHeight, 1000)));
+  }, [mazeWidth, mazeHeight]);
+
+
+  // NOTE update fps with new max
+  useEffect(() => {
+    if (fps > max) {
+      setFps(max);
+    }
+  }, [max, fps, setFps]);
 
   function handleFps(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -17,11 +31,11 @@ export default function SpeedSetting() {
       <div id="indicators">
         <span>1</span>
         <span id="fps-span">{fps}</span>
-        <span>100</span>
+        <span>{max === 1000 ? '1K' : max}</span>
       </div>
       <input type="range"
         min="1"
-        max="100"
+        max={max}
         name="fps-range" 
         value={fps} 
         onChange={handleFps}/>
