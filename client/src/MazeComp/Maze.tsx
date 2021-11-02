@@ -30,6 +30,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     }
     intervalRef.current = setInterval(() => {
       setStepCount(c => {
+        console.log('interval');
         if (updateDir > 0) {
           return Math.min(descriptor.steps.length, c + 1);
         }
@@ -52,7 +53,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
       return play();
     }
     return pause();
-  }, [isPlaying, play, pause]);
+  }, [isPlaying, play, pause, stepCount, descriptor]);
 
   // NOTE pause automatically when at the end
   useEffect(() => {
@@ -62,7 +63,10 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   }, [stepCount, descriptor]);
 
   function togglePlay() {
-    setIsPlaying(!isPlaying);
+    if (!isPlaying && stepCount < descriptor.steps.length) {
+      return setIsPlaying(true);
+    }
+    return setIsPlaying(false);
   }
 
   useEffect(() => resizeMazeElements(width, height), [width, height]);
