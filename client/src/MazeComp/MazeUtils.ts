@@ -45,21 +45,31 @@ export function handleReset ({e, setStepCount, setDescriptor, mazeWidth, mazeHei
 type UpdateArgs = {
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
   setStepCount: Dispatch<SetStateAction<number>>;
+  setUpdateDir: Dispatch<SetStateAction<number>>;
+  updateDir: number;
   LAST_STATE: number;
 }
 
-export function handleUpdate ({e, setStepCount, LAST_STATE}: UpdateArgs) {
+export function handleUpdate ({e, setStepCount, setUpdateDir, updateDir, LAST_STATE}: UpdateArgs) {
   e.preventDefault();
 
   // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
   switch (e.currentTarget.id.split('-')[0]) {
     case 'next': {
-      setStepCount((prev) => Math.min(prev + 1, LAST_STATE));
+      if (updateDir > 0) {
+        setStepCount((prev) => Math.min(prev + 1, LAST_STATE));
+      } else {
+        setUpdateDir(1);
+      }
       break;
     }
 
     case 'previous': {
-      setStepCount((prev) => Math.max(FIRST_STATE, prev - 1));
+      if (updateDir < 0) {
+        setStepCount((prev) => Math.max(FIRST_STATE, prev - 1));
+      } else {
+        setUpdateDir(-1);
+      }
       break;
     }
 

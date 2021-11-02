@@ -125,7 +125,6 @@ export default function Maze() {
     } else if (stepCount === LAST_STATE) {
       setClassLists(MazeApi.mazeToClassLists(descriptor!.final));
     } else {
-      console.log(stepCount, descriptor.steps[stepCount]);
       setClassLists((cls: string[][]) => 
         MazeApi.updateMaze(
           descriptor.initial, 
@@ -139,7 +138,7 @@ export default function Maze() {
 
   return (
     <div id="maze">
-      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, LAST_STATE})}
+      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, setUpdateDir, updateDir, LAST_STATE})}
         handleReset={(e) => handleReset({e, setStepCount, setDescriptor, mazeWidth, mazeHeight})}
         togglePlay={togglePlay}/>
       <div id="grid-container">

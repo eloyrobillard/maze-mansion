@@ -192,7 +192,7 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, firstVisit, currentNeighs } = change;
-	
+	console.log(change);
 	const { x: cx, y: cy } = current!;
 	if (!prev) {
 		classLists[cy][cx] = `cell`;
