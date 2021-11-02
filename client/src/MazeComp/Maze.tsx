@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import ApiClient from '../ApiService';
+import ApiClient from '../MazeService';
 import { MazeDescriptor }  from '../ApiTypes';
 import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
 import * as M from '../recursive_backtracker/maze';

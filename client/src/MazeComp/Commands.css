@@ -1,0 +1,16 @@
+#commands #player-commands button {
+  background-color: transparent;
+  border: none;
+}
+#commands #reset {
+  margin-bottom: 0.5rem;
+  background-color: #4DB56A;
+  color: #15543B;
+  border: 3px solid #CADBCF;
+  border-radius: 2%;
+}
+#commands #reset:hover {
+  background-color: #005731;
+  border-color: #4DB56A;
+  color: white;
+}

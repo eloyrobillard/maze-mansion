@@ -1,10 +1,10 @@
 @chitose-green: #316745;
 
 #maze {
-  background-color: @chitose-green;
+  background-color: #15543B;
   min-width: 55%;
   min-height: 80vh;
-  padding: 0.5rem;
+  padding: 1rem;
 
   box-shadow: 0 0 0.25rem grey;
 
@@ -26,13 +26,14 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      box-shadow: 0 0 0.5rem #CADBCF;
       
       & .cell {
         width: 50px;
         height: 50px;
         // NOTE border-box: border is inset
         box-sizing: border-box;
-        border-color: burlywood;
+        background-color: #CADBCF;
 
         &:hover {
           background-color: @chitose-green;
@@ -48,7 +49,6 @@
         }
         &.wall-top {
           border-top: 2px solid;
-          border-color: inherit;
         }
         &.wall-bottom {
           border-bottom: 2px solid;

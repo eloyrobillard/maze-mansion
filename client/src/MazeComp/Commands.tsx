@@ -1,3 +1,5 @@
+import './Commands.css';
+
 type CommandProps = { 
   handleUpdate: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleReset: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -14,7 +16,7 @@ export default function Commands({handleUpdate, handleReset, togglePlay}: Comman
         <button id="next-state" onClick={handleUpdate} title="次へ移動">⏩</button>
         <button id="last-state" onClick={handleUpdate} title="最後へ移動">⏭️</button>
       </div>
-      <button type="submit" onClick={handleReset} title="新しい迷路">新しい迷路</button>
+      <button id="reset" type="submit" onClick={handleReset} title="新しい迷路">新しい迷路</button>
     </div>
   )
 }

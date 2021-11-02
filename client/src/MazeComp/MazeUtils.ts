@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { MazeDescriptor } from '../ApiTypes';
-import ApiClient from '../ApiService';
+import ApiClient from '../MazeService';
 
 function getCellDimensions() {
   let cellWidth, cellHeight;

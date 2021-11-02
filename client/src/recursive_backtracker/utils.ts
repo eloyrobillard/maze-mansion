@@ -171,7 +171,7 @@ export function updateClassLists(maze: Maze, classLists: string[][], change: Ste
 
 function updateForward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
-	console.log(prev, current);
+	// console.log(prev, current);
 	if (prev) {
 		const { x: px, y: py } = prev;
 		classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
