@@ -30,7 +30,8 @@
   box-sizing: border-box;
   background-color: #99afa0;
 }
-#maze #grid-container #grid .cell:hover {
+#maze #grid-container #grid .cell:hover,
+#maze #grid-container #grid .cell.visited:hover {
   background-color: #316745;
   box-shadow: 0 0 0.25rem #316745;
 }
