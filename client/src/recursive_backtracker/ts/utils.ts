@@ -200,7 +200,6 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 	
 	const { x: px, y: py } = prev;
 	classLists[py][px] = `${getClassList(prevNeighs!, px, py, maze)} current`;
-	
 	if (cx === px && cy === py) {
 		classLists[py][px] = `${classLists[py][px]} stuck`;
 	} else if (firstVisit) {

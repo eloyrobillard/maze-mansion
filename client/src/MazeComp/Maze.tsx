@@ -116,6 +116,18 @@ export default function Maze() {
     }
   }, [stepCount, descriptor, updateDir, LAST_STATE]);
 
+
+  // NOTE update dir on reaching either end
+  useEffect(() => {
+    if (stepCount > FIRST_STATE && stepCount < LAST_STATE) {
+      return;
+    } else if (stepCount === FIRST_STATE) {
+      setUpdateDir(1);
+    } else {
+      setUpdateDir(-1)
+    }
+  }, [stepCount, LAST_STATE]);
+
   return (
     <div id="maze">
       <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, FIRST_STATE, LAST_STATE})}
