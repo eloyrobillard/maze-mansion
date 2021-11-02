@@ -81,10 +81,12 @@ export function handleUpdate ({e, setStepCount, updateDir, setUpdateDir, FIRST_S
     }
 
     case 'last':
+      setUpdateDir(-1);
       setStepCount(LAST_STATE);
       break;
 
     case 'first':
+      setUpdateDir(1);
       setStepCount(FIRST_STATE);
       break;
 
