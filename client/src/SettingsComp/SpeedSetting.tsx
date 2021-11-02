@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import { SettingsContext, FPS_INSTANT } from '../Dashboard';
 import './SpeedSettings.css';
 
-function SpeedSetting() {
+export default function SpeedSetting() {
   const {fps, setFps} = useContext(SettingsContext);
 
   function handleFps(e: React.ChangeEvent<HTMLInputElement>) {
@@ -14,9 +14,9 @@ function SpeedSetting() {
   return (
     <form>
       <label htmlFor="fps">FPS設定</label>
-      <input type="number"
+      <input type="range"
         min="1"
-        max="10"
+        max="100"
         name="fps" 
         value={fps} 
         onChange={handleFps}/>
@@ -24,7 +24,7 @@ function SpeedSetting() {
   )
 }
 
-export default function SpeedToggle() {
+function SpeedToggle() {
   const {setFps} = useContext(SettingsContext);
   const [fpsElement, setFpsElement] = useState(
     <form>

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import SpeedToggle from './SpeedSetting';
+import SpeedSetting from './SpeedSetting';
 import { SettingsContext } from '../Dashboard';
 import './Settings.css';
 
@@ -47,7 +47,7 @@ export default function Settings() {
               onChange={(e) => handleInput(e, 'h')}/>
           </div>
         </form>
-        <SpeedToggle />
+        <SpeedSetting />
       </div>
     </div>
   )
