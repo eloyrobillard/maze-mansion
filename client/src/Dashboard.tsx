@@ -19,8 +19,7 @@ export default function Dashboard() {
   const [mazeHeight, setHeight] = useState(10);
 
 
-  // NOTE
-  const [fps, setFps] = useState(FPS_INSTANT);
+  const [fps, setFps] = useState(10);
 
   return (
     <div id="dashboard">
