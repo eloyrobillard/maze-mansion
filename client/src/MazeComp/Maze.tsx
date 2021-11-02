@@ -29,6 +29,12 @@ export default function Maze({width, height, fps}: MazeProps) {
   const [stepCount, setStepCount]: [number, Dispatch<SetStateAction<number>>] = useState(FIRST_STATE); 
   const [updateDir, setUpdateDir]: [number, Dispatch<SetStateAction<number>>] = useState(1);
 
+  const [LAST_STATE, setLastState] = useState(0);
+  // NOTE update last state index
+  useEffect(() => {
+    setLastState(descriptor.steps.length - 1);
+  }, [descriptor])
+
   // LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
   const intervalRef: React.MutableRefObject<NodeJS.Timeout | null> = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -41,12 +47,12 @@ export default function Maze({width, height, fps}: MazeProps) {
       setStepCount(c => {
         // console.log('interval');
         if (updateDir > 0) {
-          return Math.min(descriptor.steps.length, c + 1);
+          return Math.min(LAST_STATE, c + 1);
         }
         return Math.max(FIRST_STATE, c - 1);
       });
     }, Math.floor(1000 / fps));
-  }, [updateDir, fps, descriptor]);
+  }, [updateDir, fps, LAST_STATE]);
 
   const pause = useCallback(() => {
     if (intervalRef.current === null) {
@@ -66,13 +72,13 @@ export default function Maze({width, height, fps}: MazeProps) {
 
   // NOTE pause automatically when at the end
   useEffect(() => {
-    if (stepCount === descriptor.steps.length) {
+    if (stepCount === LAST_STATE) {
       setIsPlaying(false);
     }
-  }, [stepCount, descriptor]);
+  }, [stepCount, LAST_STATE]);
 
   function togglePlay() {
-    if (!isPlaying && stepCount < descriptor.steps.length) {
+    if (!isPlaying && stepCount < LAST_STATE) {
       return setIsPlaying(true);
     }
     return setIsPlaying(false);
@@ -101,19 +107,29 @@ export default function Maze({width, height, fps}: MazeProps) {
   
   // NOTE handle maze update
   useEffect(() => {
-    if (stepCount === FIRST_STATE) {
-      setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
-    } else if (stepCount === descriptor.steps.length) {
-      setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+    if (updateDir > 0) {
+      if (stepCount === FIRST_STATE) {
+        setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
+      } else if (stepCount === LAST_STATE) {
+        setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+      } else {
+        setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor.initial, cls, descriptor.steps[stepCount], updateDir));
+      }
     } else {
-      setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor.initial, cls, descriptor.steps[stepCount], updateDir));
+      if (stepCount === FIRST_STATE) {
+        setClassLists(ApiClient.mazeToClassLists(descriptor!.initial));
+      } else if (stepCount + 1 >= LAST_STATE) {
+        setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
+      } else {
+        setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor.initial, cls, descriptor.steps[stepCount + 1], updateDir));
+      }
     }
-  }, [stepCount, descriptor, updateDir]);
+  }, [stepCount, descriptor, updateDir, LAST_STATE]);
 
   return (
     <div id="maze">
-      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, descriptor, firstStep: FIRST_STATE})}
-        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, firstStep: FIRST_STATE, width, height})}
+      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, FIRST_STATE, LAST_STATE})}
+        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, FIRST_STATE, width, height})}
         togglePlay={togglePlay}/>
       <div id="grid-container">
         <div id="grid">
