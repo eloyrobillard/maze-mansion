@@ -33,18 +33,22 @@ export default function Settings() {
       <div id="settings-content">
         <form id="dimensions">
           <div id="dimension-inputs">
-            <label htmlFor="width">幅</label>
-            <label htmlFor="height">高さ</label>
-            <input type="number"
-              min="1" 
-              name="width" 
-              value={mazeWidth} 
-              onChange={(e) => handleInput(e, 'w')}/>
-            <input type="number" 
-              min="1"
-              name="height" 
-              value={mazeHeight} 
-              onChange={(e) => handleInput(e, 'h')}/>
+            <div id="labels">
+              <label htmlFor="width">幅</label>
+              <label htmlFor="height">高さ</label>
+            </div>
+            <div id="inputs">
+              <input type="number"
+                min="1" 
+                name="width" 
+                value={mazeWidth} 
+                onChange={(e) => handleInput(e, 'w')}/>
+              <input type="number" 
+                min="1"
+                name="height" 
+                value={mazeHeight} 
+                onChange={(e) => handleInput(e, 'h')}/>
+            </div>
           </div>
         </form>
         <SpeedSetting />

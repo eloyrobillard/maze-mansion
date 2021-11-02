@@ -1,7 +1,7 @@
 #settings {
   background-color: #4c9b69;
   color: white;
-  width: 40%;
+  width: 30%;
   height: 60vh;
   flex-shrink: 0;
 
@@ -40,7 +40,6 @@
     
     & * {
       font-size: 1rem;
-      padding: 0.5rem;
     }
 
     // NOTE order is important here
@@ -49,18 +48,26 @@
     }
 
     &#dimensions #dimension-inputs {
+      width: 100%;
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-around;
+      flex-direction: column;
 
-      & label {
+      & #inputs, #labels {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      & #labels label {
         text-align: center;
+        padding: 0.5rem;
       }
 
-      & label, input {
-        width: 43%;
+      & #inputs input {
+        width: 50%;
+        padding: 0.25rem;
       }
+
     }
   }
 }

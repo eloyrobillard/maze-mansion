@@ -1,7 +1,7 @@
 #settings {
   background-color: #4c9b69;
   color: white;
-  width: 40%;
+  width: 30%;
   height: 60vh;
   flex-shrink: 0;
   border-radius: 1%;
@@ -32,21 +32,26 @@
 }
 #settings form * {
   font-size: 1rem;
-  padding: 0.5rem;
 }
 #settings form label {
   font-size: 1.5rem;
 }
 #settings form#dimensions #dimension-inputs {
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+}
+#settings form#dimensions #dimension-inputs #inputs,
+#settings form#dimensions #dimension-inputs #labels {
+  width: 100%;
+  display: flex;
   justify-content: space-around;
 }
-#settings form#dimensions #dimension-inputs label {
+#settings form#dimensions #dimension-inputs #labels label {
   text-align: center;
+  padding: 0.5rem;
 }
-#settings form#dimensions #dimension-inputs label,
-#settings form#dimensions #dimension-inputs input {
-  width: 43%;
+#settings form#dimensions #dimension-inputs #inputs input {
+  width: 50%;
+  padding: 0.25rem;
 }
