@@ -28,7 +28,7 @@ function * mazeGenerator(maze: Maze, width: number, height: number) {
   maze.visited = 1;
 
   const toVisit = width * height;
-  while (maze.visited <= toVisit && maze.cellStack.length) {
+  while (maze.visited < toVisit && maze.cellStack.length) {
     if (current === null) {
       current = maze.cellStack.pop()!;
     }

@@ -47,6 +47,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     intervalRef.current = null;
   }, []);
 
+  // NOTE play/pause on push play button AND 手動的に toggle した時
   useEffect(() => {
     if (isPlaying) {
       return play();
@@ -90,7 +91,6 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
         <div id="grid">
           {
             classLists.reduce((acc, row) => acc.concat(row), []).map((list, i) => {
-              if (list.includes('stuck')) console.log(i % width, Math.floor(i / width), list);
               return (
                 <div key={i} 
                   onClick={() => console.log(i % width, Math.floor(i / width))}
