@@ -7,7 +7,7 @@ import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
 import './Maze.css';
 
-const FIRST_STATE = -1;
+export const FIRST_STATE = -1;
 const mockDescriptor: MazeDescriptor = {
   initial: new M.Maze(0, 0),
   steps: [{ prev: null, prevNeighs: null, current: null, firstVisit: false, currentNeighs: null }],
@@ -125,19 +125,21 @@ export default function Maze() {
     } else if (stepCount === LAST_STATE) {
       setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
     } else {
-      setClassLists((cls: string[][]) => ApiClient.updateMaze(
-        descriptor.initial, 
-        cls, 
-        descriptor.steps[stepCount], 
-        updateDir)
+      setClassLists((cls: string[][]) => 
+        ApiClient.updateMaze(
+          descriptor.initial, 
+          cls, 
+          descriptor.steps[stepCount], 
+          updateDir
+        )
       );
     }
   }, [stepCount, descriptor, updateDir, LAST_STATE]);
 
   return (
     <div id="maze">
-      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, FIRST_STATE, LAST_STATE})}
-        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, FIRST_STATE, mazeWidth, mazeHeight})}
+      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, LAST_STATE})}
+        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, mazeWidth, mazeHeight})}
         togglePlay={togglePlay}/>
       <div id="grid-container">
         <div id="grid">

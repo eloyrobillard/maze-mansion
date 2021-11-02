@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { MazeDescriptor } from '../ApiTypes';
+import { FIRST_STATE } from './Maze';
 import ApiClient from '../MazeService';
 
 type ResizeArgs = { 
@@ -30,12 +31,11 @@ type ResetArgs = {
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
   setStepCount: Dispatch<SetStateAction<number>>;
   setDescriptor: Dispatch<SetStateAction<MazeDescriptor>>;
-  FIRST_STATE: number;
   mazeWidth: number;
   mazeHeight: number;
 }
 
-export function handleReset ({e, setStepCount, setDescriptor, FIRST_STATE, mazeWidth, mazeHeight}: ResetArgs) {
+export function handleReset ({e, setStepCount, setDescriptor, mazeWidth, mazeHeight}: ResetArgs) {
   e.preventDefault();
 
   setStepCount(FIRST_STATE);
@@ -45,11 +45,10 @@ export function handleReset ({e, setStepCount, setDescriptor, FIRST_STATE, mazeW
 type UpdateArgs = {
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
   setStepCount: Dispatch<SetStateAction<number>>;
-  FIRST_STATE: number;
   LAST_STATE: number;
 }
 
-export function handleUpdate ({e, setStepCount, FIRST_STATE, LAST_STATE}: UpdateArgs) {
+export function handleUpdate ({e, setStepCount, LAST_STATE}: UpdateArgs) {
   e.preventDefault();
 
   // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
