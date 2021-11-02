@@ -2,56 +2,26 @@ import { Dispatch, SetStateAction } from 'react';
 import { MazeDescriptor } from '../ApiTypes';
 import ApiClient from '../MazeService';
 
-function getCellDimensions() {
-  let cellWidth, cellHeight;
-  return (() => {
-    if (!(cellWidth && cellHeight)) {
-      const grid = document.getElementById('grid') as HTMLDivElement;
-      const cell = document.createElement('div');
-      cell.className = 'cell';
-      
-      // NOTE force style instantiation
-      grid.appendChild(cell);
-      cellWidth = cell.getBoundingClientRect().width;
-      cellHeight = cell.getBoundingClientRect().height;
-      grid.removeChild(cell);
-    }
-
-    return { cellWidth, cellHeight };
-  })();
+type ResizeArgs = { 
+  width: number, 
+  height: number, 
+  setCellWidth: Dispatch<SetStateAction<number>>, 
+  setCellHeight: Dispatch<SetStateAction<number>>
 }
 
-export function resizeMazeElements(width: number, height: number) {
-  const { cellWidth, cellHeight } = getCellDimensions();
+export function resizeMazeElements({width, height, setCellWidth, setCellHeight}: ResizeArgs) {
+  let gridContainer;
 
-  let grid, 
-      mazeDiv, 
-      mazeWidth: number, 
-      mazeHeight: number;
   return (() => {
-    if (!grid || !mazeDiv) {
-      grid = document.getElementById('grid') as HTMLDivElement;
-      mazeDiv = document.getElementById('maze') as HTMLDivElement;
-      // LINK https://javascript.programmer-reference.com/js-width-height/
-      mazeWidth = Math.floor(mazeDiv.getBoundingClientRect().width);
-      mazeHeight = Math.floor(mazeDiv.getBoundingClientRect().height);
+    if (!gridContainer) {
+      gridContainer = document.getElementById('grid-container') as HTMLDivElement;
     }
+    // LINK https://javascript.programmer-reference.com/js-width-height/
+    const gridConWidth = Math.floor(gridContainer.getBoundingClientRect().width);
+    const gridConHeight = Math.floor(gridContainer.getBoundingClientRect().height)
 
-    // NOTE minWidth/Height to avoid pushing button commands out of div
-    // TODO set cellSize down when too many
-    if (cellWidth * width > (mazeWidth! - cellWidth)) {
-      mazeDiv.style.minWidth = `${cellWidth * (width + 1)}px`;
-    } else if (width <= 10) {
-      mazeDiv.style.minWidth = `${cellWidth * 11}px`;
-    }
-    if (cellHeight * height > (mazeHeight! - cellHeight)) {
-      mazeDiv.style.minHeight = `${cellHeight * (height + 1)}px`;
-    } else if (height <= 10) {
-      mazeDiv.style.minHeight = `${cellHeight * 11}px`;
-    }
-
-    grid.style.width = `${cellWidth * width}px`;
-    grid.style.height = `${cellHeight * height}px`;
+    setCellWidth(Math.min(50, Math.floor(gridConWidth / width)));
+    setCellHeight(Math.min(50, Math.floor(gridConHeight / height)));
   })();
 }
 

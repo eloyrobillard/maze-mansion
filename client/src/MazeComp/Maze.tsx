@@ -20,6 +20,9 @@ type MazeProps = {
 };
 
 export default function Maze({width, height, fps}: MazeProps) {
+  const [cellWidth, setCellWidth]: [number, Dispatch<SetStateAction<number>>] = useState(50); 
+  const [cellHeight, setCellHeight]: [number, Dispatch<SetStateAction<number>>] = useState(50);
+
   const [classLists, setClassLists]: [string[][], Dispatch<SetStateAction<string[][]>>] = useState([['']]);
   const [descriptor, setDescriptor]: [MazeDescriptor, Dispatch<SetStateAction<MazeDescriptor>>] = useState(mockDescriptor);
 
@@ -75,7 +78,20 @@ export default function Maze({width, height, fps}: MazeProps) {
     return setIsPlaying(false);
   }
 
-  useEffect(() => resizeMazeElements(width, height), [width, height]);
+  useEffect(() => {
+    resizeMazeElements({width, height, setCellWidth, setCellHeight})
+  }, [width, height]);
+
+  useEffect(() => {
+    let grid; 
+    return (() => {
+      if (!grid) {
+        grid = document.getElementById('grid') as HTMLDivElement;
+      }
+      grid.style.width = `${cellWidth * width}px`;
+      grid.style.height = `${cellHeight * height}px`;
+    })();
+  }, [cellWidth, cellHeight, width, height]);
 
   // NOTE fetch descriptor
   useEffect(() => {
@@ -105,6 +121,7 @@ export default function Maze({width, height, fps}: MazeProps) {
             classLists.reduce((acc, row) => acc.concat(row), []).map((list, i) => {
               return (
                 <div key={i}
+                  style={{width: cellWidth + 'px', height: cellHeight + 'px'}}
                   title={`x: ${i % width}\ny: ${Math.floor(i / width)}`}
                   className={list}>  
                 </div>
