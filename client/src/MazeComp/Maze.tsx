@@ -94,8 +94,8 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
           {
             classLists.reduce((acc, row) => acc.concat(row), []).map((list, i) => {
               return (
-                <div key={i} 
-                  onClick={() => console.log(i % width, Math.floor(i / width))}
+                <div key={i}
+                  title={`x: ${i % width}\ny: ${Math.floor(i / width)}`}
                   className={list}>  
                 </div>
             )})
