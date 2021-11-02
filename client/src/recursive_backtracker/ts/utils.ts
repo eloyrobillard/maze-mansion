@@ -192,7 +192,7 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, firstVisit, currentNeighs } = change;
-	console.log(change);
+	
 	const { x: cx, y: cy } = current!;
 	if (!prev) {
 		classLists[cy][cx] = `cell`;
@@ -205,7 +205,7 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 		classLists[py][px] = `${classLists[py][px]} stuck`;
 	} else if (firstVisit) {
 		// NOTE if about to visit current for first time
-		classLists[cy][cx] = `cell`;
+		classLists[cy][cx] = `cell ${cx === 0 ? ' wall-left' : cx === maze.width - 1 ? ' wall-right' : ''}${cy === 0 ? ' wall-top' : cy === maze.height - 1 ? ' wall-bottom' : ''}`;
 	} else {
 		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)}`;
 	} 

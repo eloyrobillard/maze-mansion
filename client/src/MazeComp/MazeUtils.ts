@@ -63,7 +63,7 @@ export function handleUpdate ({e, setStepCount, setUpdateDir, updateDir, LAST_ST
       }
       break;
     }
-
+    
     case 'previous': {
       if (updateDir < 0) {
         setStepCount((prev) => Math.max(FIRST_STATE, prev - 1));
