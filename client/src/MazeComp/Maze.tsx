@@ -42,7 +42,7 @@ export default function Maze() {
     }
     intervalRef.current = setInterval(() => {
       setStepCount(c => {
-        console.log('interval');
+        // console.log('interval');
         if (updateDir > 0) {
           return Math.min(LAST_STATE, c + 1);
         }
@@ -136,7 +136,7 @@ export default function Maze() {
 
   return (
     <div id="maze">
-      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, FIRST_STATE, LAST_STATE})}
+      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, FIRST_STATE, LAST_STATE})}
         handleReset={(e) => handleReset({e, setStepCount, setDescriptor, FIRST_STATE, mazeWidth, mazeHeight})}
         togglePlay={togglePlay}/>
       <div id="grid-container">
