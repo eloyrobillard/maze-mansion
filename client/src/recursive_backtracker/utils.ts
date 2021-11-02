@@ -115,9 +115,10 @@ export function canvasMaze(ctx: CanvasRenderingContext2D, maze: Maze): CanvasRen
 }
 
 export function generateClassLists(maze: Maze) {
+	const base = maze.visited ? 'cell visited' : 'cell';
 	return maze.grid.map((row, ri, grid) => {
 		return row.map((cell, ci) => {
-			let classList = 'cell';
+			let classList = base;
 
 			if (ri === 0) {
 				classList = `${classList} wall-top`;
@@ -190,7 +191,7 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 // TODO fix backward update
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
-	
+	console.log(prev, current);
 	if (prev) {
 		const { x: px, y: py } = prev;
 		classLists[py][px] = `${getClassList(prevNeighs!, px, py, maze)} current`;
@@ -211,5 +212,5 @@ function getClassList(neighbors: Neighbors, x: number, y: number, maze: Maze): s
 		.map(([key, ]) => `wall-${key}`)
 		.join(' ');
 
-	return `cell ${innerWallList}${x === 0 ? ' wall-left' : x === maze.width - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === maze.height - 1 ? ' wall-bottom' : ''}`;
+	return `cell visited ${innerWallList}${x === 0 ? ' wall-left' : x === maze.width - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === maze.height - 1 ? ' wall-bottom' : ''}`;
 }
