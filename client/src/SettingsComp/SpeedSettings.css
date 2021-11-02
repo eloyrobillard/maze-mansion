@@ -3,11 +3,11 @@
 }
 #speed-choice label,
 #speed-choice #indicators {
-  align-self: flex-start;
+  align-self: flex-end;
 }
 #speed-choice #indicators {
   margin-top: 0.5rem;
-  width: 105%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
