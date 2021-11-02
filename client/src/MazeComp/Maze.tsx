@@ -75,17 +75,30 @@ export default function Maze() {
   }, [stepCount, LAST_STATE]);
 
   function togglePlay() {
-    if (!isPlaying && (stepCount > FIRST_STATE || stepCount < LAST_STATE)) {
+    if (!isPlaying) {
       return setIsPlaying(true);
-    } else if (stepCount === FIRST_STATE) {
-      // NOTE update dir already set away from current bound ?
-      return setIsPlaying(updateDir > 0);
     } 
-    return setIsPlaying(updateDir < 0);
+    return setIsPlaying(false);
   }
 
+  // NOTE update dir on reaching either end
   useEffect(() => {
-    resizeMazeElements({mazeWidth, mazeHeight, setCellWidth, setCellHeight})
+    if (stepCount > FIRST_STATE && stepCount < LAST_STATE) {
+      return;
+    } else if (stepCount === FIRST_STATE) {
+      setUpdateDir(1);
+    } else {
+      setUpdateDir(-1)
+    }
+  }, [stepCount, LAST_STATE]);
+
+  useEffect(() => {
+    resizeMazeElements({
+      mazeWidth, 
+      mazeHeight, 
+      setCellWidth, 
+      setCellHeight
+    });
   }, [mazeWidth, mazeHeight]);
 
   useEffect(() => {
@@ -99,7 +112,7 @@ export default function Maze() {
     })();
   }, [cellWidth, cellHeight, mazeWidth, mazeHeight]);
 
-  // NOTE fetch descriptor
+  // NOTE fetch descriptor and set to initial
   useEffect(() => {
     setStepCount(FIRST_STATE);
     setDescriptor(ApiClient.getMazeDescriptor(mazeWidth, mazeHeight));
@@ -112,21 +125,14 @@ export default function Maze() {
     } else if (stepCount === LAST_STATE) {
       setClassLists(ApiClient.mazeToClassLists(descriptor!.final));
     } else {
-      setClassLists((cls: string[][]) => ApiClient.updateMaze(descriptor.initial, cls, descriptor.steps[stepCount], updateDir));
+      setClassLists((cls: string[][]) => ApiClient.updateMaze(
+        descriptor.initial, 
+        cls, 
+        descriptor.steps[stepCount], 
+        updateDir)
+      );
     }
   }, [stepCount, descriptor, updateDir, LAST_STATE]);
-
-
-  // NOTE update dir on reaching either end
-  useEffect(() => {
-    if (stepCount > FIRST_STATE && stepCount < LAST_STATE) {
-      return;
-    } else if (stepCount === FIRST_STATE) {
-      setUpdateDir(1);
-    } else {
-      setUpdateDir(-1)
-    }
-  }, [stepCount, LAST_STATE]);
 
   return (
     <div id="maze">
