@@ -20,8 +20,9 @@ export function resizeMazeElements({width, height, setCellWidth, setCellHeight}:
     const gridConWidth = Math.floor(gridContainer.getBoundingClientRect().width);
     const gridConHeight = Math.floor(gridContainer.getBoundingClientRect().height)
 
-    setCellWidth(Math.min(50, Math.floor(gridConWidth / width)));
-    setCellHeight(Math.min(50, Math.floor(gridConHeight / height)));
+    const min = Math.min(50, Math.floor(gridConWidth / width), Math.floor(gridConHeight / height));
+    setCellWidth(min);
+    setCellHeight(min);
   })();
 }
 
