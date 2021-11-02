@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, Dispatch, SetStateAction } from 'react';
 import ApiClient from '../MazeService';
 import { MazeDescriptor }  from '../ApiTypes';
 import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
@@ -13,12 +13,18 @@ const mockDescriptor: MazeDescriptor = {
   final: new M.Maze(0, 0)
 }
 
-export default function Maze({width, height, fps}: {width: number, height: number, fps: number}) {
-  const [classLists, setClassLists]: [string[][], React.Dispatch<React.SetStateAction<string[][]>>] = useState([['']]);
-  const [descriptor, setDescriptor]: [MazeDescriptor, React.Dispatch<React.SetStateAction<MazeDescriptor>>] = useState(mockDescriptor);
+type MazeProps = {
+  width: number, 
+  height: number, 
+  fps: number
+};
 
-  const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(FIRST_STATE); 
-  const [updateDir, setUpdateDir]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(1);
+export default function Maze({width, height, fps}: MazeProps) {
+  const [classLists, setClassLists]: [string[][], Dispatch<SetStateAction<string[][]>>] = useState([['']]);
+  const [descriptor, setDescriptor]: [MazeDescriptor, Dispatch<SetStateAction<MazeDescriptor>>] = useState(mockDescriptor);
+
+  const [stepCount, setStepCount]: [number, Dispatch<SetStateAction<number>>] = useState(FIRST_STATE); 
+  const [updateDir, setUpdateDir]: [number, Dispatch<SetStateAction<number>>] = useState(1);
 
   // LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
   const intervalRef: React.MutableRefObject<NodeJS.Timeout | null> = useRef(null);
@@ -30,7 +36,7 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
     }
     intervalRef.current = setInterval(() => {
       setStepCount(c => {
-        console.log('interval');
+        // console.log('interval');
         if (updateDir > 0) {
           return Math.min(descriptor.steps.length, c + 1);
         }

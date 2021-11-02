@@ -2,59 +2,59 @@ import { Dispatch, SetStateAction } from 'react';
 import { MazeDescriptor } from '../ApiTypes';
 import ApiClient from '../MazeService';
 
-function getCellDimensions() {
-  let cellWidth, cellHeight;
-  return (() => {
-    if (!(cellWidth && cellHeight)) {
-      const grid = document.getElementById('grid') as HTMLDivElement;
-      const cell = document.createElement('div');
-      cell.className = 'cell';
+// function getCellDimensions() {
+//   let cellWidth, cellHeight;
+//   return (() => {
+//     if (!(cellWidth && cellHeight)) {
+//       const grid = document.getElementById('grid') as HTMLDivElement;
+//       const cell = document.createElement('div');
+//       cell.className = 'cell';
       
-      // NOTE force style instantiation
-      grid.appendChild(cell);
-      cellWidth = cell.getBoundingClientRect().width;
-      cellHeight = cell.getBoundingClientRect().height;
-      grid.removeChild(cell);
-    }
+//       // NOTE force style instantiation
+//       grid.appendChild(cell);
+//       cellWidth = cell.getBoundingClientRect().width;
+//       cellHeight = cell.getBoundingClientRect().height;
+//       grid.removeChild(cell);
+//     }
 
-    return { cellWidth, cellHeight };
-  })();
-}
+//     return { cellWidth, cellHeight };
+//   })();
+// }
 
 export function resizeMazeElements(width: number, height: number) {
-  const { cellWidth, cellHeight } = getCellDimensions();
+  // const { cellWidth, cellHeight } = getCellDimensions();
 
-  let grid, 
-      mazeDiv, 
-      mazeWidth: number, 
-      mazeHeight: number;
+  // let grid, 
+  //     mazeDiv, 
+  //     mazeWidth: number, 
+  //     mazeHeight: number;
   return (() => {
-    if (!grid || !mazeDiv) {
-      grid = document.getElementById('grid') as HTMLDivElement;
-      mazeDiv = document.getElementById('maze') as HTMLDivElement;
-      // LINK https://javascript.programmer-reference.com/js-width-height/
-      mazeWidth = Math.floor(mazeDiv.getBoundingClientRect().width);
-      mazeHeight = Math.floor(mazeDiv.getBoundingClientRect().height);
-    }
+    // if (!grid || !mazeDiv) {
+    //   grid = document.getElementById('grid') as HTMLDivElement;
+    //   mazeDiv = document.getElementById('maze') as HTMLDivElement;
+    //   // LINK https://javascript.programmer-reference.com/js-width-height/
+    //   mazeWidth = Math.floor(mazeDiv.getBoundingClientRect().width);
+    //   mazeHeight = Math.floor(mazeDiv.getBoundingClientRect().height);
+    // }
 
     // NOTE minWidth/Height to avoid pushing button commands out of div
     // TODO set cellSize down when too many
-    if (cellWidth * width > (mazeWidth! - cellWidth)) {
-      mazeDiv.style.minWidth = `${cellWidth * (width + 1)}px`;
-    } else if (width <= 10) {
-      mazeDiv.style.minWidth = `${cellWidth * 11}px`;
-    }
-    if (cellHeight * height > (mazeHeight! - cellHeight)) {
-      mazeDiv.style.minHeight = `${cellHeight * (height + 1)}px`;
-    } else if (height <= 10) {
-      mazeDiv.style.minHeight = `${cellHeight * 11}px`;
-    }
+    // if (cellWidth * width > (mazeWidth! - cellWidth)) {
+    //   mazeDiv.style.minWidth = `${cellWidth * (width + 1)}px`;
+    // } else if (width <= 10) {
+    //   mazeDiv.style.minWidth = `${cellWidth * 11}px`;
+    // }
+    // if (cellHeight * height > (mazeHeight! - cellHeight)) {
+    //   mazeDiv.style.minHeight = `${cellHeight * (height + 1)}px`;
+    // } else if (height <= 10) {
+    //   mazeDiv.style.minHeight = `${cellHeight * 11}px`;
+    // }
 
     // if (cellWidth * width < (gridWidth - cellWidth)) {
-    grid.style.width = `${cellWidth * width}px`;
+    // grid.style.width = `${cellWidth * width}px`;
     // }
     // if (cellHeight * height < (gridHeight - cellHeight)) {
-    grid.style.height = `${cellHeight * height}px`;
+    // grid.style.height = `${cellHeight * height}px`;
   })();
 }
 

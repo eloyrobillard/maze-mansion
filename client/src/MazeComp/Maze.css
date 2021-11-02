@@ -1,6 +1,6 @@
 #maze {
   background-color: #15543B;
-  min-width: 55%;
+  width: 55%;
   min-height: 80vh;
   padding: 1rem;
   box-shadow: 0 0 0.25rem grey;

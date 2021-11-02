@@ -1,16 +1,26 @@
 #speed-choice {
   align-items: center;
 
-  & label {
+  & label, #indicators {
     align-self: flex-start;
   }
 }
 
 #speed-choice #indicators {
   margin-top: 0.5rem;
-  width: 100%;
+  width: 105%;
   display: flex;
   justify-content: space-between;
+  
+  & #fps-span {
+    background-color: white;
+    width: 2rem;
+    height: 1.5rem;
+
+    text-align: center;
+    color: black;
+    border: 1px solid black;
+  }
 }
 
 #speed-choice input[type=range] {
