@@ -1,6 +1,6 @@
-import RecursiveBacktracker from './recursive_backtracker/recursive-backtracker';
-import { printMaze, canvasMaze, generateClassLists, updateClassLists } from './recursive_backtracker/utils';
-import { Maze } from './recursive_backtracker/maze';
+import RecursiveBacktracker from './recursive_backtracker/ts/recursive-backtracker';
+import { printMaze, canvasMaze, generateClassLists, updateClassLists } from './recursive_backtracker/ts/utils';
+import { Maze } from './recursive_backtracker/ts/maze';
 import { Step } from './ApiTypes';
 
 function mazeToText (width: number, height: number) {
