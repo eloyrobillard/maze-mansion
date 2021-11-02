@@ -86,6 +86,9 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
 
   return (
     <div id="maze">
+      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, descriptor, firstStep: FIRST_STATE})}
+        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, firstStep: FIRST_STATE, width, height})}
+        togglePlay={togglePlay}/>
       <div id="grid-container">
         <div id="grid">
           {
@@ -99,9 +102,6 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
           }
         </div>
       </div>
-      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, updateDir, setUpdateDir, descriptor, firstStep: FIRST_STATE})}
-        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, firstStep: FIRST_STATE, width, height})}
-        togglePlay={togglePlay}/>
     </div>
   );
 }

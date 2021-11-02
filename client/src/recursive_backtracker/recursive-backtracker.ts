@@ -21,6 +21,7 @@ export default function RecursiveBacktracker (width: number, height: number) {
   return res;
 }
 
+// TODO translate to Rust to WASM
 function * mazeGenerator(maze: Maze, width: number, height: number) {
   let current: Cell | null = maze.grid[getRand(height)][getRand(width)];
   current.visited = true;

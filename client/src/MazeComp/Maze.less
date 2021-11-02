@@ -1,7 +1,7 @@
 @chitose-green: #316745;
 
 #maze {
-  background-color: white;
+  background-color: @chitose-green;
   min-width: 55%;
   min-height: 80vh;
   padding: 0.5rem;
@@ -26,16 +26,17 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-  
+      
       & .cell {
         width: 50px;
         height: 50px;
-        // background-color: white;
+        // NOTE border-box: border is inset
         box-sizing: border-box;
+        border-color: burlywood;
 
         &:hover {
           background-color: @chitose-green;
-          background-image: url('./bg-maze-white.svg');
+          // background-image: url('./bg-maze-white.svg');
           box-shadow: 0 0 0.25rem @chitose-green;
         }
         
@@ -46,16 +47,17 @@
           background-color: red;
         }
         &.wall-top {
-          border-top: 2px solid black;
+          border-top: 2px solid;
+          border-color: inherit;
         }
         &.wall-bottom {
-          border-bottom: 2px solid black;
+          border-bottom: 2px solid;
         }
         &.wall-left {
-          border-left: 2px solid black;
+          border-left: 2px solid;
         }
         &.wall-right {
-          border-right: 2px solid black; 
+          border-right: 2px solid; 
         }
       }
     }

@@ -18,7 +18,7 @@ function getCellDimensions() {
     }
 
     return { cellWidth, cellHeight };
-  })()
+  })();
 }
 
 export function resizeMazeElements(width: number, height: number) {

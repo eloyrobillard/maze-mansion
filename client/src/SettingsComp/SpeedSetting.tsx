@@ -37,6 +37,7 @@ export default function SpeedToggle() {
   );
 
   // TODO fix speed setting display -> can switch anytime between fps and instant
+  // TODO make speed setting into gauge -> ease of use
   function handleSpeedInstant(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     setFps(FPS_INSTANT);
