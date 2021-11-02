@@ -38,7 +38,7 @@ export function resizeMazeElements(width: number, height: number) {
     }
 
     // NOTE minWidth/Height to avoid pushing button commands out of div
-    // TODO set commands/settings position: fixed when maze becomes too large
+    // TODO set cellSize down when too many
     if (cellWidth * width > (mazeWidth! - cellWidth)) {
       mazeDiv.style.minWidth = `${cellWidth * (width + 1)}px`;
     } else if (width <= 10) {
