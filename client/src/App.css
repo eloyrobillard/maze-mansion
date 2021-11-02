@@ -34,7 +34,7 @@
 #settings,
 #settings input,
 #settings button {
-  font-family: 'マメロン', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
+  font-family: 'マメロン', 'UD デジタル 教科書体 N-R', 'ピグモ', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
 }
 .App {
   background-image: url('bg-maze.svg');

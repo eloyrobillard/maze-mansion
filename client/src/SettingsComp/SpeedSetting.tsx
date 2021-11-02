@@ -1,5 +1,5 @@
-import React, {useState, useContext} from 'react';
-import { SettingsContext, FPS_INSTANT } from '../Dashboard';
+import React, { useContext } from 'react';
+import { SettingsContext } from '../Dashboard';
 import './SpeedSettings.css';
 
 export default function SpeedSetting() {
@@ -12,8 +12,12 @@ export default function SpeedSetting() {
   }
 
   return (
-    <form>
+    <form id="speed-choice">
       <label htmlFor="fps">FPS設定</label>
+      <div id="indicators">
+        <span>1</span>
+        <span>100</span>
+      </div>
       <input type="range"
         min="1"
         max="100"
@@ -24,7 +28,7 @@ export default function SpeedSetting() {
   )
 }
 
-function SpeedToggle() {
+/* function SpeedToggle() {
   const {setFps} = useContext(SettingsContext);
   const [fpsElement, setFpsElement] = useState(
     <form>
@@ -36,8 +40,6 @@ function SpeedToggle() {
     </form>
   );
 
-  // TODO fix speed setting display -> can switch anytime between fps and instant
-  // TODO make speed setting into gauge -> ease of use
   function handleSpeedInstant(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     setFps(FPS_INSTANT);
@@ -55,4 +57,4 @@ function SpeedToggle() {
   }
 
   return fpsElement;
-}
+} */

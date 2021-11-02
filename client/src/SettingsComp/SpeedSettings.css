@@ -1,4 +1,58 @@
-#settings form #speed-choice button {
-  width: 49%;
-  margin-right: 1%;
+#speed-choice {
+  align-items: center;
+}
+#speed-choice label {
+  align-self: flex-start;
+}
+#speed-choice #indicators {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#speed-choice #indicators span {
+  height: 0.75rem;
+}
+#speed-choice input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 100%;
+  border-radius: 6px;
+}
+#speed-choice input[type=range]:focus,
+#speed-choice input[type=range]:active {
+  outline: none;
+}
+#speed-choice input[type=range]::-moz-range-track,
+#speed-choice input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0.5rem;
+  cursor: pointer;
+  animation-duration: 0.2s;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: linear-gradient(to right, rgba(0, 128, 0, 0.466), rgba(255, 0, 0, 0.466));
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+#speed-choice input[type=range]::-moz-range-track:after,
+#speed-choice input[type=range]::-webkit-slider-runnable-track:after {
+  content: "John";
+  color: black;
+}
+#speed-choice input[type=range]::-moz-range-thumb,
+#speed-choice input[type=range]::-webkit-slider-thumb {
+  appearance: none;
+  cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  width: 27px;
+  height: 27px;
+  display: block;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+#speed-choice input[type=range]:active::-moz-range-thumb,
+#speed-choice input[type=range]:active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.6);
+  transition: 0.7s;
 }
