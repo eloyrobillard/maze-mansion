@@ -28,35 +28,31 @@ export function resizeMazeElements({mazeWidth, mazeHeight, setCellWidth, setCell
 }
 
 type ResetArgs = {
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
   setStepCount: Dispatch<SetStateAction<number>>;
   setDescriptor: Dispatch<SetStateAction<MazeDescriptor>>;
   mazeWidth: number;
   mazeHeight: number;
 }
 
-export function handleReset ({e, setStepCount, setDescriptor, mazeWidth, mazeHeight}: ResetArgs) {
-  e.preventDefault();
-
+export function handleReset ({setStepCount, setDescriptor, mazeWidth, mazeHeight}: ResetArgs) {
   setStepCount(FIRST_STATE);
   setDescriptor(ApiClient.getMazeDescriptor(mazeWidth, mazeHeight));
 }
 
 type UpdateArgs = {
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
+  dir: string;
   setStepCount: Dispatch<SetStateAction<number>>;
   setUpdateDir: Dispatch<SetStateAction<number>>;
   updateDir: number;
   LAST_STATE: number;
 }
 
-export function handleUpdate ({e, setStepCount, setUpdateDir, updateDir, LAST_STATE}: UpdateArgs) {
-  e.preventDefault();
-
+export function handleUpdate ({dir, setStepCount, setUpdateDir, updateDir, LAST_STATE}: UpdateArgs) {
   // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
-  switch (e.currentTarget.id.split('-')[0]) {
+  switch (dir) {
     case 'next': {
       if (updateDir > 0) {
+        // NOTE prev + 2 test to synch stepCount back
         setStepCount((prev) => Math.min(prev + 1, LAST_STATE));
       } else {
         setUpdateDir(1);
@@ -66,7 +62,8 @@ export function handleUpdate ({e, setStepCount, setUpdateDir, updateDir, LAST_ST
     
     case 'previous': {
       if (updateDir < 0) {
-        setStepCount((prev) => Math.max(FIRST_STATE, prev - 1));
+        // NOTE prev - 2 test to synch stepCount back
+        setStepCount((prev) => prev - 2 <= FIRST_STATE ? FIRST_STATE : prev - 1);
       } else {
         setUpdateDir(-1);
       }

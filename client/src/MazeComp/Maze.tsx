@@ -41,12 +41,12 @@ export default function Maze() {
       clearInterval(intervalRef.current);
     }
     intervalRef.current = setInterval(() => {
-      setStepCount(count => {
-        // console.log('interval');
-        if (updateDir > 0) {
-          return Math.min(LAST_STATE, count + 1);
-        }
-        return Math.max(FIRST_STATE, count - 1);
+      handleUpdate({
+        dir : updateDir > 0 ? 'next' : 'previous',
+        setStepCount, 
+        setUpdateDir, 
+        updateDir, 
+        LAST_STATE
       });
     }, Math.floor(1000 / fps));
   }, [updateDir, fps, LAST_STATE]);
@@ -120,6 +120,7 @@ export default function Maze() {
   
   // NOTE handle maze update (front AND back)
   useEffect(() => {
+    console.log(stepCount);
     if (stepCount === FIRST_STATE) {
       setClassLists(MazeApi.mazeToClassLists(descriptor!.initial));
     } else if (stepCount === LAST_STATE) {
@@ -138,8 +139,25 @@ export default function Maze() {
 
   return (
     <div id="maze">
-      <Commands handleUpdate={(e) => handleUpdate({e, setStepCount, setUpdateDir, updateDir, LAST_STATE})}
-        handleReset={(e) => handleReset({e, setStepCount, setDescriptor, mazeWidth, mazeHeight})}
+      <Commands handleUpdate={(e) => {
+        e.preventDefault();
+        handleUpdate({
+          dir : e.currentTarget.id.split('-')[0],
+          setStepCount, 
+          setUpdateDir, 
+          updateDir, 
+          LAST_STATE
+        });
+      }}
+        handleReset={(e) => {
+          e.preventDefault();
+          handleReset({
+            setStepCount, 
+            setDescriptor, 
+            mazeWidth, 
+            mazeHeight
+          });
+        }}
         togglePlay={togglePlay}/>
       <div id="grid-container">
         <div id="grid">
