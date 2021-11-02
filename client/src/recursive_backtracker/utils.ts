@@ -187,6 +187,7 @@ function updateForward(maze: Maze, classLists: string[][], change: Step) {
 	return [...classLists.map((list) => [...list])];
 }
 
+// TODO fix backward update
 function updateBackward(maze: Maze, classLists: string[][], change: Step) {
 	const { prev, prevNeighs, current, currentNeighs } = change;
 	

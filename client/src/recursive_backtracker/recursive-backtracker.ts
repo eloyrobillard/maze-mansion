@@ -44,6 +44,7 @@ function * mazeGenerator(maze: Maze, width: number, height: number) {
     current = maze.getNext(current);
   }
 
+  // NOTE yield last change
   yield { 
     prev: maze.prev, 
     prevNeighs: {...maze.prev!.neighbors!}, 

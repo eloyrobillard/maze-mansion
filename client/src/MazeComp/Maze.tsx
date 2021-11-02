@@ -13,12 +13,10 @@ const mockDescriptor: MazeDescriptor = {
   final: new M.Maze(0, 0)
 }
 
-// TODO implement auto-step
 export default function Maze({width, height, fps}: {width: number, height: number, fps: number}) {
   const [classLists, setClassLists]: [string[][], React.Dispatch<React.SetStateAction<string[][]>>] = useState([['']]);
   const [descriptor, setDescriptor]: [MazeDescriptor, React.Dispatch<React.SetStateAction<MazeDescriptor>>] = useState(mockDescriptor);
 
-  // TODO implement backwards maze steps
   const [stepCount, setStepCount]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(FIRST_STATE); 
   const [updateDir, setUpdateDir]: [number, React.Dispatch<React.SetStateAction<number>>] = useState(1);
 
@@ -27,7 +25,8 @@ export default function Maze({width, height, fps}: {width: number, height: numbe
   const [isPlaying, setIsPlaying] = useState(false);
   const play = useCallback(() => {
     if (intervalRef.current !== null) {
-      return;
+      // NOTE fps change = interval speed change
+      clearInterval(intervalRef.current);
     }
     intervalRef.current = setInterval(() => {
       setStepCount(c => {

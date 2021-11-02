@@ -36,7 +36,7 @@ export default function SpeedToggle() {
     </form>
   );
 
-  // TODO reset speed setting display with new maze
+  // TODO fix speed setting display -> can switch anytime between fps and instant
   function handleSpeedInstant(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     setFps(FPS_INSTANT);

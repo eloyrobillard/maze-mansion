@@ -21,7 +21,6 @@ function mazeToClassLists(maze: Maze) {
 	return generateClassLists(maze);
 }
 
-// TODO implement backward update
 function updateMaze (maze: Maze, classLists: string[][], change: Step, updateDir: number) {
 	return updateClassLists(maze, classLists, change, updateDir);
 }

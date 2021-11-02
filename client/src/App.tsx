@@ -1,6 +1,8 @@
 import Dashboard from './Dashboard';
 import './App.css';
 
+// TODO set up server for language option
+// TODO pass language text through context
 function App() {
   return (
     <div className="App">
