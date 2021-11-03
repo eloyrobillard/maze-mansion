@@ -9,6 +9,7 @@ export function add(a: i32, b: i32): i32 {
 }
 
 export function getMaze(width: i32, height: i32): MazeDescriptor {
+  // TODO if res is address of descriptor, test passing memory up
   return RecursiveBacktracker(width, height);
 }
 

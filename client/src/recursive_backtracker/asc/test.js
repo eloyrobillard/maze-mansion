@@ -1,6 +1,4 @@
-const promise = require('./index');
+const { add, getMaze } = require('./index');
 
-promise.then(({ exports }) => {
-  console.log(exports.add(1, 2));
-  console.log(exports.getMaze(10, 10));
-}).catch((err) => console.log(err));
+console.log(add(1, 2));
+console.log(getMaze(10, 10));

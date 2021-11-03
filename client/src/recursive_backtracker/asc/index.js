@@ -8,9 +8,9 @@ const imports = {
   }
 };
 
-const wasmModule = loader.instantiate(
+const wasmModule = loader.instantiateSync(
   fs.readFileSync(__dirname + "/build/optimized.wasm"), 
   imports
 );
 
-module.exports = wasmModule;
+module.exports = wasmModule.exports;
