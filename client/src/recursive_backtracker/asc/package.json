@@ -6,7 +6,8 @@
     "test": "node tests"
   },
   "dependencies": {
-    "@assemblyscript/loader": "^0.19.17"
+    "@assemblyscript/loader": "^0.19.17",
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "assemblyscript": "^0.19.18"
