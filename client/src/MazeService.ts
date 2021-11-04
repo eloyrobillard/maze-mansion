@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import RecursiveBacktracker from './recursive_backtracker/ts/recursive-backtracker';
 import { printMaze, canvasMaze, generateClassLists, updateClassLists } from './recursive_backtracker/ts/utils';
 import { Maze } from './recursive_backtracker/ts/maze';
 import { Step } from './ApiTypes';
 
+
 function mazeToText (width: number, height: number) {
 	const mazeDescriptor = RecursiveBacktracker(width, height);
-	return printMaze(mazeDescriptor.final!);
+	return printMaze(mazeDescriptor.final);
 }
 
 function mazeToCanvas (ctx: CanvasRenderingContext2D, width: number, height: number): CanvasRenderingContext2D {
