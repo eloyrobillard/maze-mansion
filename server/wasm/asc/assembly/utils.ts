@@ -55,9 +55,13 @@ export function printMaze (maze: Maze): string {
 }
 
 export function generateClassLists(maze: Maze): string[][] {
-	const base = maze.visited ? 'cell visited' : 'cell';
-	return maze.grid.map<Array<string>>((row, ri, grid) => {
-		return row.map<string>((cell, ci) => {
+	const base = maze.visited ? 'grid[ri][ci] visited' : 'grid[ri][ci]';
+	const grid = maze.grid;
+	const res: string[][] = [];
+	for (let ri = 0; ri < maze.height; ri += 1) {
+	// return maze.grid.map<Array<string>>((row, ri, grid) => {
+		for (let ci = 0; ci < maze.width; ci += 1) {
+		// return row.map<string>((cell, ci) => {
 			let classList = base;
 
 			if (ri === 0) {
@@ -73,11 +77,11 @@ export function generateClassLists(maze: Maze): string[][] {
 				classList = `${classList} wall-right`;
 			}
 
-			const hasNeighs = cell.neighborData.count > 0;
+			const hasNeighs = grid[ri][ci].neighborData.count > 0;
 			if (!hasNeighs) {
-				return classList;
+				res[ri].push(classList);
 			}
-			const neighbors = cell.neighborData.neighbors;
+			const neighbors = grid[ri][ci].neighborData.neighbors;
 
 			if (neighbors.has('bottom')) {
 				classList = `${classList} wall-bottom`
@@ -98,9 +102,10 @@ export function generateClassLists(maze: Maze): string[][] {
 					classList = `${classList} wall-right`;
 				}
 			}
-			return classList;
-		});
-	});
+			res[ri].push(classList);
+		}
+	}
+	return res;
 }
 
 export function updateClassLists(maze: Maze, classLists: string[][], change: Step, updateDir: number): string[][] {
@@ -146,7 +151,7 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step): strin
 	const cx = current!.x;
 	const cy = current!.y;
 	if (!prev) {
-		classLists[cy][cx] = `cell`;
+		classLists[cy][cx] = `grid[ri][ci]`;
 		return classLists;
 	} 
 	
@@ -157,7 +162,7 @@ function updateBackward(maze: Maze, classLists: string[][], change: Step): strin
 		classLists[py][px] = `${classLists[py][px]} stuck`;
 	} else if (firstVisit) {
 		// NOTE if about to visit current for first time
-		classLists[cy][cx] = `cell ${cx === 0 ? ' wall-left' : cx === maze.width - 1 ? ' wall-right' : ''}${cy === 0 ? ' wall-top' : cy === maze.height - 1 ? ' wall-bottom' : ''}`;
+		classLists[cy][cx] = `grid[ri][ci] ${cx === 0 ? ' wall-left' : cx === maze.width - 1 ? ' wall-right' : ''}${cy === 0 ? ' wall-top' : cy === maze.height - 1 ? ' wall-bottom' : ''}`;
 	} else {
 		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)}`;
 	} 
@@ -176,6 +181,6 @@ function getClassList(neighborData: NeighborData, x: number, y: number, maze: Ma
 	}
 	const innerWallList = classes.join(' ');
 
-	return `cell visited ${innerWallList}${x === 0 ? ' wall-left' : x === maze.width - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === maze.height - 1 ? ' wall-bottom' : ''}`;
+	return `grid[ri][ci] visited ${innerWallList}${x === 0 ? ' wall-left' : x === maze.width - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === maze.height - 1 ? ' wall-bottom' : ''}`;
 }
 
