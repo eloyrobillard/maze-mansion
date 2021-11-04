@@ -55,22 +55,10 @@ export class Maze {
 				this.grid[y][x] = new Cell(x, y);
 			}
 		}
-		Console.log(this.toString());
 		return this.grid;
 	}
 
 	toString(): string {
-		// return this.grid[0][0].toString();
-		// let res = '[\n';
-		// for (let y = 0; y < this.height; y += 1) {
-		// 	res = res.concat('\t[');
-		// 	for (let x = 0; x < this.width; x += 1) {
-		// 		res = res.concat(this.grid[y][x].toString());
-		// 	}
-		// 	res = res.concat('],\n');
-		// }
-		// res = res.concat(']');
-		// return res;
 		return `[${this.grid.map<string>((row) => `\n  ${row.toString()}`)}\n]`;
 	}
 
@@ -85,8 +73,8 @@ export class Maze {
 			neighbors: new Map<string, Cell | null>()
 		};
 
-		const x= cell.x;
-		const y= cell.y;
+		const x = cell.x;
+		const y = cell.y;
 		if (y - 1 >= 0) {
 			const neighbor = this.grid[y - 1][x];
 			if (!neighbor.visited) {
@@ -122,6 +110,9 @@ export class Maze {
 
 	getNext (cell: Cell): Cell | null {
 		const neighborData = this.getNeighbors(cell);
+		// Console.log('neighbor data');
+		// Console.log(neighborData.count.toString());
+		// Console.log(neighborData.neighbors.keys().toString());
 		const keys = neighborData.neighbors.keys();
 		const visitables = new Array<string>();
 		for (let i = 0; i < keys.length; i += 1) {
@@ -129,19 +120,25 @@ export class Maze {
 				visitables.push(keys[i])
 			}
 		}
-		
+
+		// Console.log('visitables');
+		// Console.log(visitables.toString());
+
 		if (visitables.length === 0) {
 			return null;
 		}
 		const direction = visitables[getRand(visitables.length)];
-		neighborData.neighbors.delete(direction);
 		
 		// console.log(direction);
 		const next = neighborData.neighbors.get(direction);
+		neighborData.neighbors.delete(direction);
 		// NOTE remove next from neighborData since now linked to cell
 		next!.visited = true;
 		this.visited += 1;
 		this.updateStack(next!);
+
+		// Console.log('next')
+		// Console.log(next!.toString())
 
 		return next;
 	}
@@ -153,12 +150,6 @@ export class Maze {
 }
 
 function filterVisitables(key: string, neighborData: NeighborData): boolean {
-	if (!neighborData.neighbors.has(key)) {
-		return false;
-	} 
 	const val = neighborData.neighbors.get(key);
-	if (val === null) {
-		return false
-	} 
-	return val.visited;
+	return !val!.visited;
 }

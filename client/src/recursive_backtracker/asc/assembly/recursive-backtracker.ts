@@ -1,3 +1,4 @@
+import { Console } from 'as-wasi';
 import { Cell, Maze, MazeDescriptor } from './maze';
 import { getRand } from './utils' ;
 
@@ -9,6 +10,7 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     steps: [], 
     final: maze
   };
+  // Console.log(res.initial.toString());
 
   let current: Cell | null = maze.grid[getRand(height)][getRand(width)];
   current!.visited = true;
@@ -20,6 +22,13 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     if (current === null) {
       current = maze.cellStack.pop();
     }
+    // Console.log('prev')
+    // Console.log(maze.prev ? maze.prev!.toString() : 'null')
+    // Console.log('current')
+    // Console.log(current ? current.toString() : 'null');
+    // Console.log('cell stack')
+    // Console.log(maze.cellStack.length.toString());
+    // Console.log('---')
 
     res.steps.push({ 
       prev: maze.prev, 
@@ -42,7 +51,7 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     firstVisit: true,
   });
 
-  // Console.log(res.initial.grid.)
+  // Console.log(res.final.toString());
   
   return res;
 }
