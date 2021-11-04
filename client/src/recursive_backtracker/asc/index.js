@@ -13,4 +13,4 @@ const wasmModule = loader.instantiateSync(
   imports
 );
 
-module.exports = wasmModule.exports;
+module.exports = wasmModule;

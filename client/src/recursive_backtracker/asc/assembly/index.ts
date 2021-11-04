@@ -13,3 +13,7 @@ export function getMaze(width: i32, height: i32): string {
   return printMaze(RecursiveBacktracker(width, height).final);
 }
 
+export function getArr(): i32[] {
+  return [1,2,3,4,5,6];
+}
+
