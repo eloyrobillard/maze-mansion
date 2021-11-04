@@ -38,7 +38,7 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     prev: maze.prev, 
     prevNeighs: maze.prev!.neighborData, 
     current,
-    currentNeighs: current ? maze.getNeighbors(current) : null,
+    currentNeighs: maze.getNeighbors(current!),
     firstVisit: true,
   });
   

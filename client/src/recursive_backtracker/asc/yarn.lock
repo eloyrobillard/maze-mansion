@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.19.17.tgz#53acafdb5a88a6d87ee99689e38b83be2c5c226a"
   integrity sha512-V2lrYgii5Qy81v4lZq+FeT8X30UcwCkB5aZJ/U/2GHCBxrjiriBLRybr9SI+8Id/H7vMaWcOgq2iBf9PXVaeXQ==
 
+as-wasi@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/as-wasi/-/as-wasi-0.4.6.tgz#e32f1e65ff1bc5abe910362a8024019143910f26"
+  integrity sha512-HFWdxLVHrOfchf/M+gE2IczsHBkWXqekZZfHYmDj6WP1UnpQC4k44OeyjqmSwC/db1tppEwCUssDCuFGnMdJZw==
+
 assemblyscript@^0.19.18:
   version "0.19.18"
   resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.19.18.tgz#ecaf05791978428c87e16854b35382e7c08cec66"

@@ -1,3 +1,4 @@
+import { Console } from 'as-wasi';
 import { getRand } from './utils';
 
 export class Step { 
@@ -30,6 +31,10 @@ export class Cell {
 	};
 
 	constructor (public x: i32, public y: i32) {}
+
+	toString(): string { 
+		return `Cell( x: ${this.x}, y: ${this.y} )`;
+	}
 }
 
 export class Maze {
@@ -40,7 +45,9 @@ export class Maze {
 
 	constructor (public width: i32, public height: i32) {
 		this.grid = new Array<Cell[]>(height);
+		Console.log('we dem boyz');
 		this.initializeGrid();
+		Console.log(this.grid.toString());
 	}
 
 	initializeGrid(): Cell[][] { 
@@ -51,6 +58,10 @@ export class Maze {
 			}
 		}
 		return this.grid;
+	}
+
+	toString(): string {
+		return `[\n${this.grid.map((row) => `\t${row.toString()}`)}\n]`;
 	}
 
 	getNeighbors(cell: Cell): NeighborData {
@@ -108,16 +119,16 @@ export class Maze {
 				visitables.push(keys[i])
 			}
 		}
-
+		
 		if (visitables.length === 0) {
 			return null;
 		}
 		const direction = visitables[getRand(visitables.length)];
-
+		neighborData.neighbors.delete(direction);
+		
 		// console.log(direction);
 		const next = neighborData.neighbors.get(direction);
 		// NOTE remove next from neighborData since now linked to cell
-		neighborData.neighbors.set(direction, null);
 		next!.visited = true;
 		this.visited += 1;
 		this.updateStack(next!);

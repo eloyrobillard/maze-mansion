@@ -8,25 +8,25 @@ export function getRand (max: i32): i32 {
 export function printMaze (maze: Maze): string {
 	let res = `${'*---'.repeat(maze.width)}*`;
 	const grid = maze.grid;
+	
 	for (let y = 0; y < maze.height; y += 1) {
 		let mid = '\n|';
 		let bot = '*';
+
 		for (let x = 0; x < maze.width; x += 1) {
 			let newRight = '    ';
 			let newBot = '   *';
 			const neighbors = grid[y][x].neighborData.neighbors;
-			if (neighbors) {
-				if (neighbors.has('bottom')) {
-					newBot = '---*';
-				}
-				if (neighbors.has('right')) {
-					newRight = `   |`;
-				}
+			if (neighbors.has('bottom')) {
+				newBot = '---*';
+			}
+			if (neighbors.has('right')) {
+				newRight = `   |`;
 			}
 
 			if (y + 1 < maze.height) {
 				const neighborsBot = grid[y + 1][x].neighborData.neighbors;
-				if (neighborsBot && neighborsBot.has('top')) {
+				if (neighborsBot.has('top')) {
 					newBot = '---*';
 				}
 
@@ -34,7 +34,7 @@ export function printMaze (maze: Maze): string {
 			}
 			if (x + 1 < maze.width) {
 				const neighborsRight = grid[y][x + 1].neighborData.neighbors;
-				if (neighborsRight && neighborsRight.has('left')) {
+				if (neighborsRight.has('left')) {
 					newRight = `   |`;
 				}
 			} else {
