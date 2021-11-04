@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Settings from './SettingsComp/Settings';
+import AScApi from './AScApi';
 import Maze from './MazeComp/Maze';
 import Asc from './recursive_backtracker/asc/index';
 import './App.css';
@@ -24,8 +25,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     (async () => {
-      const Api = await Asc();
-      console.log(Api);
+      const ascMod = await Asc();
+      console.log(ascMod);
+      const Api = AScApi.formatApi(ascMod);
       setDashboard(
         <div id="dashboard">
           <SettingsContext.Provider value={{

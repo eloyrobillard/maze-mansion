@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback, useContext, useRef, Dispatch, SetStateAction } from 'react';
 // import Asc from '../recursive_backtracker/asc/index';
-import { ASUtil } from '@assemblyscript/loader';
 import { MazeDescriptor }  from '../ApiTypes';
 import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
 import * as M from '../recursive_backtracker/ts/maze';
 import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
+import { Api } from '../AScApi';
 import './Maze.css';
 
 export const FIRST_STATE = -1;
@@ -15,7 +15,7 @@ const mockDescriptor: MazeDescriptor = {
   final: new M.Maze(0, 0)
 }
 
-export default function Maze({Api}: {Api: ASUtil & Record<string, unknown>}) {
+export default function Maze({Api}: {Api: Api}) {
   const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
   const [cellWidth, setCellWidth]: [number, Dispatch<SetStateAction<number>>] = useState(50); 
@@ -30,6 +30,7 @@ export default function Maze({Api}: {Api: ASUtil & Record<string, unknown>}) {
   const [LAST_STATE, setLastState] = useState(Infinity);
   // NOTE update last state index
   useEffect(() => {
+    console.log('descriptor', descriptor);
     setLastState(descriptor.steps.length);
   }, [descriptor])
 
@@ -167,14 +168,14 @@ export default function Maze({Api}: {Api: ASUtil & Record<string, unknown>}) {
       <div id="grid-container">
         <div id="grid">
           {
-            classLists.reduce((acc, row) => acc.concat(row), []).map((list, i) => {
+            classLists/* .reduce((acc, row) => acc.concat(row), []).map((list, i) => {
               return (
                 <div key={i}
                   style={{width: cellWidth + 'px', height: cellHeight + 'px'}}
                   title={`x: ${i % mazeWidth}\ny: ${Math.floor(i / mazeWidth)}`}
                   className={list}>  
                 </div>
-            )})
+            )}) */
           }
         </div>
       </div>
