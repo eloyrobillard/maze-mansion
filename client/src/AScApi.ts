@@ -9,7 +9,7 @@ export type Api = {
   getMazeDescriptor: (width: number, height: number) => MazeDescriptor;
 }
 
-function formatApi(api: ASUtil & Record<string, unknown>): Api {
+function formatApi(api: ASUtil & Api): Api {
   return { 
     // @ts-ignore
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
