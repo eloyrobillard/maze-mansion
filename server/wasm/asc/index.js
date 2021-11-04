@@ -1,16 +1,14 @@
 /* eslint-disable no-undef */
 const fs = require("fs");
 const loader = require("@assemblyscript/loader");
-// const imports = {
-//   "assembly/index": {
-//     add: (a, b) => add(a, b),
-//     getMaze: (width, height) => getMaze(width, height),
-//   }
-// };
+const imports = {
+  "assembly/index": {
+    getMaze: (width, height) => getMaze(width, height),
+  }
+};
 
-const wasmModule = loader.instantiateSync(
-  fs.readFileSync(__dirname + "/build/optimized.wasm"), 
-  // imports
-);
+function getAssembly() {
+  return loader.instantiate(fs.promises.readFile(__dirname + "/build/optimized.wasm"), imports);
+}
 
-module.exports = wasmModule;
+module.exports = { getAssembly };

@@ -1,13 +1,16 @@
-// NOTE use to load assembly
-const wasm = require('../wasm/index');
+// NOTE use to load asm
+const model = require('../models/model');
 
-async function getMazeModule (ctx) {
-  try {
-    const module = await wasm.getMazeModule()
-
-  } catch (e) {
-    console.log(e);
-  }
+async function getMazeAssembly (ctx) {
+	try {
+		const asm = await model.getMazeAssembly(ctx);
+		// console.log(asm);
+		ctx.response.type = 'text/javascript';
+		ctx.body = asm;
+    ctx.status = 200;
+	} catch (e) {
+		console.log(e);
+	}
 }
 
-module.exports = { getMazeModule };
+module.exports = { getMazeAssembly };

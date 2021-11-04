@@ -1,4 +1,4 @@
-import { Console } from 'as-wasi';
+// import { Console } from 'as-wasi';
 import { getRand } from './utils';
 
 export class Step { 

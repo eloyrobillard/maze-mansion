@@ -9,7 +9,7 @@ const db = require('./models/index');
 const PORT = process.env.PORT || 3001;
 
 app
-  .use(cors())
+  // .use(cors())
   .use(bodyparser())
   .use(router.routes());
 
