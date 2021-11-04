@@ -1,4 +1,5 @@
 import { Maze, Cell, Neighbors } from './recursive_backtracker/ts/maze';
+export { Maze, Cell} from './recursive_backtracker/ts/maze';
 
 export type Step = { 
   prev: Cell | null;

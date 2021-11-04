@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useContext, useRef, Dispatch, SetStateAction } from 'react';
 // import Asc from '../recursive_backtracker/asc/index';
-import { ASUtil } from '@assemblyscript/loader';
+import JsApi from '../JsApi';
 import { MazeDescriptor }  from '../ApiTypes';
 import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
 import * as M from '../recursive_backtracker/ts/maze';
-import { SettingsContext } from '../Dashboard';
+import { SettingsContext } from '../Dashboard2';
 import Commands from './Commands';
 import './Maze.css';
 
@@ -15,7 +15,7 @@ const mockDescriptor: MazeDescriptor = {
   final: new M.Maze(0, 0)
 }
 
-export default function Maze({Api}: {Api: ASUtil & Record<string, unknown>}) {
+export default function Maze() {
   const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
   const [cellWidth, setCellWidth]: [number, Dispatch<SetStateAction<number>>] = useState(50); 
@@ -115,24 +115,21 @@ export default function Maze({Api}: {Api: ASUtil & Record<string, unknown>}) {
 
   // NOTE fetch descriptor and set to initial
   useEffect(() => {
-    // @ts-ignore
-    setDescriptor(Api.getMazeDescriptor(mazeWidth, mazeHeight));
+    setDescriptor(JsApi.getMazeDescriptor(mazeWidth, mazeHeight));
     setStepCount(FIRST_STATE);
-  }, [mazeWidth, mazeHeight, Api]);
+  }, [mazeWidth, mazeHeight]);
   
   // NOTE handle maze update (front AND back)
   useEffect(() => {
     console.log(stepCount);
     if (stepCount === FIRST_STATE) {
       // @ts-ignore
-      setClassLists(Api.generateClasses(descriptor!.initial));
+      setClassLists(JsApi.generateClasses(descriptor!.initial));
     } else if (stepCount === LAST_STATE) {
-      // @ts-ignore
-      setClassLists(Api.generateClasses(descriptor!.final));
+      setClassLists(JsApi.generateClasses(descriptor!.final));
     } else {
       setClassLists((cls: string[][]) => 
-      // @ts-ignore
-        Api.updateClasses(
+        JsApi.updateClasses(
           descriptor.initial, 
           cls, 
           descriptor.steps[stepCount], 
@@ -140,7 +137,7 @@ export default function Maze({Api}: {Api: ASUtil & Record<string, unknown>}) {
         )
       );
     }
-  }, [descriptor, stepCount, updateDir, LAST_STATE, Api]);
+  }, [descriptor, stepCount, updateDir, LAST_STATE]);
 
   return (
     <div id="maze">

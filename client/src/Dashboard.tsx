@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Settings from './SettingsComp/Settings';
 import Maze from './MazeComp/Maze';
+import Asc from './recursive_backtracker/asc/index';
 import './App.css';
 
 export const FPS_INSTANT = 0;
@@ -17,23 +18,31 @@ export const SettingsContext = React.createContext({
 export default function Dashboard() {
   const [mazeWidth, setWidth] = useState(10);
   const [mazeHeight, setHeight] = useState(10);
-
   const [fps, setFps] = useState(10);
 
-  return (
-    <div id="dashboard">
-      <SettingsContext.Provider value={{
-          mazeWidth,
-          setWidth,
-          mazeHeight,
-          setHeight,
-          fps, 
-          setFps,
-        }}>
-        <Maze />  
-        <Settings />
-      </SettingsContext.Provider>
-      
-    </div>
-  )
+  const [dashboard, setDashboard] = useState(<></>)
+
+  useEffect(() => {
+    (async () => {
+      const Api = await Asc();
+      console.log(Api);
+      setDashboard(
+        <div id="dashboard">
+          <SettingsContext.Provider value={{
+              mazeWidth,
+              setWidth,
+              mazeHeight,
+              setHeight,
+              fps, 
+              setFps,
+            }}>
+            <Maze Api={Api} />  
+            <Settings />
+          </SettingsContext.Provider>
+      </div>
+    );
+    })();
+  });
+
+  return (dashboard)
 }

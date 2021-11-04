@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { MazeDescriptor } from '../ApiTypes';
-import { FIRST_STATE } from './Maze';
-import ApiClient from '../MazeService';
+import { FIRST_STATE } from './Maze2';
+import ApiClient from '../JsApi';
 
 type ResizeArgs = { 
   mazeWidth: number, 
@@ -34,7 +34,7 @@ type ResetArgs = {
   mazeHeight: number;
 }
 
-export function handleReset ({setStepCount, setDescriptor, mazeWidth, mazeHeight}: ResetArgs) {
+export function handleReset({setStepCount, setDescriptor, mazeWidth, mazeHeight}: ResetArgs) {
   setStepCount(FIRST_STATE);
   setDescriptor(ApiClient.getMazeDescriptor(mazeWidth, mazeHeight));
 }
