@@ -33,7 +33,7 @@ export class Cell {
 	constructor (public x: i32, public y: i32) {}
 
 	toString(): string { 
-		return `Cell( x: ${this.x}, y: ${this.y} )`;
+		return `Cell(${this.x}, ${this.y}, ${this.visited ? 'visited' : 'not visited'})`;
 	}
 }
 
@@ -45,9 +45,7 @@ export class Maze {
 
 	constructor (public width: i32, public height: i32) {
 		this.grid = new Array<Cell[]>(height);
-		Console.log('we dem boyz');
 		this.initializeGrid();
-		Console.log(this.grid.toString());
 	}
 
 	initializeGrid(): Cell[][] { 
@@ -57,11 +55,23 @@ export class Maze {
 				this.grid[y][x] = new Cell(x, y);
 			}
 		}
+		Console.log(this.toString());
 		return this.grid;
 	}
 
 	toString(): string {
-		return `[\n${this.grid.map((row) => `\t${row.toString()}`)}\n]`;
+		// return this.grid[0][0].toString();
+		// let res = '[\n';
+		// for (let y = 0; y < this.height; y += 1) {
+		// 	res = res.concat('\t[');
+		// 	for (let x = 0; x < this.width; x += 1) {
+		// 		res = res.concat(this.grid[y][x].toString());
+		// 	}
+		// 	res = res.concat('],\n');
+		// }
+		// res = res.concat(']');
+		// return res;
+		return `[${this.grid.map<string>((row) => `\n  ${row.toString()}`)}\n]`;
 	}
 
 	getNeighbors(cell: Cell): NeighborData {

@@ -41,6 +41,8 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     currentNeighs: maze.getNeighbors(current!),
     firstVisit: true,
   });
+
+  // Console.log(res.initial.grid.)
   
   return res;
 }
