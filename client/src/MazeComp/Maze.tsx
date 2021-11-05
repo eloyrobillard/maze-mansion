@@ -1,28 +1,27 @@
 import React, { useState, useEffect, useCallback, useContext, useRef, Dispatch, SetStateAction } from 'react';
-// import Asc from '../recursive_backtracker/asc/index';
-import { MazeDescriptor }  from '../ApiTypes';
-import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
-import * as M from '../RBT/ts/maze';
+import { handleUpdate, resizeMazeElements } from './MazeUtilsWasm';
 import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
-import { Api } from '../AScApi';
+import { MazeDescriptor } from '../AScApi';
 import './Maze.css';
 
 export const FIRST_STATE = -1;
-const mockDescriptor: MazeDescriptor = {
-  initial: new M.Maze(0, 0),
-  steps: [{ prev: null, prevNeighs: null, current: null, firstVisit: false, currentNeighs: null }],
-  final: new M.Maze(0, 0)
+
+type Api = { 
+  getTextMaze: (width: number, height: number) => string;
+  generateClasses: (maze: number[][]) => string[][];
+  // updateClasses: (maze: Maze, classLists: string[][], change: Step, updateDir: number) => string[][];
+  getMazeDescriptor: (width: number, height: number) => MazeDescriptor;
 }
 
-export default function Maze({Api}: {Api: Api}) {
+export default function Maze({api}: {api: Api}) {
   const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
   const [cellWidth, setCellWidth]: [number, Dispatch<SetStateAction<number>>] = useState(50); 
   const [cellHeight, setCellHeight]: [number, Dispatch<SetStateAction<number>>] = useState(50);
 
   const [classLists, setClassLists]: [string[][], Dispatch<SetStateAction<string[][]>>] = useState([['']]);
-  const [descriptor, setDescriptor]: [MazeDescriptor, Dispatch<SetStateAction<MazeDescriptor>>] = useState(mockDescriptor);
+  const [descriptor, setDescriptor]: [MazeDescriptor, Dispatch<SetStateAction<MazeDescriptor>>] = useState(api.getMazeDescriptor(mazeWidth, mazeHeight));
 
   const [stepCount, setStepCount]: [number, Dispatch<SetStateAction<number>>] = useState(FIRST_STATE); 
   const [updateDir, setUpdateDir]: [number, Dispatch<SetStateAction<number>>] = useState(1);
@@ -83,6 +82,11 @@ export default function Maze({Api}: {Api: Api}) {
     return setIsPlaying(false);
   }
 
+  function handleReset() {
+    setStepCount(FIRST_STATE);
+    setDescriptor(api!.getMazeDescriptor(mazeWidth, mazeHeight));
+  }
+
   // NOTE update dir on reaching either end
   useEffect(() => {
     if (stepCount > FIRST_STATE && stepCount < LAST_STATE) {
@@ -117,19 +121,19 @@ export default function Maze({Api}: {Api: Api}) {
   // NOTE fetch descriptor and set to initial
   useEffect(() => {
     // @ts-ignore
-    setDescriptor(Api.getMazeDescriptor(mazeWidth, mazeHeight));
+    setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
     setStepCount(FIRST_STATE);
-  }, [mazeWidth, mazeHeight, Api]);
+  }, [mazeWidth, mazeHeight, api]);
   
   // NOTE handle maze update (front AND back)
   useEffect(() => {
     console.log(stepCount);
     if (stepCount === FIRST_STATE) {
       // @ts-ignore
-      setClassLists(Api.generateClasses(descriptor!.initial));
+      setClassLists(api.generateClasses(descriptor!.initial));
     } else if (stepCount === LAST_STATE) {
       // @ts-ignore
-      setClassLists(Api.generateClasses(descriptor!.final));
+      setClassLists(api.generateClasses(descriptor!.final));
     } else {
       setClassLists((cls: string[][]) => 
       // @ts-ignore
@@ -141,7 +145,7 @@ export default function Maze({Api}: {Api: Api}) {
         )
       );
     }
-  }, [descriptor, stepCount, updateDir, LAST_STATE, Api]);
+  }, [descriptor, stepCount, updateDir, LAST_STATE, api]);
 
   return (
     <div id="maze">
@@ -155,16 +159,17 @@ export default function Maze({Api}: {Api: Api}) {
           LAST_STATE
         });
       }}
-        handleReset={(e) => {
-          e.preventDefault();
-          handleReset({
-            setStepCount, 
-            setDescriptor, 
-            mazeWidth, 
-            mazeHeight
-          });
-        }}
-        togglePlay={togglePlay}/>
+        handleReset={handleReset}
+        // handleReset={(e) => {
+        //   e.preventDefault();
+        //   handleReset({
+        //     setStepCount, 
+        //     setDescriptor, 
+        //     mazeWidth, 
+        //     mazeHeight
+        //   });
+        // }}
+        togglePlay={togglePlay} />
       <div id="grid-container">
         <div id="grid">
           {

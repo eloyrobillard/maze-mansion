@@ -1,5 +1,5 @@
+// import { Console } from 'as-wasi';
 import { getRand } from './utilsFn';
-import { Console } from 'as-wasi';
 
 export const NULL = -1;
 

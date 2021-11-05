@@ -1,15 +1,26 @@
 import { ASUtil } from '@assemblyscript/loader';
-import { Maze, Step, MazeDescriptor } from './ApiTypes';
+
+export type WasmApi = { 
+  getTextMaze: (width: number, height: number) => number;
+  generateClasses: (maze: number[][]) => number;
+  // updateClasses: (maze: Maze, classLists: string[][], change: Step, updateDir: number) => string[][];
+  getMazeDescriptor: (width: number, height: number) => number;
+}
 
 export type Api = { 
-  // TODO check if number good for i32
   getTextMaze: (width: number, height: number) => string;
-  generateClasses: (maze: Maze) => string[][];
-  updateClasses: (maze: Maze, classLists: string[][], change: Step, updateDir: number) => string[][];
+  generateClasses: (maze: number[][]) => string[][];
+  // updateClasses: (maze: Maze, classLists: string[][], change: Step, updateDir: number) => string[][];
   getMazeDescriptor: (width: number, height: number) => MazeDescriptor;
 }
 
-function formatApi(api: ASUtil & Api): Api {
+export type MazeDescriptor = {
+  initial: number[][],
+  steps: number[][],
+  final: number[][],
+}
+
+export function formatApi(api: ASUtil & WasmApi): Api {
   return { 
     // @ts-ignore
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
@@ -20,9 +31,14 @@ function formatApi(api: ASUtil & Api): Api {
     updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))
       .map((row) => api.__getArray(row).map((cl) => api.__getString(cl))),
     // @ts-ignore
-    getMazeDescriptor: api.getMazeDescriptor
+    getMazeDescriptor: (width, height) => {
+      const descriptor = api.__getArray(api.getMazeDescriptor(width, height));
+      console.log('early desc', api.__getArray(descriptor[0]).map((el) => api.__getArray(el)));
+      return {
+        initial: api.__getArray(descriptor[0]).map((el) => api.__getArray(el)),
+        steps: api.__getArray(descriptor[1]).map((el) => api.__getArray(el)),
+        final: api.__getArray(descriptor[2]).map((el) => api.__getArray(el)),
+      }
+    }
   };
 }
-
-const AScApi = { formatApi };
-export default AScApi;

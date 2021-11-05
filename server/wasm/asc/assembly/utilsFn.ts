@@ -1,4 +1,4 @@
-import { Console } from 'as-wasi';
+// import { Console } from 'as-wasi';
 import { getNeighbors, getX, getY, neighsToStrings, isVisited } from './mazeFn';
 
 export function getRand (max: i32): i32 {
@@ -60,18 +60,19 @@ export function printMaze (grid: i32[][]): string {
   return res;
 }
 
-export function generateClassLists(grid: i32[][]): string[][] {
-  // is grid state initial or final?
+export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<string>> {
+  // NOTE checks if grid state is initial or final
 	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';
+
   const gridHeight = grid.length;
   const gridWidth = grid[0].length;
 
-	const res: string[][] = new Array<string[]>(gridHeight);
+	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(gridHeight);
   for (let y = 0; y < gridHeight; y++) {
-    res[y] = new Array<string>(gridWidth);
-    for (let x = 0; x < gridWidth; x++) {
-      res[y][x] = '';
-    }
+    res[y] = new StaticArray<string>(gridWidth);
+    // for (let x = 0; x < gridWidth; x++) {
+    //   res[y][x] = '';
+    // }
   }
 
 	for (let y = 0; y < gridHeight; y += 1) {
@@ -93,6 +94,7 @@ export function generateClassLists(grid: i32[][]): string[][] {
 
 			const neighbors = getNeighbors(grid, x, y);
 			if (neighbors === 0) {
+        // Console.log(`no neighs ${x}, ${y}`);
         res[y][x] = classList;
         continue;
 			}
@@ -122,6 +124,7 @@ export function generateClassLists(grid: i32[][]): string[][] {
 			}
       // Console.log(`${x} ${y} ${classList}`);
 			res[y][x] = classList;
+      // Console.log(`neighs ${x}, ${y}`);
 		}
 	}
 	return res;

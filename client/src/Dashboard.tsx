@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Settings from './SettingsComp/Settings';
-import AScApi from './AScApi';
+import { Api, formatApi } from './AScApi';
 import Maze from './MazeComp/Maze';
 import Asc from './RBT/asc/index';
 import './App.css';
@@ -26,8 +26,9 @@ export default function Dashboard() {
   useEffect(() => {
     (async () => {
       const ascMod = await Asc();
-      console.log(ascMod);
-      const Api = AScApi.formatApi(ascMod);
+      // console.log(ascMod);
+      const api = formatApi(ascMod);
+      // console.log('api', api);
       setDashboard(
         <div id="dashboard">
           <SettingsContext.Provider value={{
@@ -38,7 +39,7 @@ export default function Dashboard() {
               fps, 
               setFps,
             }}>
-            <Maze Api={Api} />  
+            <Maze api={api} />  
             <Settings />
           </SettingsContext.Provider>
       </div>
