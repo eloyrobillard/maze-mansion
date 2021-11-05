@@ -1,8 +1,8 @@
 const asc = require('./asc/index');
 
-async function getAScAssembly() {
+function getAScAssembly() {
   try {
-    const asm = await asc.getAssembly();
+    const asm = asc.getAssembly();
     // console.log(asm)
     return asm;
   } catch (e) {

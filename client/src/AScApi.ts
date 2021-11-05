@@ -14,9 +14,11 @@ function formatApi(api: ASUtil & Api): Api {
     // @ts-ignore
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
     // @ts-ignore
-    generateClasses: (maze) => api.__getArray(api.generateClasses(maze)),
+    generateClasses: (maze) => api.__getArray(api.generateClasses(maze))
+      .map((row) => api.__getArray(row).map((cl) => api.__getString(cl))),
     // @ts-ignore
-    updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir)),
+    updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))
+      .map((row) => api.__getArray(row).map((cl) => api.__getString(cl))),
     // @ts-ignore
     getMazeDescriptor: api.getMazeDescriptor
   };

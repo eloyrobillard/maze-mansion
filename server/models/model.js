@@ -1,11 +1,11 @@
 const wasm = require('../wasm/index');
 
-async function getMazeAssembly (ctx) {
+function getMazeAssembly (ctx) {
   try {
     // console.log('hi model');
     const { algo, src } = ctx.params;
     if (src === 'asc') {
-      const asm = await wasm.getAScAssembly();
+      const asm = wasm.getAScAssembly();
       // console.log(asm);
       return asm;
     } 

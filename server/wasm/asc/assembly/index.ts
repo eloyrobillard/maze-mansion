@@ -1,6 +1,6 @@
 // The entry file of your WebAssembly module.
-// import 'wasi';
-// import { Console, FileSystem } from 'as-wasi';
+import 'wasi';
+import { Console, FileSystem } from 'as-wasi';
 import { printMaze, generateClassLists, updateClassLists } from './utils';
 import { Maze, Step, MazeDescriptor } from './maze';
 import RecursiveBacktracker from './recursive-backtracker';
@@ -21,5 +21,5 @@ export function getMazeDescriptor(width: i32, height: i32): MazeDescriptor {
   return RecursiveBacktracker(width, height);
 }
 
-// Console.log(getMaze(10, 10));
+Console.log(getTextMaze(10, 10));
 
