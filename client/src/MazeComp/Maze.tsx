@@ -2,17 +2,10 @@ import React, { useState, useEffect, useCallback, useContext, useRef, Dispatch, 
 import { handleUpdate, resizeMazeElements } from './MazeUtilsWasm';
 import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
-import { MazeDescriptor } from '../AScApi';
+import { MazeDescriptor, Api } from '../AScApi';
 import './Maze.css';
 
 export const FIRST_STATE = -1;
-
-type Api = { 
-  getTextMaze: (width: number, height: number) => string;
-  generateClasses: (maze: number[][]) => string[][];
-  // updateClasses: (maze: Maze, classLists: string[][], change: Step, updateDir: number) => string[][];
-  getMazeDescriptor: (width: number, height: number) => MazeDescriptor;
-}
 
 export default function Maze({api}: {api: Api}) {
   const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
@@ -129,15 +122,12 @@ export default function Maze({api}: {api: Api}) {
   useEffect(() => {
     console.log(stepCount);
     if (stepCount === FIRST_STATE) {
-      // @ts-ignore
-      setClassLists(api.generateClasses(descriptor!.initial));
+      setClassLists(api.generateClasses(descriptor.initial));
     } else if (stepCount === LAST_STATE) {
-      // @ts-ignore
-      setClassLists(api.generateClasses(descriptor!.final));
+      setClassLists(api.generateClasses(descriptor.final));
     } else {
       setClassLists((cls: string[][]) => 
-      // @ts-ignore
-        Api.updateClasses(
+        api.updateClasses(
           descriptor.initial, 
           cls, 
           descriptor.steps[stepCount], 

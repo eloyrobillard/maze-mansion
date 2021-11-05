@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { MazeDescriptor } from '../AScApi';
 import { FIRST_STATE } from './Maze2';
 
 type ResizeArgs = { 
@@ -26,12 +25,12 @@ export function resizeMazeElements({mazeWidth, mazeHeight, setCellWidth, setCell
   })();
 }
 
-type ResetArgs = {
-  setStepCount: Dispatch<SetStateAction<number>>;
-  setDescriptor: Dispatch<SetStateAction<MazeDescriptor>>;
-  mazeWidth: number;
-  mazeHeight: number;
-}
+// type ResetArgs = {
+//   setStepCount: Dispatch<SetStateAction<number>>;
+//   setDescriptor: Dispatch<SetStateAction<MazeDescriptor>>;
+//   mazeWidth: number;
+//   mazeHeight: number;
+// }
 
 // export function handleReset({setStepCount, setDescriptor, mazeWidth, mazeHeight}: ResetArgs) {
 //   setStepCount(FIRST_STATE);

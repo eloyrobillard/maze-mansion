@@ -32,6 +32,7 @@
  (global $~lib/math/random_state1_64 (mut i64) (i64.const 0))
  (global $~lib/math/random_state0_32 (mut i32) (i32.const 0))
  (global $~lib/math/random_state1_32 (mut i32) (i32.const 0))
+ (global $assembly/index/maze (mut i32) (i32.const 0))
  (global $~lib/rt/__rtti_base i32 (i32.const 1632))
  (global $~lib/memory/__data_end i32 (i32.const 1700))
  (global $~lib/memory/__stack_pointer (mut i32) (i32.const 18084))
@@ -4327,7 +4328,14 @@
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
-  i32.const 0
+  local.get $3
+  global.get $assembly/mazeFn/NULL
+  i32.eq
+  if
+   global.get $assembly/mazeFn/NULL
+   return
+  end
+  local.get $3
   local.set $4
   i32.const 0
   local.set $5
@@ -4380,13 +4388,10 @@
           call $assembly/mazeFn/isVisited
           local.set $7
           local.get $7
-          i32.eqz
           if
            local.get $4
-           i32.const 1
-           i32.const 3
-           i32.shl
-           i32.or
+           i32.const 247
+           i32.and
            local.set $4
           end
           br $break|1
@@ -4399,13 +4404,10 @@
          call $assembly/mazeFn/isVisited
          local.set $7
          local.get $7
-         i32.eqz
          if
           local.get $4
-          i32.const 1
-          i32.const 2
-          i32.shl
-          i32.or
+          i32.const 250
+          i32.and
           local.set $4
          end
          br $break|1
@@ -4418,13 +4420,10 @@
         call $assembly/mazeFn/isVisited
         local.set $7
         local.get $7
-        i32.eqz
         if
          local.get $4
-         i32.const 1
-         i32.const 1
-         i32.shl
-         i32.or
+         i32.const 253
+         i32.and
          local.set $4
         end
         br $break|1
@@ -4437,11 +4436,10 @@
        call $assembly/mazeFn/isVisited
        local.set $7
        local.get $7
-       i32.eqz
        if
         local.get $4
-        i32.const 1
-        i32.or
+        i32.const 254
+        i32.and
         local.set $4
        end
        br $break|1
@@ -4775,6 +4773,13 @@
  )
  (func $~lib/rt/__visit_globals (param $0 i32)
   (local $1 i32)
+  global.get $assembly/index/maze
+  local.tee $1
+  if
+   local.get $1
+   local.get $0
+   call $~lib/rt/itcms/__visit
+  end
   i32.const 320
   local.get $0
   call $~lib/rt/itcms/__visit
@@ -5059,23 +5064,7 @@
   unreachable
  )
  (func $~start
-  memory.size
-  i32.const 16
-  i32.shl
-  global.get $~lib/memory/__heap_base
-  i32.sub
-  i32.const 1
-  i32.shr_u
-  global.set $~lib/rt/itcms/threshold
-  i32.const 240
-  call $~lib/rt/itcms/initLazy
-  global.set $~lib/rt/itcms/pinSpace
-  i32.const 272
-  call $~lib/rt/itcms/initLazy
-  global.set $~lib/rt/itcms/toSpace
-  i32.const 416
-  call $~lib/rt/itcms/initLazy
-  global.set $~lib/rt/itcms/fromSpace
+  call $start:assembly/index
  )
  (func $~stack_check
   global.get $~lib/memory/__stack_pointer
@@ -5263,21 +5252,6 @@
   global.get $~lib/memory/__stack_pointer
   i64.const 0
   i64.store
-  local.get $0
-  local.get $1
-  local.get $2
-  call $assembly/mazeFn/isVisited
-  i32.eqz
-  if
-   global.get $assembly/mazeFn/NULL
-   local.set $5
-   global.get $~lib/memory/__stack_pointer
-   i32.const 8
-   i32.add
-   global.set $~lib/memory/__stack_pointer
-   local.get $5
-   return
-  end
   local.get $0
   local.get $2
   call $~lib/array/Array<~lib/array/Array<i32>>#__get
@@ -5637,6 +5611,19 @@
   call $assembly/mazeFn/getVisitables
   local.set $5
   local.get $5
+  global.get $assembly/mazeFn/NULL
+  i32.eq
+  if
+   global.get $assembly/mazeFn/NULL
+   local.set $11
+   global.get $~lib/memory/__stack_pointer
+   i32.const 4
+   i32.add
+   global.set $~lib/memory/__stack_pointer
+   local.get $11
+   return
+  end
+  local.get $5
   call $assembly/mazeFn/getNumVisitables
   local.set $6
   local.get $6
@@ -5901,9 +5888,9 @@
   call $~lib/rt/__newArray
   local.tee $5
   i32.store offset=8
-  i32.const 0
+  global.get $assembly/mazeFn/NULL
   local.set $3
-  i32.const 0
+  global.get $assembly/mazeFn/NULL
   local.set $6
   global.get $~lib/memory/__stack_pointer
   global.get $~lib/memory/__stack_pointer
@@ -6076,6 +6063,49 @@
   i32.add
   global.set $~lib/memory/__stack_pointer
   local.get $15
+ )
+ (func $start:assembly/index
+  (local $0 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store
+  memory.size
+  i32.const 16
+  i32.shl
+  global.get $~lib/memory/__heap_base
+  i32.sub
+  i32.const 1
+  i32.shr_u
+  global.set $~lib/rt/itcms/threshold
+  i32.const 240
+  call $~lib/rt/itcms/initLazy
+  global.set $~lib/rt/itcms/pinSpace
+  i32.const 272
+  call $~lib/rt/itcms/initLazy
+  global.set $~lib/rt/itcms/toSpace
+  i32.const 416
+  call $~lib/rt/itcms/initLazy
+  global.set $~lib/rt/itcms/fromSpace
+  i32.const 10
+  i32.const 10
+  call $assembly/rbtFn/RecursiveBacktracker
+  local.set $0
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  i32.const 2
+  call $~lib/staticarray/StaticArray<~lib/array/Array<~lib/array/Array<i32>>>#__get
+  global.set $assembly/index/maze
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
  )
  (func $assembly/utilsFn/printMaze (param $0 i32) (result i32)
   (local $1 i32)
@@ -6569,7 +6599,7 @@
        call $assembly/mazeFn/getNeighbors
        local.set $10
        local.get $10
-       i32.const 0
+       global.get $assembly/mazeFn/NULL
        i32.eq
        if
         local.get $4
@@ -6635,6 +6665,8 @@
         call $assembly/mazeFn/getNeighbors
         local.set $11
         local.get $11
+        global.get $assembly/mazeFn/NULL
+        i32.ne
         if (result i32)
          local.get $11
          i32.const 1
@@ -6672,6 +6704,8 @@
         call $assembly/mazeFn/getNeighbors
         local.set $11
         local.get $11
+        global.get $assembly/mazeFn/NULL
+        i32.ne
         if (result i32)
          local.get $11
          i32.const 1

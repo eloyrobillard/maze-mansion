@@ -1,5 +1,5 @@
 // import { Console } from 'as-wasi';
-import { getNeighbors, getX, getY, neighsToStrings, isVisited } from './mazeFn';
+import { NULL, getNeighbors, getX, getY, neighsToStrings, isVisited } from './mazeFn';
 
 export function getRand (max: i32): i32 {
 	return Math.floor(Math.random() * max as f32) as i32;
@@ -67,13 +67,16 @@ export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<strin
   const gridHeight = grid.length;
   const gridWidth = grid[0].length;
 
+	
 	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(gridHeight);
-  for (let y = 0; y < gridHeight; y++) {
-    res[y] = new StaticArray<string>(gridWidth);
+	// const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(gridHeight);
+  for (let i = 0; i < gridHeight; i++) {
+		res[i] = new StaticArray<string>(gridWidth);
     // for (let x = 0; x < gridWidth; x++) {
-    //   res[y][x] = '';
-    // }
-  }
+			//   res[y][x] = '';
+			// }
+		}
+	// Console.log(`${gridHeight} ${gridWidth} ${res.length} ${res[0].length}`);
 
 	for (let y = 0; y < gridHeight; y += 1) {
 		for (let x = 0; x < gridWidth; x += 1) {
@@ -93,32 +96,32 @@ export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<strin
 			}
 
 			const neighbors = getNeighbors(grid, x, y);
-			if (neighbors === 0) {
+			if (neighbors === NULL) {
         // Console.log(`no neighs ${x}, ${y}`);
         res[y][x] = classList;
         continue;
 			}
       
-      // if has bottom
+      //* if has bottom
 			if (neighbors & (1 << 1)) {
         classList = `${classList} wall-bottom`
 			}
-      // if has right
+      //* if has right
 			if (neighbors & (1 << 2)) {
         classList = `${classList} wall-right`;
 			}
 			// NOTE keep all walls to bot/right to avoid breaks in wall lines
 			if (y + 1 < gridHeight) {
         const neighborsBot = getNeighbors(grid, x, y + 1);
-        // if has top
-				if (neighborsBot && (neighborsBot & (1 << 3))) {
+        //* if has top
+				if (neighborsBot !== NULL && (neighborsBot & (1 << 3))) {
           classList = `${classList} wall-bottom`;
 				}
 			}
 			if (x + 1 < gridWidth) {
         const neighborsRight = getNeighbors(grid, x + 1, y);
-        // if has left
-				if (neighborsRight && (neighborsRight & 1)) {
+        //* if has left
+				if (neighborsRight !== NULL && (neighborsRight & 1)) {
           classList = `${classList} wall-right`;
 				}
 			}

@@ -24,9 +24,10 @@
  (global $~lib/math/random_seeded (mut i32) (i32.const 0))
  (global $~lib/math/random_state0_64 (mut i64) (i64.const 0))
  (global $~lib/math/random_state1_64 (mut i64) (i64.const 0))
+ (global $assembly/index/maze (mut i32) (i32.const 0))
  (global $~lib/rt/__rtti_base i32 (i32.const 2656))
  (global $~lib/memory/__stack_pointer (mut i32) (i32.const 19108))
- (memory $0 1)
+ (memory $0 2)
  (data (i32.const 1036) ",")
  (data (i32.const 1048) "\01\00\00\00\1c\00\00\00I\00n\00v\00a\00l\00i\00d\00 \00l\00e\00n\00g\00t\00h")
  (data (i32.const 1084) ",")
@@ -104,6 +105,12 @@
  (func $~lib/rt/itcms/visitRoots
   (local $0 i32)
   (local $1 i32)
+  global.get $assembly/index/maze
+  local.tee $0
+  if
+   local.get $0
+   call $~lib/rt/itcms/__visit
+  end
   i32.const 1344
   call $~lib/rt/itcms/__visit
   i32.const 1056
@@ -3567,6 +3574,25 @@
   end
  )
  (func $~start
+  (local $0 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  global.get $~lib/memory/__stack_pointer
+  i32.const 2724
+  i32.lt_s
+  if
+   i32.const 19136
+   i32.const 19184
+   i32.const 1
+   i32.const 1
+   call $~lib/builtins/abort
+   unreachable
+  end
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store
   memory.size
   i32.const 16
   i32.shl
@@ -3599,6 +3625,21 @@
   i32.store
   i32.const 1440
   global.set $~lib/rt/itcms/fromSpace
+  i32.const 10
+  i32.const 10
+  call $assembly/rbtFn/RecursiveBacktracker
+  local.set $0
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  i32.const 2
+  call $~lib/staticarray/StaticArray<~lib/array/Array<~lib/array/Array<i32>>>#__get
+  global.set $assembly/index/maze
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
  )
  (func $assembly/mazeFn/initGrid (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
@@ -4018,19 +4059,6 @@
   i64.const 0
   i64.store
   local.get $0
-  local.get $1
-  local.get $2
-  call $assembly/mazeFn/isVisited
-  i32.eqz
-  if
-   global.get $~lib/memory/__stack_pointer
-   i32.const 8
-   i32.add
-   global.set $~lib/memory/__stack_pointer
-   i32.const -1
-   return
-  end
-  local.get $0
   local.get $2
   call $~lib/array/Array<~lib/array/Array<i32>>#__get
   local.set $3
@@ -4331,234 +4359,236 @@
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
-  (local $7 i32)
-  (local $8 i32)
-  block $folding-inner1 (result i32)
-   global.get $~lib/memory/__stack_pointer
-   i32.const 4
-   i32.sub
-   global.set $~lib/memory/__stack_pointer
-   global.get $~lib/memory/__stack_pointer
-   i32.const 2724
-   i32.lt_s
-   if
-    i32.const 19136
-    i32.const 19184
-    i32.const 1
-    i32.const 1
-    call $~lib/builtins/abort
-    unreachable
-   end
-   global.get $~lib/memory/__stack_pointer
-   i32.const 0
-   i32.store
-   local.get $0
-   local.set $3
-   local.get $1
-   i32.const 24
-   i32.shr_s
-   local.tee $5
-   local.set $0
-   local.get $1
-   i32.const 16
-   i32.shr_s
-   i32.const 255
-   i32.and
-   local.tee $4
-   local.set $1
-   local.get $3
-   local.get $5
-   local.get $4
-   call $assembly/mazeFn/getNeighbors
-   local.set $8
-   loop $for-loop|0
-    local.get $6
+  block $folding-inner2
+   block $folding-inner1 (result i32)
+    global.get $~lib/memory/__stack_pointer
     i32.const 4
+    i32.sub
+    global.set $~lib/memory/__stack_pointer
+    global.get $~lib/memory/__stack_pointer
+    i32.const 2724
     i32.lt_s
     if
+     i32.const 19136
+     i32.const 19184
      i32.const 1
-     i32.const 3
-     local.get $6
-     i32.sub
-     i32.shl
-     local.get $8
-     i32.and
-     if
-      block $break|1
-       block $case3|1
-        block $case2|1
-         block $case1|1
-          block $case0|1
-           local.get $6
-           br_table $case0|1 $case1|1 $case2|1 $case3|1 $break|1
+     i32.const 1
+     call $~lib/builtins/abort
+     unreachable
+    end
+    global.get $~lib/memory/__stack_pointer
+    i32.const 0
+    i32.store
+    local.get $0
+    local.get $1
+    i32.const 24
+    i32.shr_s
+    local.tee $4
+    local.get $1
+    i32.const 16
+    i32.shr_s
+    i32.const 255
+    i32.and
+    local.tee $3
+    call $assembly/mazeFn/getNeighbors
+    local.tee $2
+    i32.const -1
+    i32.eq
+    if (result i32)
+     i32.const -1
+    else
+     local.get $2
+     local.set $1
+     loop $for-loop|0
+      local.get $5
+      i32.const 4
+      i32.lt_s
+      if
+       i32.const 1
+       i32.const 3
+       local.get $5
+       i32.sub
+       i32.shl
+       local.get $2
+       i32.and
+       if
+        block $break|1
+         block $case3|1
+          block $case2|1
+           block $case1|1
+            block $case0|1
+             local.get $5
+             br_table $case0|1 $case1|1 $case2|1 $case3|1 $break|1
+            end
+            local.get $1
+            i32.const 247
+            i32.and
+            local.get $1
+            local.get $0
+            local.get $4
+            local.get $3
+            i32.const 1
+            i32.sub
+            call $assembly/mazeFn/isVisited
+            select
+            local.set $1
+            br $break|1
+           end
+           local.get $1
+           i32.const 250
+           i32.and
+           local.get $1
+           local.get $0
+           local.get $4
+           i32.const 1
+           i32.add
+           local.get $3
+           call $assembly/mazeFn/isVisited
+           select
+           local.set $1
+           br $break|1
           end
-          local.get $2
-          local.get $2
-          i32.const 8
-          i32.or
-          local.get $3
-          local.get $0
           local.get $1
+          i32.const 253
+          i32.and
+          local.get $1
+          local.get $0
+          local.get $4
+          local.get $3
           i32.const 1
-          i32.sub
+          i32.add
           call $assembly/mazeFn/isVisited
           select
-          local.set $2
+          local.set $1
           br $break|1
          end
-         local.get $2
-         local.get $2
-         i32.const 4
-         i32.or
-         local.get $3
-         local.get $0
-         i32.const 1
-         i32.add
          local.get $1
+         i32.const 254
+         i32.and
+         local.get $1
+         local.get $0
+         local.get $4
+         i32.const 1
+         i32.sub
+         local.get $3
          call $assembly/mazeFn/isVisited
          select
-         local.set $2
-         br $break|1
+         local.set $1
         end
-        local.get $2
-        local.get $2
-        i32.const 2
-        i32.or
-        local.get $3
-        local.get $0
+       end
+       local.get $5
+       i32.const 1
+       i32.add
+       local.set $5
+       br $for-loop|0
+      end
+     end
+     local.get $1
+    end
+    local.tee $5
+    i32.const -1
+    i32.eq
+    br_if $folding-inner2
+    i32.const 0
+    local.set $2
+    i32.const 0
+    local.set $1
+    loop $for-loop|00
+     local.get $2
+     i32.const 4
+     i32.lt_s
+     if
+      local.get $1
+      i32.const 1
+      i32.add
+      local.get $1
+      i32.const 1
+      local.get $2
+      i32.shl
+      local.get $5
+      i32.and
+      select
+      local.set $1
+      local.get $2
+      i32.const 1
+      i32.add
+      local.set $2
+      br $for-loop|00
+     end
+    end
+    local.get $1
+    call $assembly/utilsFn/getRand
+    local.set $2
+    i32.const -1
+    local.set $1
+    loop $for-loop|01
+     local.get $6
+     i32.const 4
+     i32.lt_s
+     if
+      block $for-break0
+       i32.const 1
+       i32.const 3
+       local.get $6
+       i32.sub
+       i32.shl
+       local.get $5
+       i32.and
+       if
         local.get $1
         i32.const 1
         i32.add
-        call $assembly/mazeFn/isVisited
-        select
-        local.set $2
-        br $break|1
+        local.tee $1
+        local.get $2
+        i32.eq
+        br_if $for-break0
        end
-       local.get $2
-       local.get $2
-       i32.const 1
-       i32.or
-       local.get $3
-       local.get $0
-       i32.const 1
-       i32.sub
-       local.get $1
-       call $assembly/mazeFn/isVisited
-       select
-       local.set $2
-      end
-     end
-     local.get $6
-     i32.const 1
-     i32.add
-     local.set $6
-     br $for-loop|0
-    end
-   end
-   local.get $2
-   local.tee $0
-   local.set $1
-   i32.const 0
-   local.set $6
-   i32.const 0
-   local.set $2
-   loop $for-loop|00
-    local.get $6
-    i32.const 4
-    i32.lt_s
-    if
-     local.get $2
-     i32.const 1
-     i32.add
-     local.get $2
-     i32.const 1
-     local.get $6
-     i32.shl
-     local.get $1
-     i32.and
-     select
-     local.set $2
-     local.get $6
-     i32.const 1
-     i32.add
-     local.set $6
-     br $for-loop|00
-    end
-   end
-   local.get $2
-   call $assembly/utilsFn/getRand
-   local.set $2
-   i32.const -1
-   local.set $1
-   loop $for-loop|01
-    local.get $7
-    i32.const 4
-    i32.lt_s
-    if
-     block $for-break0
-      i32.const 1
-      i32.const 3
-      local.get $7
-      i32.sub
-      i32.shl
-      local.get $0
-      i32.and
-      if
-       local.get $1
+       local.get $6
        i32.const 1
        i32.add
-       local.tee $1
-       local.get $2
-       i32.eq
-       br_if $for-break0
+       local.set $6
+       br $for-loop|01
       end
-      local.get $7
-      i32.const 1
-      i32.add
-      local.set $7
-      br $for-loop|01
      end
     end
-   end
-   block $folding-inner0
-    block $case4|1
+    block $folding-inner0
      block $case3|12
       block $case2|13
        block $case1|14
         block $case0|15
-         local.get $7
-         br_table $case0|15 $case1|14 $case2|13 $case3|12 $case4|1
+         local.get $6
+         br_table $case0|15 $case1|14 $case2|13 $case3|12 $folding-inner2
         end
-        local.get $3
-        local.get $5
+        local.get $0
         local.get $4
+        local.get $3
         i32.const 1
         i32.sub
-        local.tee $0
+        local.tee $1
         call $assembly/mazeFn/setVisited
         drop
-        local.get $3
-        local.get $5
+        local.get $0
         local.get $4
+        local.get $3
         i32.const 0
         call $assembly/mazeFn/removeNeighbor
         br $folding-inner0
        end
-       local.get $3
-       local.get $5
+       local.get $0
+       local.get $4
        i32.const 1
        i32.add
        local.tee $1
-       local.get $4
+       local.get $3
        call $assembly/mazeFn/setVisited
        drop
-       local.get $3
-       local.get $5
+       local.get $0
        local.get $4
+       local.get $3
        i32.const 1
        call $assembly/mazeFn/removeNeighbor
+       local.get $0
        local.get $3
-       local.get $4
        call $~lib/array/Array<~lib/array/Array<i32>>#__get
        local.set $0
        global.get $~lib/memory/__stack_pointer
@@ -4569,36 +4599,36 @@
        call $~lib/array/Array<i32>#__get
        br $folding-inner1
       end
-      local.get $3
-      local.get $5
+      local.get $0
       local.get $4
+      local.get $3
       i32.const 1
       i32.add
-      local.tee $0
+      local.tee $1
       call $assembly/mazeFn/setVisited
       drop
-      local.get $3
-      local.get $5
+      local.get $0
       local.get $4
+      local.get $3
       i32.const 2
       call $assembly/mazeFn/removeNeighbor
       br $folding-inner0
      end
-     local.get $3
-     local.get $5
+     local.get $0
+     local.get $4
      i32.const 1
      i32.sub
      local.tee $1
-     local.get $4
+     local.get $3
      call $assembly/mazeFn/setVisited
      drop
-     local.get $3
-     local.get $5
+     local.get $0
      local.get $4
+     local.get $3
      i32.const 3
      call $assembly/mazeFn/removeNeighbor
+     local.get $0
      local.get $3
-     local.get $4
      call $~lib/array/Array<~lib/array/Array<i32>>#__get
      local.set $0
      global.get $~lib/memory/__stack_pointer
@@ -4609,28 +4639,28 @@
      call $~lib/array/Array<i32>#__get
      br $folding-inner1
     end
+    local.get $0
+    local.get $1
+    call $~lib/array/Array<~lib/array/Array<i32>>#__get
+    local.set $0
     global.get $~lib/memory/__stack_pointer
-    i32.const 4
-    i32.add
-    global.set $~lib/memory/__stack_pointer
-    i32.const -1
-    return
+    local.get $0
+    i32.store
+    local.get $0
+    local.get $4
+    call $~lib/array/Array<i32>#__get
    end
-   local.get $3
-   local.get $0
-   call $~lib/array/Array<~lib/array/Array<i32>>#__get
-   local.set $0
    global.get $~lib/memory/__stack_pointer
-   local.get $0
-   i32.store
-   local.get $0
-   local.get $5
-   call $~lib/array/Array<i32>#__get
+   i32.const 4
+   i32.add
+   global.set $~lib/memory/__stack_pointer
+   return
   end
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.add
   global.set $~lib/memory/__stack_pointer
+  i32.const -1
  )
  (func $assembly/rbtFn/RecursiveBacktracker (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
@@ -4688,6 +4718,8 @@
   call $~lib/rt/__newArray
   local.tee $8
   i32.store offset=8
+  i32.const -1
+  local.set $4
   global.get $~lib/memory/__stack_pointer
   global.get $~lib/memory/__stack_pointer
   i32.const 12
@@ -5393,6 +5425,8 @@
         local.get $6
         call $assembly/mazeFn/getNeighbors
         local.tee $4
+        i32.const -1
+        i32.ne
         if
          local.get $4
          i32.const 2
@@ -5441,6 +5475,8 @@
           i32.and
           i32.const 0
           local.get $4
+          i32.const -1
+          i32.ne
           select
           if
            global.get $~lib/memory/__stack_pointer
@@ -5472,6 +5508,8 @@
           i32.and
           i32.const 0
           local.get $4
+          i32.const -1
+          i32.ne
           select
           if
            global.get $~lib/memory/__stack_pointer

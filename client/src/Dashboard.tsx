@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Settings from './SettingsComp/Settings';
-import { Api, formatApi } from './AScApi';
+import { formatApi } from './AScApi';
 import Maze from './MazeComp/Maze';
 import Asc from './RBT/asc/index';
 import './App.css';

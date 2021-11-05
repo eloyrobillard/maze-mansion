@@ -17,7 +17,7 @@ export function getMazeDescriptor(width: i32, height: i32): StaticArray<i32[][]>
   return RecursiveBacktracker(width, height);
 }
 
-// const maze = RecursiveBacktracker(10, 10)[2];
+const maze = RecursiveBacktracker(10, 10)[2];
 
 // Console.log(printMaze(maze));
 // Console.log(generateClasses(maze).reduce((acc, row) => `${acc} ${row.toString()}`, ''));

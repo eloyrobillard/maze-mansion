@@ -7,8 +7,8 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
   const grid = initGrid(width, height);
   const cellStack: i32[] = [];
   const steps: i32[][] = [];
-  let prev = 0;
-  let current = 0;
+  let prev = NULL;
+  let current = NULL;
   
   const descriptor: StaticArray<i32[][]> = [ 
     initGrid(width, height), 

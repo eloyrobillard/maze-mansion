@@ -10,7 +10,8 @@ export type WasmApi = {
 export type Api = { 
   getTextMaze: (width: number, height: number) => string;
   generateClasses: (maze: number[][]) => string[][];
-  // updateClasses: (maze: Maze, classLists: string[][], change: Step, updateDir: number) => string[][];
+  // TODO implement
+  updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => string[][];
   getMazeDescriptor: (width: number, height: number) => MazeDescriptor;
 }
 
@@ -25,15 +26,18 @@ export function formatApi(api: ASUtil & WasmApi): Api {
     // @ts-ignore
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
     // @ts-ignore
-    generateClasses: (maze) => api.__getArray(api.generateClasses(maze))
-      .map((row) => api.__getArray(row).map((cl) => api.__getString(cl))),
+    generateClasses: (maze) => {
+      const index = api.generateClasses(maze)
+      console.log('index', index);
+      return api.__getArray(index)
+      .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)))
+    },
     // @ts-ignore
     updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))
       .map((row) => api.__getArray(row).map((cl) => api.__getString(cl))),
     // @ts-ignore
     getMazeDescriptor: (width, height) => {
       const descriptor = api.__getArray(api.getMazeDescriptor(width, height));
-      console.log('early desc', api.__getArray(descriptor[0]).map((el) => api.__getArray(el)));
       return {
         initial: api.__getArray(descriptor[0]).map((el) => api.__getArray(el)),
         steps: api.__getArray(descriptor[1]).map((el) => api.__getArray(el)),

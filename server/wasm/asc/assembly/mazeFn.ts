@@ -39,9 +39,10 @@ export function setVisited(grid: i32[][], x: i32, y: i32): i32 {
 // Neighbors
 // top right bottom left
 export function getNeighbors(grid: i32[][], x: i32, y: i32): i32 {
-  if (!isVisited(grid, x, y)) {
-    return NULL;
-  }
+  // if (!isVisited(grid, x, y)) {
+  //   return NULL;
+  // }
+  // Console.log(`${x} ${y} ${grid.length} ${grid[5].length}`);
   const cell = grid[y][x];
   if (cell & 1) {
     // Console.log(`${x} ${y} ret neighs: ${((cell & 0xF0) >> 4).toString(2)}`);
@@ -85,39 +86,42 @@ export function neighsToStrings(neighbors: i32): string[] {
 }
 
 function getVisitables(grid: i32[][], x: i32, y: i32, neighbors: i32): i32 {
-  let visitables = 0;
+  if (neighbors === NULL) {
+    return NULL;
+  }
+  let visitables = neighbors;
   for (let i = 0; i < 4; i++) {
     if (neighbors & (1 << (3 - i))) {
       switch (i) {
         // top
         case 0: {
           const visited = isVisited(grid, x, y - 1);
-          if (!visited) {
-            visitables |= 1 << 3;
+          if (visited) {
+            visitables &= 0xF7;
           }
           break;
         }
         // right
         case 1: {
           const visited = isVisited(grid, x + 1, y);
-          if (!visited) {
-            visitables |= 1 << 2;
+          if (visited) {
+            visitables &= 0xFA;
           }
           break;
         }
         // bottom
         case 2: {
           const visited = isVisited(grid, x, y + 1);
-          if (!visited) {
-            visitables |= 1 << 1;
+          if (visited) {
+            visitables &= 0xFD;
           }
           break;
         }
         // left
         case 3: {
           const visited = isVisited(grid, x - 1, y);
-          if (!visited) {
-            visitables |= 1;
+          if (visited) {
+            visitables &= 0xFE;
           }
           break;
         }
@@ -179,6 +183,9 @@ export function getNext(grid: i32[][], cell: i32): i32 {
   const y = getY(cell);
   const neighbors = getNeighbors(grid, x, y);
   const visitables = getVisitables(grid, x, y, neighbors);
+  if (visitables === NULL) {
+    return NULL;
+  }
   let numVis = getNumVisitables(visitables);
 
   const rand = getRand(numVis);
