@@ -1,7 +1,7 @@
 import { getRand } from './utilsFn';
 import { Console } from 'as-wasi';
 
-export const NULL = 0;
+export const NULL = -1;
 
 // MazeDescriptor -> i32[][][] (len: 3)
 // initial: grid -> i32[][]
@@ -72,7 +72,7 @@ export function getNeighbors(grid: i32[][], x: i32, y: i32): i32 {
   return neighs;
 }
 
-function neighborsToStrings(neighbors: i32): string[] {
+export function neighsToStrings(neighbors: i32): string[] {
   const maybeNeighbors = ['top', 'right', 'bottom', 'left'];
   const res: string [] = [];
   for (let i = 0; i < 4; i++) {
@@ -132,17 +132,17 @@ function getVisitables(grid: i32[][], x: i32, y: i32, neighbors: i32): i32 {
   return visitables;
 }
 
-function getNumVisitables(grid: i32[][], neighbors: i32, x: i32, y: i32): i32 {
+function getNumVisitables(visitables: i32): i32 {
   // Console.log(`${x} ${y} neighbors: ${neighbors.toString(2)}`);
   // Console.log(`${x} ${y}: ${grid[y][x].toString(2)}`);
-  let numNeighs = 0;
+  let numOnes = 0;
   for (let i = 0; i < 4; i++) {
-    if (neighbors & i) {
-      numNeighs += 1;
+    if (visitables & (1 << i)) {
+      numOnes += 1;
     }
   }
     
-  return numNeighs;
+  return numOnes;
 }
 
 function removeNeighbor(grid: i32[][], x: i32, y: i32, neighbor: i32): i32 {
@@ -179,11 +179,12 @@ export function getNext(grid: i32[][], cell: i32): i32 {
   const y = getY(cell);
   const neighbors = getNeighbors(grid, x, y);
   const visitables = getVisitables(grid, x, y, neighbors);
-  let numVis = getNumVisitables(grid, neighbors, x, y);
+  let numVis = getNumVisitables(visitables);
 
-  const rand = getRand(numVis) + 1;
-  let count = 0;
+  const rand = getRand(numVis);
+  let count = -1;
   let i = 0;
+  // Console.log(`${visitables.toString(2)} ${numVis}`);
   // find neigh corresponding to n = rand
   for (; i < 4; i++) {
     if (visitables & (1 << (3 - i))) {

@@ -1,4 +1,5 @@
-import { getNeighbors } from './mazeFn';
+import { Console } from 'as-wasi';
+import { getNeighbors, getX, getY, neighsToStrings, isVisited } from './mazeFn';
 
 export function getRand (max: i32): i32 {
 	return Math.floor(Math.random() * max as f32) as i32;
@@ -59,62 +60,74 @@ export function printMaze (grid: i32[][]): string {
   return res;
 }
 
-/* 
-export function generateClassLists(grid: Maze): string[][] {
-	const base = grid.visited ? 'grid[ri][ci] visited' : 'grid[ri][ci]';
-	const grid = grid.grid;
-	const res: string[][] = [];
-	for (let ri = 0; ri < grid.height; ri += 1) {
-	// return grid.grid.map<Array<string>>((row, ri, grid) => {
-		for (let ci = 0; ci < grid.width; ci += 1) {
-		// return row.map<string>((cell, ci) => {
+export function generateClassLists(grid: i32[][]): string[][] {
+  // is grid state initial or final?
+	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';
+  const gridHeight = grid.length;
+  const gridWidth = grid[0].length;
+
+	const res: string[][] = new Array<string[]>(gridHeight);
+  for (let y = 0; y < gridHeight; y++) {
+    res[y] = new Array<string>(gridWidth);
+    for (let x = 0; x < gridWidth; x++) {
+      res[y][x] = '';
+    }
+  }
+
+	for (let y = 0; y < gridHeight; y += 1) {
+		for (let x = 0; x < gridWidth; x += 1) {
 			let classList = base;
 
-			if (ri === 0) {
+			if (y === 0) {
 				classList = `${classList} wall-top`;
 			}
-			if (ri + 1 >= grid.height) {
+			if (y + 1 >= gridHeight) {
 				classList = `${classList} wall-bottom`;
 			}
-			if (ci === 0) {
+			if (x === 0) {
 				classList = `${classList} wall-left`;
 			}
-			if (ci + 1 >= grid.width) {
+			if (x + 1 >= gridWidth) {
 				classList = `${classList} wall-right`;
 			}
 
-			const hasNeighs = grid[ri][ci].neighborData.count > 0;
-			if (!hasNeighs) {
-				res[ri].push(classList);
+			const neighbors = getNeighbors(grid, x, y);
+			if (neighbors === 0) {
+        res[y][x] = classList;
+        continue;
 			}
-			const neighbors = grid[ri][ci].neighborData.neighbors;
-
-			if (neighbors.has('bottom')) {
-				classList = `${classList} wall-bottom`
+      
+      // if has bottom
+			if (neighbors & (1 << 1)) {
+        classList = `${classList} wall-bottom`
 			}
-			if (neighbors.has('right')) {
-				classList = `${classList} wall-right`;
+      // if has right
+			if (neighbors & (1 << 2)) {
+        classList = `${classList} wall-right`;
 			}
 			// NOTE keep all walls to bot/right to avoid breaks in wall lines
-			if (ri + 1 < grid.height) {
-				const neighborsBot = grid[ri + 1][ci].neighborData.neighbors;
-				if (neighborsBot && neighborsBot.has('top')) {
-					classList = `${classList} wall-bottom`;
+			if (y + 1 < gridHeight) {
+        const neighborsBot = getNeighbors(grid, x, y + 1);
+        // if has top
+				if (neighborsBot && (neighborsBot & (1 << 3))) {
+          classList = `${classList} wall-bottom`;
 				}
 			}
-			if (ci + 1 < grid.width) {
-				const neighborsRight = grid[ri][ci + 1].neighborData.neighbors;
-				if (neighborsRight && neighborsRight.has('left')) {
-					classList = `${classList} wall-right`;
+			if (x + 1 < gridWidth) {
+        const neighborsRight = getNeighbors(grid, x + 1, y);
+        // if has left
+				if (neighborsRight && (neighborsRight & 1)) {
+          classList = `${classList} wall-right`;
 				}
 			}
-			res[ri].push(classList);
+      // Console.log(`${x} ${y} ${classList}`);
+			res[y][x] = classList;
 		}
 	}
 	return res;
 }
 
-export function updateClassLists(grid: Maze, classLists: string[][], change: Step, updateDir: number): string[][] {
+export function updateClassLists(grid: i32[][], classLists: string[][], change: i32[], updateDir: i32): string[][] {
 	if (updateDir > 0) {
 		return updateForward(grid, classLists, change);
 	}
@@ -122,24 +135,26 @@ export function updateClassLists(grid: Maze, classLists: string[][], change: Ste
 	return updateBackward(grid, classLists, change);
 }
 
-function updateForward(grid: Maze, classLists: string[][], change: Step): string[][] {
-	const prev = change.prev;
-	const prevNeighs = change.prevNeighs;
-	const current = change.current;
-	const currentNeighs = change.currentNeighs;
+function updateForward(grid: i32[][], classLists: string[][], change: i32[]): string[][] {
+	const prev = change[0];
+	const current = change[1];
 	// console.log(prev, current);
+  const cx = getX(current);
+  const cy = getY(current);
+  const currNeighs = getNeighbors(grid, cx, cy);
+  const cNeighStrs = neighsToStrings(currNeighs);
 	if (prev) {
-		const px = prev.x;
-		const py = prev.y;
-		classLists[py][px] = getClassList(prevNeighs!, px, py, grid);
-	}
-	
-	const cx = current!.x;
-	const cy = current!.y;
-	if (prev && cx === prev.x && cy === prev.y) {
-		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, grid)} stuck`;
+		const px = getX(prev);
+	  const py = getY(prev);
+    const prevNeighs = getNeighbors(grid, px, py);
+    const pNeighStrs = neighsToStrings(prevNeighs);
+		classLists[py][px] = getClassList(grid, px, py, pNeighStrs);
+
+    if (cx === px && cy === py) {
+      classLists[cy][cx] = `${getClassList(grid, cx, cy, cNeighStrs)} stuck`;
+    } 
 	} else {
-		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, grid)} current`;
+		classLists[cy][cx] = `${getClassList(grid, cx, cy, cNeighStrs)} current`;
 	}
 
 	return classLists;
@@ -147,30 +162,36 @@ function updateForward(grid: Maze, classLists: string[][], change: Step): string
 	// return classLists;
 }
 
-function updateBackward(grid: Maze, classLists: string[][], change: Step): string[][] {
-	const prev = change.prev;
-	const prevNeighs = change.prevNeighs;
-	const current = change.current;
-	const currentNeighs = change.currentNeighs;
-	const firstVisit = change.firstVisit;
+function updateBackward(grid: i32[][], classLists: string[][], change: i32[]): string[][] {
+	const prev = change[0];
+	const current = change[1];
+	const firstVisit = change[2];
 	
-	const cx = current!.x;
-	const cy = current!.y;
+	const cx = getX(current);
+	const cy = getY(current);
 	if (!prev) {
-		classLists[cy][cx] = `grid[ri][ci]`;
+		classLists[cy][cx] = `cell`;
 		return classLists;
 	} 
 	
-	const px = prev.x;
-	const py = prev.y;
-	classLists[py][px] = `${getClassList(prevNeighs!, px, py, grid)} current`;
+	const px = getX(prev);
+  const py = getY(prev);
+  const prevNeighs = getNeighbors(grid, px, py);
+  const pNeighStrs = neighsToStrings(prevNeighs);
+	classLists[py][px] = `${getClassList(grid, px, py, pNeighStrs)} current`;
 	if (cx === px && cy === py) {
 		classLists[py][px] = `${classLists[py][px]} stuck`;
 	} else if (firstVisit) {
 		// NOTE if about to visit current for first time
-		classLists[cy][cx] = `grid[ri][ci] ${cx === 0 ? ' wall-left' : cx === grid.width - 1 ? ' wall-right' : ''}${cy === 0 ? ' wall-top' : cy === grid.height - 1 ? ' wall-bottom' : ''}`;
+		classLists[cy][cx] = `grid[y][x] ${cx === 0 
+      ? ' wall-left' 
+      : cx === grid[0].length - 1 
+        ? ' wall-right' 
+        : ''}${cy === 0 ? ' wall-top' : cy === grid.length - 1 ? ' wall-bottom' : ''}`;
 	} else {
-		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, grid)}`;
+    const currNeighs = getNeighbors(grid, cx, cy);
+    const cNeighStrs = neighsToStrings(currNeighs);
+		classLists[cy][cx] = `${getClassList(grid, cx, cy, cNeighStrs)}`;
 	} 
 	
 	return classLists;
@@ -179,15 +200,12 @@ function updateBackward(grid: Maze, classLists: string[][], change: Step): strin
 } 
 
 
-function getClassList(neighborData: NeighborData, x: number, y: number, grid: Maze): string {
-	const keys = neighborData.neighbors.keys();
+function getClassList(grid: i32[][], x: i32, y: i32, neighStrs: string[]): string {
 	const classes = new Array<string>();
-	for (let i = 0; i < keys.length; i += 1) {
-		classes.push(`wall-${keys[i]}`)
+	for (let i = 0; i < neighStrs.length; i += 1) {
+		classes.push(`wall-${neighStrs[i]}`)
 	}
 	const innerWallList = classes.join(' ');
 
-	return `grid[ri][ci] visited ${innerWallList}${x === 0 ? ' wall-left' : x === grid.width - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === grid.height - 1 ? ' wall-bottom' : ''}`;
+	return `cell visited ${innerWallList}${x === 0 ? ' wall-left' : x === grid[0].length - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === grid.length - 1 ? ' wall-bottom' : ''}`;
 }
-
- */

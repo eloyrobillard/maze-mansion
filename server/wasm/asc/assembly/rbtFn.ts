@@ -7,7 +7,6 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
   const grid = initGrid(width, height);
   const cellStack: i32[] = [];
   const steps: i32[][] = [];
-  let numVisited = 0;
   let prev = 0;
   let current = 0;
   
@@ -17,14 +16,14 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
     grid
   ];
   // Console.log(descriptor.initial.toString());
-
+  
   const x = getRand(width);
   const y = getRand(height);
   current = setVisited(grid, x, y);
-  Console.log(`${x} ${y} current: ${current.toString(2)}`);
+  let numVisited = 1;
+  // Console.log(`${x} ${y} current: ${current.toString(2)}`);
 
   cellStack.push(current);
-  numVisited += 1;
 
   const toVisit = width * height;
   while (numVisited < toVisit && cellStack.length) {
@@ -55,6 +54,8 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
     }
     // Console.log(`current: ${current}, numVis: ${numVisited}`);
   }
+
+  Console.log(`${numVisited.toString()} ${cellStack}`);
 
   // NOTE yield last change
   steps.push([ 
