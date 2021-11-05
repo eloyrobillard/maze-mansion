@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import RecursiveBacktracker from './recursive_backtracker/ts/recursive-backtracker';
-import { printMaze, canvasMaze, generateClassLists, updateClassLists } from './recursive_backtracker/ts/utils';
-import { Maze } from './recursive_backtracker/ts/maze';
+import RecursiveBacktracker from './RBT/ts/recursive-backtracker';
+import { printMaze, canvasMaze, generateClassLists, updateClassLists } from './RBT/ts/utils';
+import { Maze } from './RBT/ts/maze';
 import { Step } from './ApiTypes';
 
 

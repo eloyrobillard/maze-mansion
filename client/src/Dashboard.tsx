@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Settings from './SettingsComp/Settings';
 import AScApi from './AScApi';
 import Maze from './MazeComp/Maze';
-import Asc from './recursive_backtracker/asc/index';
+import Asc from './RBT/asc/index';
 import './App.css';
 
 export const FPS_INSTANT = 0;

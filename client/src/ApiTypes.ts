@@ -1,5 +1,5 @@
-import { Maze, Cell, Neighbors } from './recursive_backtracker/ts/maze';
-export { Maze, Cell } from './recursive_backtracker/ts/maze';
+import { Maze, Cell, Neighbors } from './RBT/ts/maze';
+export { Maze, Cell } from './RBT/ts/maze';
 
 export type Step = { 
   prev: Cell | null;

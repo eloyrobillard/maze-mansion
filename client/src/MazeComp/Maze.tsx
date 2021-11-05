@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useContext, useRef, Dispatch, 
 // import Asc from '../recursive_backtracker/asc/index';
 import { MazeDescriptor }  from '../ApiTypes';
 import { handleReset, handleUpdate, resizeMazeElements } from './MazeUtils';
-import * as M from '../recursive_backtracker/ts/maze';
+import * as M from '../RBT/ts/maze';
 import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
 import { Api } from '../AScApi';

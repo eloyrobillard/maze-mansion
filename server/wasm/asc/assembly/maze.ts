@@ -1,18 +1,20 @@
 // import { Console } from 'as-wasi';
 import { getRand } from './utils';
 
+// i32 (prev/Neighs) i32 (current/Neighs) i32 (firstVisit -> bool)
 export class Step { 
   prev: Cell | null;
   prevNeighs: NeighborData | null; 
   current: Cell | null;
-  firstVisit: boolean;
   currentNeighs: NeighborData | null; 
+  firstVisit: boolean;
 }
 
+// 
 export class MazeDescriptor { 
-  initial: Maze;
-  steps: Step[];
-  final: Maze;
+  initial: Maze = new Maze(0 ,0);
+  steps: Step[] = [];
+  final: Maze = new Maze(0, 0);
 }
 
 export class NeighborData {
@@ -22,6 +24,7 @@ export class NeighborData {
 	neighbors: Map<string, Cell | null>
 }
 
+// ?? XX YY NV
 export class Cell {
 	visited: boolean = false;
 	neighborData: NeighborData = {
@@ -37,6 +40,10 @@ export class Cell {
 	}
 }
 
+// grid: i32[][]
+// cellStack: i32[]
+// visited: i32
+// prev: i32
 export class Maze {
 	grid: Cell[][];
 	cellStack: Cell[] = [];
