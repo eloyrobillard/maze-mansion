@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Settings from './SettingsComp/Settings';
+import Settings from './SettingsComp/Settings2';
 import Maze from './MazeComp/Maze2';
 import './App.css';
 

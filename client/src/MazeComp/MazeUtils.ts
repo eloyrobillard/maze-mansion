@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { MazeDescriptor } from '../ApiTypes';
-import { FIRST_STATE } from './Maze2';
+import { FIRST_STATE } from './Maze';
 import ApiClient from '../JsApi';
 
 type ResizeArgs = { 

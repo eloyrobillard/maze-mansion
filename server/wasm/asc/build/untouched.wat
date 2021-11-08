@@ -32,10 +32,10 @@
  (global $~lib/math/random_state1_64 (mut i64) (i64.const 0))
  (global $~lib/math/random_state0_32 (mut i32) (i32.const 0))
  (global $~lib/math/random_state1_32 (mut i32) (i32.const 0))
- (global $~lib/rt/__rtti_base i32 (i32.const 1824))
- (global $~lib/memory/__data_end i32 (i32.const 1892))
- (global $~lib/memory/__stack_pointer (mut i32) (i32.const 18276))
- (global $~lib/memory/__heap_base i32 (i32.const 18276))
+ (global $~lib/rt/__rtti_base i32 (i32.const 1952))
+ (global $~lib/memory/__data_end i32 (i32.const 2020))
+ (global $~lib/memory/__stack_pointer (mut i32) (i32.const 18404))
+ (global $~lib/memory/__heap_base i32 (i32.const 18404))
  (memory $0 1)
  (data (i32.const 12) "\1c\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 44) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00A\00l\00l\00o\00c\00a\00t\00i\00o\00n\00 \00t\00o\00o\00 \00l\00a\00r\00g\00e\00\00\00\00\00")
@@ -68,17 +68,20 @@
  (data (i32.const 1244) "\1c\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\06\00\00\00 \00 \00 \00\00\00\00\00\00\00")
  (data (i32.const 1276) "\1c\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\04\00\00\00|\00\n\00\00\00\00\00\00\00\00\00")
  (data (i32.const 1308) ",\00\00\00\00\00\00\00\00\00\00\00\06\00\00\00\14\00\00\00\10\04\00\00\00\00\00\00\10\05\00\00\00\00\00\00\10\04\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1356) "\1c\00\00\00\00\00\00\00\00\00\00\00\06\00\00\00\04\00\00\00\10\04\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1388) "\1c\00\00\00\00\00\00\00\00\00\00\00\06\00\00\00\04\00\00\00\10\04\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1420) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\18\00\00\00c\00e\00l\00l\00 \00v\00i\00s\00i\00t\00e\00d\00\00\00\00\00")
- (data (i32.const 1468) "\1c\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\08\00\00\00c\00e\00l\00l\00\00\00\00\00")
- (data (i32.const 1500) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\12\00\00\00 \00w\00a\00l\00l\00-\00t\00o\00p\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1548) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\18\00\00\00 \00w\00a\00l\00l\00-\00b\00o\00t\00t\00o\00m\00\00\00\00\00")
- (data (i32.const 1596) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\14\00\00\00 \00w\00a\00l\00l\00-\00l\00e\00f\00t\00\00\00\00\00\00\00\00\00")
- (data (i32.const 1644) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\16\00\00\00 \00w\00a\00l\00l\00-\00r\00i\00g\00h\00t\00\00\00\00\00\00\00")
- (data (i32.const 1692) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d\00\00\00")
- (data (i32.const 1756) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d\00\00\00\00\00")
- (data (i32.const 1824) "\08\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02\t\00\00\00\00\00\00\02A\00\00\00\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00")
+ (data (i32.const 1356) "\1c\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\08\00\00\00t\00r\00u\00e\00\00\00\00\00")
+ (data (i32.const 1388) "\1c\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\n\00\00\00f\00a\00l\00s\00e\00\00\00")
+ (data (i32.const 1420) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\16\00\00\00n\00o\00 \00h\00e\00i\00g\00h\00t\00:\00 \00\00\00\00\00\00\00")
+ (data (i32.const 1468) "\1c\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\0c\00\00\00o\00b\00j\00e\00c\00t\00")
+ (data (i32.const 1500) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\14\00\00\00n\00o\00 \00w\00i\00d\00t\00h\00:\00 \00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1548) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\18\00\00\00c\00e\00l\00l\00 \00v\00i\00s\00i\00t\00e\00d\00\00\00\00\00")
+ (data (i32.const 1596) "\1c\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\08\00\00\00c\00e\00l\00l\00\00\00\00\00")
+ (data (i32.const 1628) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\12\00\00\00 \00w\00a\00l\00l\00-\00t\00o\00p\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1676) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\18\00\00\00 \00w\00a\00l\00l\00-\00b\00o\00t\00t\00o\00m\00\00\00\00\00")
+ (data (i32.const 1724) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\14\00\00\00 \00w\00a\00l\00l\00-\00l\00e\00f\00t\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1772) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\16\00\00\00 \00w\00a\00l\00l\00-\00r\00i\00g\00h\00t\00\00\00\00\00\00\00")
+ (data (i32.const 1820) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d\00\00\00")
+ (data (i32.const 1884) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d\00\00\00\00\00")
+ (data (i32.const 1952) "\08\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\02\t\00\00\00\00\00\00\02A\00\00\00\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00\04A\00\00\00\00\00\00")
  (table $0 1 funcref)
  (elem $0 (i32.const 1))
  (export "getTextMaze" (func $assembly/index/getTextMaze))
@@ -4591,6 +4594,19 @@
   call $~lib/util/string/joinStringArray
   return
  )
+ (func $~lib/array/Array.isArray<~lib/array/Array<~lib/array/Array<i32>>> (param $0 i32) (result i32)
+  local.get $0
+  i32.const 0
+  i32.ne
+ )
+ (func $~lib/number/Bool#toString (param $0 i32) (param $1 i32) (result i32)
+  local.get $0
+  if (result i32)
+   i32.const 1376
+  else
+   i32.const 1408
+  end
+ )
  (func $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/string/String>>#__uset (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $0
   local.get $1
@@ -4672,7 +4688,7 @@
    i32.const 3
    i32.eq
    if
-    i32.const 1712
+    i32.const 1840
     i32.const 128
     i32.const 337
     i32.const 7
@@ -4704,7 +4720,7 @@
   i32.const 3
   i32.ne
   if
-   i32.const 1776
+   i32.const 1904
    i32.const 128
    i32.const 351
    i32.const 5
@@ -4793,10 +4809,10 @@
   i32.const 64
   local.get $0
   call $~lib/rt/itcms/__visit
-  i32.const 1712
+  i32.const 1840
   local.get $0
   call $~lib/rt/itcms/__visit
-  i32.const 1776
+  i32.const 1904
   local.get $0
   call $~lib/rt/itcms/__visit
  )
@@ -5085,8 +5101,8 @@
   global.get $~lib/memory/__data_end
   i32.lt_s
   if
-   i32.const 18304
-   i32.const 18352
+   i32.const 18432
+   i32.const 18480
    i32.const 1
    i32.const 1
    call $~lib/builtins/abort
@@ -6567,10 +6583,33 @@
    i32.store
    local.get $2
    i32.const 0
+   global.get $~lib/memory/__stack_pointer
    i32.const 4
    i32.const 6
-   i32.const 1376
+   i32.const 0
    call $~lib/rt/__newBuffer
+   local.tee $3
+   i32.store offset=4
+   local.get $3
+   i32.const 0
+   i32.const 1440
+   local.set $12
+   global.get $~lib/memory/__stack_pointer
+   local.get $12
+   i32.store offset=8
+   local.get $12
+   local.get $0
+   call $~lib/array/Array.isArray<~lib/array/Array<~lib/array/Array<i32>>>
+   i32.const 0
+   call $~lib/number/Bool#toString
+   local.set $12
+   global.get $~lib/memory/__stack_pointer
+   local.get $12
+   i32.store offset=12
+   local.get $12
+   call $~lib/string/String#concat
+   call $~lib/staticarray/StaticArray<~lib/string/String>#__uset
+   local.get $3
    call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/string/String>>#__uset
    local.get $2
    local.set $12
@@ -6587,7 +6626,7 @@
   local.set $12
   global.get $~lib/memory/__stack_pointer
   local.get $12
-  i32.store offset=4
+  i32.store offset=8
   local.get $12
   call $~lib/array/Array<i32>#get:length
   local.set $2
@@ -6601,13 +6640,35 @@
    i32.const 0
    call $~lib/rt/__newBuffer
    local.tee $3
-   i32.store offset=8
+   i32.store offset=4
    local.get $3
    i32.const 0
+   global.get $~lib/memory/__stack_pointer
    i32.const 4
    i32.const 6
-   i32.const 1408
+   i32.const 0
    call $~lib/rt/__newBuffer
+   local.tee $4
+   i32.store offset=16
+   local.get $4
+   i32.const 0
+   i32.const 1520
+   local.set $12
+   global.get $~lib/memory/__stack_pointer
+   local.get $12
+   i32.store offset=8
+   local.get $12
+   local.get $0
+   drop
+   i32.const 1488
+   local.set $12
+   global.get $~lib/memory/__stack_pointer
+   local.get $12
+   i32.store offset=12
+   local.get $12
+   call $~lib/string/String#concat
+   call $~lib/staticarray/StaticArray<~lib/string/String>#__uset
+   local.get $4
    call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/string/String>>#__uset
    local.get $3
    local.set $12
@@ -6624,18 +6685,18 @@
   i32.const 0
   call $assembly/mazeFn/isVisited
   if (result i32)
-   i32.const 1440
+   i32.const 1568
   else
-   i32.const 1488
+   i32.const 1616
   end
   local.tee $3
-  i32.store offset=8
+  i32.store offset=4
   global.get $~lib/memory/__stack_pointer
   i32.const 0
   local.get $1
   call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/string/String>>#constructor
   local.tee $4
-  i32.store offset=12
+  i32.store offset=16
   i32.const 0
   local.set $5
   loop $for-loop|0
@@ -6653,7 +6714,7 @@
     local.set $12
     global.get $~lib/memory/__stack_pointer
     local.get $12
-    i32.store offset=16
+    i32.store offset=20
     local.get $12
     call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/string/String>>#__set
     local.get $5
@@ -6690,11 +6751,11 @@
        if
         global.get $~lib/memory/__stack_pointer
         local.get $9
-        i32.const 1520
+        i32.const 1648
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=20
+        i32.store offset=12
         local.get $12
         call $~lib/string/String#concat
         local.tee $9
@@ -6708,11 +6769,11 @@
        if
         global.get $~lib/memory/__stack_pointer
         local.get $9
-        i32.const 1568
+        i32.const 1696
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=20
+        i32.store offset=12
         local.get $12
         call $~lib/string/String#concat
         local.tee $9
@@ -6724,11 +6785,11 @@
        if
         global.get $~lib/memory/__stack_pointer
         local.get $9
-        i32.const 1616
+        i32.const 1744
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=20
+        i32.store offset=12
         local.get $12
         call $~lib/string/String#concat
         local.tee $9
@@ -6742,11 +6803,11 @@
        if
         global.get $~lib/memory/__stack_pointer
         local.get $9
-        i32.const 1664
+        i32.const 1792
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=20
+        i32.store offset=12
         local.get $12
         call $~lib/string/String#concat
         local.tee $9
@@ -6767,7 +6828,7 @@
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=4
+        i32.store offset=8
         local.get $12
         local.get $7
         local.get $9
@@ -6782,11 +6843,11 @@
        if
         global.get $~lib/memory/__stack_pointer
         local.get $9
-        i32.const 1568
+        i32.const 1696
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=20
+        i32.store offset=12
         local.get $12
         call $~lib/string/String#concat
         local.tee $9
@@ -6800,11 +6861,11 @@
        if
         global.get $~lib/memory/__stack_pointer
         local.get $9
-        i32.const 1664
+        i32.const 1792
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=20
+        i32.store offset=12
         local.get $12
         call $~lib/string/String#concat
         local.tee $9
@@ -6838,11 +6899,11 @@
         if
          global.get $~lib/memory/__stack_pointer
          local.get $9
-         i32.const 1568
+         i32.const 1696
          local.set $12
          global.get $~lib/memory/__stack_pointer
          local.get $12
-         i32.store offset=20
+         i32.store offset=12
          local.get $12
          call $~lib/string/String#concat
          local.tee $9
@@ -6875,11 +6936,11 @@
         if
          global.get $~lib/memory/__stack_pointer
          local.get $9
-         i32.const 1664
+         i32.const 1792
          local.set $12
          global.get $~lib/memory/__stack_pointer
          local.get $12
-         i32.store offset=20
+         i32.store offset=12
          local.get $12
          call $~lib/string/String#concat
          local.tee $9
@@ -6892,7 +6953,7 @@
        local.set $12
        global.get $~lib/memory/__stack_pointer
        local.get $12
-       i32.store offset=4
+       i32.store offset=8
        local.get $12
        local.get $7
        local.get $9

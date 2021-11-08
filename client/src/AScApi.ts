@@ -27,10 +27,12 @@ export function formatApi(api: ASUtil & WasmApi): Api {
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
     // @ts-ignore
     generateClasses: (maze) => {
-      const index = api.generateClasses(maze)
-      // console.log('index', index);
-      return api.__getArray(index)
+      const index = api.generateClasses(maze);
+      // console.log('index', api);
+      const res = api.__getArray(index)
         .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
+      // console.log('generate', res);
+      return res;
     },
     // @ts-ignore
     updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))
