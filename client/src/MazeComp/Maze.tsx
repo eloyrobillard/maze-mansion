@@ -77,7 +77,7 @@ export default function Maze({api}: {api: Api}) {
 
   function handleReset() {
     setStepCount(FIRST_STATE);
-    setDescriptor(api!.getMazeDescriptor(mazeWidth, mazeHeight));
+    setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
   }
 
   // NOTE update dir on reaching either end
@@ -121,6 +121,7 @@ export default function Maze({api}: {api: Api}) {
   useEffect(() => {
     // console.log(stepCount);
     if (stepCount === FIRST_STATE) {
+      console.log('descriptor', descriptor.initial);
       setClassLists(api.generateClasses(descriptor.initial));
     } else if (stepCount === LAST_STATE) {
       setClassLists(api.generateClasses(descriptor.final));
@@ -141,7 +142,7 @@ export default function Maze({api}: {api: Api}) {
       <Commands handleUpdate={(e) => {
         e.preventDefault();
         handleUpdate({
-          dir : e.currentTarget.id.split('-')[0],
+          dir: e.currentTarget.id.split('-')[0],
           setStepCount, 
           setUpdateDir, 
           updateDir, 
@@ -162,14 +163,14 @@ export default function Maze({api}: {api: Api}) {
       <div id="grid-container">
         <div id="grid">
           {
-            classLists/* .reduce((acc, row) => acc.concat(row), []).map((list, i) => {
+            classLists.reduce((acc, row) => acc.concat(row), []).map((list, i) => {
               return (
                 <div key={i}
                   style={{width: cellWidth + 'px', height: cellHeight + 'px'}}
                   title={`x: ${i % mazeWidth}\ny: ${Math.floor(i / mazeWidth)}`}
                   className={list}>  
                 </div>
-            )}) */
+            )})
           }
         </div>
       </div>

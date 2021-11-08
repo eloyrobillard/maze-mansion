@@ -7,7 +7,14 @@ export function getRand (max: i32): i32 {
 
 export function printMaze (grid: i32[][]): string {
   const height = grid.length;
-  const width = grid[0].length;
+	if (height <= 0) {
+		return '**\n**';
+	}
+	const width = grid[0].length;
+	if (height <= 0) {
+		return '**\n**';
+	}
+
 	let res = `${'*---'.repeat(width)}*`;
 	
 	for (let y = 0; y < height; y += 1) {
@@ -62,8 +69,11 @@ export function printMaze (grid: i32[][]): string {
 
 export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<string>> {
   const gridHeight = grid.length;
-  const gridWidth = grid[0].length;
-	if (gridWidth <= 0 || gridHeight <= 0) {
+	if (gridHeight <= 0) {
+		return [['']];
+	}
+	const gridWidth = grid[0].length;
+	if (gridWidth <= 0) {
 		return [['']];
 	}
 
