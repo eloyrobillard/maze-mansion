@@ -19,10 +19,10 @@ export default function Maze({api}: {api: Api}) {
   const [stepCount, setStepCount]: [number, Dispatch<SetStateAction<number>>] = useState(FIRST_STATE); 
   const [updateDir, setUpdateDir]: [number, Dispatch<SetStateAction<number>>] = useState(1);
 
-  const [LAST_STATE, setLastState] = useState(Infinity);
+  const [LAST_STATE, setLastState] = useState(0);
   // NOTE update last state index
   useEffect(() => {
-    console.log('descriptor', descriptor);
+    // console.log('descriptor', descriptor);
     setLastState(descriptor.steps.length);
   }, [descriptor])
 
@@ -113,14 +113,13 @@ export default function Maze({api}: {api: Api}) {
 
   // NOTE fetch descriptor and set to initial
   useEffect(() => {
-    // @ts-ignore
     setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
     setStepCount(FIRST_STATE);
   }, [mazeWidth, mazeHeight, api]);
   
   // NOTE handle maze update (front AND back)
   useEffect(() => {
-    console.log(stepCount);
+    // console.log(stepCount);
     if (stepCount === FIRST_STATE) {
       setClassLists(api.generateClasses(descriptor.initial));
     } else if (stepCount === LAST_STATE) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SettingsContext } from '../Dashboard2';
+import { SettingsContext } from '../Dashboard';
 import './SpeedSettings.css';
 
 export default function SpeedSetting() {

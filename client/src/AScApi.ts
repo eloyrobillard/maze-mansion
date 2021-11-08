@@ -28,9 +28,9 @@ export function formatApi(api: ASUtil & WasmApi): Api {
     // @ts-ignore
     generateClasses: (maze) => {
       const index = api.generateClasses(maze)
-      console.log('index', index);
+      // console.log('index', index);
       return api.__getArray(index)
-      .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)))
+        .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
     },
     // @ts-ignore
     updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))

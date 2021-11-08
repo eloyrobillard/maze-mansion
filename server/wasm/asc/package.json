@@ -1,7 +1,7 @@
 {
   "scripts": {
     "asbuild:untouched": "asc assembly/index.ts --target debug",
-    "asbuild:optimized": "asc assembly/index.ts --target release --initialMemory 2 --enable gc",
+    "asbuild:optimized": "asc assembly/index.ts --target release -Ospeed --noAssert --optimizeLevel 3",
     "asbuild": "run-s asbuild:*",
     "start": "wasmtime run build/optimized.wasm",
     "test": "node tests"

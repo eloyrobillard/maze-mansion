@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import Settings from './SettingsComp/Settings';
 import { formatApi } from './AScApi';
 import Maze from './MazeComp/Maze';
+import { Api } from './AScApi';
 import Asc from './RBT/asc/index';
 import './App.css';
 
@@ -21,31 +22,40 @@ export default function Dashboard() {
   const [mazeHeight, setHeight] = useState(10);
   const [fps, setFps] = useState(10);
 
-  const [dashboard, setDashboard] = useState(<></>)
+  const [api, setApi]: [Api, Dispatch<SetStateAction<Api>>] = useState({
+    getTextMaze: (width: number, height: number) => '',
+    generateClasses: (maze: number[][]) => [['']],
+    updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => [['']],
+    getMazeDescriptor: (width: number, height: number) => { 
+      return {
+        initial: [[0]],
+        steps: [[0]],
+        final: [[0]]
+      }
+    }
+  });
 
   useEffect(() => {
     (async () => {
       const ascMod = await Asc();
       // console.log(ascMod);
-      const api = formatApi(ascMod);
-      // console.log('api', api);
-      setDashboard(
-        <div id="dashboard">
-          <SettingsContext.Provider value={{
-              mazeWidth,
-              setWidth,
-              mazeHeight,
-              setHeight,
-              fps, 
-              setFps,
-            }}>
-            <Maze api={api} />  
-            <Settings />
-          </SettingsContext.Provider>
-      </div>
-    );
+      setApi(formatApi(ascMod));
     })();
   });
 
-  return (dashboard)
+  return (
+    <div id="dashboard">
+      <SettingsContext.Provider value={{
+          mazeWidth,
+          setWidth,
+          mazeHeight,
+          setHeight,
+          fps,
+          setFps,
+        }}>
+        <Maze api={api} />  
+        <Settings />
+      </SettingsContext.Provider>
+    </div>
+  );
 }
