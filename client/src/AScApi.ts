@@ -3,7 +3,7 @@ import { ASUtil } from '@assemblyscript/loader';
 export type WasmApi = { 
   getTextMaze: (width: number, height: number) => number;
   generateClasses: (maze: number[][]) => number;
-  updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => string[][];
+  updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => number;
   getMazeDescriptor: (width: number, height: number) => number;
 }
 
@@ -22,9 +22,7 @@ export type MazeDescriptor = {
 
 export function formatApi(api: ASUtil & WasmApi): Api {
   return { 
-    // @ts-ignore
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
-    // @ts-ignore
     generateClasses: (maze) => {
       const index = api.generateClasses(maze);
       // console.log('index', api);
@@ -33,10 +31,8 @@ export function formatApi(api: ASUtil & WasmApi): Api {
       // console.log('generate', res);
       return res;
     },
-    // @ts-ignore
     updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))
       .map((row) => api.__getArray(row).map((cl) => api.__getString(cl))),
-    // @ts-ignore
     getMazeDescriptor: (width, height) => {
       const descriptor = api.__getArray(api.getMazeDescriptor(width, height));
       return {
