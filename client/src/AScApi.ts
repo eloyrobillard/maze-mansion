@@ -3,14 +3,13 @@ import { ASUtil } from '@assemblyscript/loader';
 export type WasmApi = { 
   getTextMaze: (width: number, height: number) => number;
   generateClasses: (maze: number[][]) => number;
-  // updateClasses: (maze: Maze, classLists: string[][], change: Step, updateDir: number) => string[][];
+  updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => string[][];
   getMazeDescriptor: (width: number, height: number) => number;
 }
 
 export type Api = { 
   getTextMaze: (width: number, height: number) => string;
   generateClasses: (maze: number[][]) => string[][];
-  // TODO implement
   updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => string[][];
   getMazeDescriptor: (width: number, height: number) => MazeDescriptor;
 }

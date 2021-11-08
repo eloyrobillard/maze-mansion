@@ -1,9 +1,8 @@
 // The entry file of your WebAssembly module.
 // import 'wasi';
 // import { Console } from 'as-wasi';
-import { printMaze, generateClassLists } from './utilsFn';
+import { printMaze, generateClassLists, updateClassLists } from './utilsFn';
 import RecursiveBacktracker from './rbtFn';
-
 
 export function getTextMaze(width: i32, height: i32): string {
   return printMaze(RecursiveBacktracker(width, height)[2]);
@@ -13,13 +12,17 @@ export function generateClasses(grid: i32[][]): StaticArray<StaticArray<string>>
   return generateClassLists(grid);
 }
 
+export function updateClasses(maze: i32[][], classLists: string[][], change: i32[], updateDir: i32): string[][] {
+  return updateClassLists(maze, classLists, change, updateDir);
+}
+
 export function getMazeDescriptor(width: i32, height: i32): StaticArray<i32[][]> {
   return RecursiveBacktracker(width, height);
 }
 
-export const Grid_ID = idof<i32[][]>();
+// export const Grid_ID = idof<i32[][]>();
 
-// const maze = RecursiveBacktracker(-1, -1)[0];
+// const maze = RecursiveBacktracker(10, 10)[0];
 
 // Console.log(printMaze(maze));
 // Console.log(generateClasses(maze).reduce((acc, row) => `${acc} ${row.toString()}`, ''));
