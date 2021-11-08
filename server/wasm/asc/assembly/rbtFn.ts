@@ -3,7 +3,15 @@ import { NULL, getNext, setVisited, initGrid } from './mazeFn';
 import { getRand } from './utilsFn' ;
 
 export default function RecursiveBacktracker(width: i32, height: i32): StaticArray<i32[][]> {
-  
+  if (width <= 0 || height <= 0) {
+    return [ 
+      [[]], 
+      [[]], 
+      [[]]
+    ];
+  }
+
+
   const grid = initGrid(width, height);
   const cellStack: i32[] = [];
   const steps: i32[][] = [];

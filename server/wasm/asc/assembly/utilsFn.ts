@@ -61,11 +61,15 @@ export function printMaze (grid: i32[][]): string {
 }
 
 export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<string>> {
+  const gridHeight = grid.length;
+  const gridWidth = grid[0].length;
+	if (gridWidth <= 0 || gridHeight <= 0) {
+		return [['']];
+	}
+
   // NOTE checks if grid state is initial or final
 	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';
 
-  const gridHeight = grid.length;
-  const gridWidth = grid[0].length;
 
 	
 	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(gridHeight);
