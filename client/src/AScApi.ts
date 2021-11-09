@@ -23,6 +23,7 @@ export type MazeDescriptor = {
 export function formatApi(api: ASUtil & WasmApi): Api {
   return { 
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
+    
     generateClasses: (maze) => {
       if (maze.length === 0) {
         return [['']];
@@ -36,8 +37,10 @@ export function formatApi(api: ASUtil & WasmApi): Api {
       console.log('generate', res);
       return res;
     },
+
     updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))
       .map((row) => api.__getArray(row).map((cl) => api.__getString(cl))),
+
     getMazeDescriptor: (width, height) => {
       const descriptor = api.__getArray(api.getMazeDescriptor(width, height));
       return {

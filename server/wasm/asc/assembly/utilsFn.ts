@@ -76,8 +76,8 @@ export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32
 	}
 
 	const grid = new Array<Int32Array>(height);
-	for (let y = 0; y < offset; y += 1) {
-		grid[y] = Int32Array.wrap(buffer, 4 * y * width, width);
+	for (let y = 0; y < width; y += 1) {
+		grid[y] = Int32Array.wrap(buffer, offset + 4 * y * width, width * 4);
 		// grid[y] = new Array<i32>(width);
 		// for (let x = 0; x < width; x += 1) {
 		// 	grid[y][x] = load<i32>(4 * y * width, 4 * x);
