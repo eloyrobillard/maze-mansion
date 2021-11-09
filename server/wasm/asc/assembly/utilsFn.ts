@@ -5,7 +5,7 @@ export function getRand (max: i32): i32 {
 	return Math.floor(Math.random() * max as f32) as i32;
 }
 
-export function printMaze (grid: i32[][]): string {
+export function printMaze (grid: Int32Array[]): string {
   const height = grid.length;
 	if (height <= 0) {
 		return '**\n**';
@@ -67,43 +67,50 @@ export function printMaze (grid: i32[][]): string {
   return res;
 }
 
-export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<string>> {
-  const gridHeight = grid.length;
-	if (gridHeight <= 0) {
-		return [[`no height: ${grid}`]];
+export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
+	if (height <= 0) {
+		return [[`no height`]];
 	}
-	const gridWidth = grid[0].length;
-	if (gridWidth <= 0) {
-		return [[`no width: ${grid}`]];
+	if (width <= 0) {
+		return [[`no width`]];
+	}
+
+	const grid = new Array<Int32Array>(height);
+	for (let y = 0; y < offset; y += 1) {
+		grid[y] = Int32Array.wrap(buffer, 4 * y * width, width);
+		// grid[y] = new Array<i32>(width);
+		// for (let x = 0; x < width; x += 1) {
+		// 	grid[y][x] = load<i32>(4 * y * width, 4 * x);
+		// }
 	}
   
 	// NOTE checks if grid state is initial or final
 	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';
 	
-	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(gridHeight);
-	// const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(gridHeight);
-  for (let i = 0; i < gridHeight; i++) {
-		res[i] = new StaticArray<string>(gridWidth);
-    // for (let x = 0; x < gridWidth; x++) {
+	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(height);
+	// const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(height);
+  for (let i = 0; i < height; i++) {
+		res[i] = new StaticArray<string>(width);
+    // for (let x = 0; x < width; x++) {
 			//   res[y][x] = '';
 			// }
-		}
-	// Console.log(`${gridHeight} ${gridWidth} ${res.length} ${res[0].length}`);
+	}
+	// Console.log(`${height} ${width} ${res.length} ${res[0].length}`);
 
-	for (let y = 0; y < gridHeight; y += 1) {
-		for (let x = 0; x < gridWidth; x += 1) {
+	for (let y = 0; y < height; y += 1) {
+		for (let x = 0; x < width; x += 1) {
 			let classList = base;
 
 			if (y === 0) {
 				classList = `${classList} wall-top`;
 			}
-			if (y + 1 >= gridHeight) {
+			if (y + 1 >= height) {
 				classList = `${classList} wall-bottom`;
 			}
 			if (x === 0) {
 				classList = `${classList} wall-left`;
 			}
-			if (x + 1 >= gridWidth) {
+			if (x + 1 >= width) {
 				classList = `${classList} wall-right`;
 			}
 
@@ -123,14 +130,14 @@ export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<strin
         classList = `${classList} wall-right`;
 			}
 			// NOTE keep all walls to bot/right to avoid breaks in wall lines
-			if (y + 1 < gridHeight) {
+			if (y + 1 < height) {
         const neighborsBot = getNeighbors(grid, x, y + 1);
         //* if has top
 				if (neighborsBot !== NULL && (neighborsBot & (1 << 3))) {
           classList = `${classList} wall-bottom`;
 				}
 			}
-			if (x + 1 < gridWidth) {
+			if (x + 1 < width) {
         const neighborsRight = getNeighbors(grid, x + 1, y);
         //* if has left
 				if (neighborsRight !== NULL && (neighborsRight & 1)) {
@@ -145,7 +152,7 @@ export function generateClassLists(grid: i32[][]): StaticArray<StaticArray<strin
 	return res;
 }
 
-export function updateClassLists(grid: i32[][], classLists: string[][], change: i32[], updateDir: i32): string[][] {
+export function updateClassLists(grid: Int32Array[], classLists: string[][], change: i32[], updateDir: i32): string[][] {
 	if (updateDir > 0) {
 		return updateForward(grid, classLists, change);
 	}
@@ -153,7 +160,7 @@ export function updateClassLists(grid: i32[][], classLists: string[][], change: 
 	return updateBackward(grid, classLists, change);
 }
 
-function updateForward(grid: i32[][], classLists: string[][], change: i32[]): string[][] {
+function updateForward(grid: Int32Array[], classLists: string[][], change: i32[]): string[][] {
 	const prev = change[0];
 	const current = change[1];
 	// console.log(prev, current);
@@ -180,7 +187,7 @@ function updateForward(grid: i32[][], classLists: string[][], change: i32[]): st
 	// return classLists;
 }
 
-function updateBackward(grid: i32[][], classLists: string[][], change: i32[]): string[][] {
+function updateBackward(grid: Int32Array[], classLists: string[][], change: i32[]): string[][] {
 	const prev = change[0];
 	const current = change[1];
 	const firstVisit = change[2];
@@ -218,7 +225,7 @@ function updateBackward(grid: i32[][], classLists: string[][], change: i32[]): s
 } 
 
 
-function getClassList(grid: i32[][], x: i32, y: i32, neighStrs: string[]): string {
+function getClassList(grid: Int32Array[], x: i32, y: i32, neighStrs: string[]): string {
 	const classes = new Array<string>();
 	for (let i = 0; i < neighStrs.length; i += 1) {
 		classes.push(`wall-${neighStrs[i]}`)

@@ -8,15 +8,15 @@ export function getTextMaze(width: i32, height: i32): string {
   return printMaze(RecursiveBacktracker(width, height)[2]);
 }
 
-export function generateClasses(grid: i32[][]): StaticArray<StaticArray<string>> {
-  return generateClassLists(grid);
+export function generateClasses(buffer: ArrayBuffer, arrOffset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
+  return generateClassLists(buffer, arrOffset, height, width);
 }
 
-export function updateClasses(maze: i32[][], classLists: string[][], change: i32[], updateDir: i32): string[][] {
+export function updateClasses(maze: Int32Array[], classLists: string[][], change: i32[], updateDir: i32): string[][] {
   return updateClassLists(maze, classLists, change, updateDir);
 }
 
-export function getMazeDescriptor(width: i32, height: i32): StaticArray<i32[][]> {
+export function getMazeDescriptor(width: i32, height: i32): StaticArray<Int32Array[]> {
   return RecursiveBacktracker(width, height);
 }
 
@@ -26,25 +26,5 @@ export function getMazeDescriptor(width: i32, height: i32): StaticArray<i32[][]>
 
 // Console.log(printMaze(maze));
 // Console.log(generateClasses(maze).reduce((acc, row) => `${acc} ${row.toString()}`, ''));
-
-/* import { printMaze, generateClassLists, updateClassLists } from './utils';
-import { Maze, Step, MazeDescriptor } from './maze';
-import RecursiveBacktracker from './rbt';
-
-export function getTextMaze(width: i32, height: i32): string {
-  return printMaze(RecursiveBacktracker(width, height).final);
-}
-
-export function generateClasses(maze: Maze): string[][] {
-  return generateClassLists(maze)
-}
-
-export function updateClasses(maze: Maze, classLists: string[][], change: Step, updateDir: number): string[][] {
-  return updateClassLists(maze, classLists, change, updateDir);
-}
-
-export function getMazeDescriptor(width: i32, height: i32): MazeDescriptor {
-  return RecursiveBacktracker(width, height);
-} */
 
 

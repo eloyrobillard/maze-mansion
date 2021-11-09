@@ -2,23 +2,23 @@
 import { NULL, getNext, setVisited, initGrid } from './mazeFn';
 import { getRand } from './utilsFn' ;
 
-export default function RecursiveBacktracker(width: i32, height: i32): StaticArray<i32[][]> {
+export default function RecursiveBacktracker(width: i32, height: i32): StaticArray<Int32Array[]> {
   if (width <= 0 || height <= 0) {
     return [ 
-      [[]], 
-      [[]], 
-      [[]]
+      [new Int32Array(0)], 
+      [new Int32Array(0)], 
+      [new Int32Array(0)]
     ];
   }
 
 
   const grid = initGrid(width, height);
   const cellStack: i32[] = [];
-  const steps: i32[][] = [];
+  const steps: Int32Array[] = [];
   let prev = NULL;
   let current = NULL;
   
-  const descriptor: StaticArray<i32[][]> = [ 
+  const descriptor: StaticArray<Int32Array[]> = [ 
     initGrid(width, height), 
     steps, 
     grid
@@ -48,11 +48,11 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
 
     // Console.log(printMaze(grid));
 
-    steps.push([
-      prev, 
-      current,
-      (current & 1) ? 0 : 1,
-    ]);
+    const step = new Int32Array(3);
+    step[0] = prev;
+    step[0] = current;
+    step[0] = (current & 1) ? 0 : 1;
+    steps.push(step);
     
     prev = current;
     current = getNext(grid, current);
@@ -66,11 +66,11 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
   // Console.log(`${numVisited.toString()} ${cellStack}`);
 
   // NOTE yield last change
-  steps.push([ 
-    prev, 
-    current,
-    1,
-  ]);
+  const step = new Int32Array(3);
+  step[0] = prev;
+  step[0] = current;
+  step[0] = 1;
+  steps.push(step);
 
   // Console.log(`initial grid: ${descriptor[0].toString()}`);
   // Console.log(`final grid: ${descriptor[2].toString()}`);

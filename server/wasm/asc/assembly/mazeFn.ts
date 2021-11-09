@@ -14,7 +14,7 @@ export const NULL = -1;
 
 // Cell
 // XX YY VV NR (neighbors, ready?)
-function createCell(grid: i32[][], x: i32, y: i32): i32 {
+function createCell(grid: Int32Array[], x: i32, y: i32): i32 {
   return grid[y][x] = (x << 24) + (y << 16); 
 }
 
@@ -26,19 +26,19 @@ export function getY(cell: i32): i32 {
   return (cell >> 16) & 0xFF;
 }
 
-export function isVisited(grid: i32[][], x: i32, y: i32): bool {
+export function isVisited(grid: Int32Array[], x: i32, y: i32): bool {
   // Console.log(`${x} ${y} is visited? ${!!(grid[y][x] & (1 << 8)) ? 'true' : 'false'}`);
   return !!(grid[y][x] & (1 << 8));
 }
 
-export function setVisited(grid: i32[][], x: i32, y: i32): i32 {
+export function setVisited(grid: Int32Array[], x: i32, y: i32): i32 {
   grid[y][x] |= 1 << 8;
   return grid[y][x];
 }
 
 // Neighbors
 // top right bottom left
-export function getNeighbors(grid: i32[][], x: i32, y: i32): i32 {
+export function getNeighbors(grid: Int32Array[], x: i32, y: i32): i32 {
   // if (!isVisited(grid, x, y)) {
   //   return NULL;
   // }
@@ -85,7 +85,7 @@ export function neighsToStrings(neighbors: i32): string[] {
   return res;
 }
 
-function getVisitables(grid: i32[][], x: i32, y: i32, neighbors: i32): i32 {
+function getVisitables(grid: Int32Array[], x: i32, y: i32, neighbors: i32): i32 {
   if (neighbors === NULL) {
     return NULL;
   }
@@ -149,7 +149,7 @@ function getNumVisitables(visitables: i32): i32 {
   return numOnes;
 }
 
-function removeNeighbor(grid: i32[][], x: i32, y: i32, neighbor: i32): i32 {
+function removeNeighbor(grid: Int32Array[], x: i32, y: i32, neighbor: i32): i32 {
   switch (neighbor) {
     // top
     case 0: {
@@ -178,7 +178,7 @@ function removeNeighbor(grid: i32[][], x: i32, y: i32, neighbor: i32): i32 {
   return grid[y][x];
 }
 
-export function getNext(grid: i32[][], cell: i32): i32 {
+export function getNext(grid: Int32Array[], cell: i32): i32 {
   const x = getX(cell);
   const y = getY(cell);
   const neighbors = getNeighbors(grid, x, y);
@@ -245,10 +245,10 @@ export function getNext(grid: i32[][], cell: i32): i32 {
 // cellStack: i32[]
 // visited: i32
 // prev: i32
-export function initGrid(width: i32, height: i32): i32[][] {
-  const neighs = new Array<i32[]>(height);
+export function initGrid(width: i32, height: i32): Int32Array[] {
+  const neighs = new Array<Int32Array>(height);
   for (let y = 0; y < height; y++) {
-    neighs[y] = new Array<i32>(width);
+    neighs[y] = new Int32Array(width);
     for (let x = 0; x < width; x++) {
       createCell(neighs, x, y);
     }
