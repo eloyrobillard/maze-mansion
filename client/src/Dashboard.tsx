@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+// import { createAsBindHook } from 'use-as-bind';
 import Settings from './SettingsComp/Settings';
 import { formatApi } from './AScApi';
 import Maze from './MazeComp/Maze';

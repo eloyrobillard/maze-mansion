@@ -225,5 +225,9 @@ function getClassList(grid: i32[][], x: i32, y: i32, neighStrs: string[]): strin
 	}
 	const innerWallList = classes.join(' ');
 
-	return `cell visited ${innerWallList}${x === 0 ? ' wall-left' : x === grid[0].length - 1 ? ' wall-right' : ''}${y === 0 ? ' wall-top' : y === grid.length - 1 ? ' wall-bottom' : ''}`;
+	return `cell visited ${innerWallList}${x === 0 
+		? ' wall-left' 
+		: x === grid[0].length - 1 
+			? ' wall-right' 
+			: ''}${y === 0 ? ' wall-top' : y === grid.length - 1 ? ' wall-bottom' : ''}`;
 }
