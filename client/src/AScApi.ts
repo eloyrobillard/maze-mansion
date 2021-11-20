@@ -2,9 +2,12 @@ import { ASUtil } from '@assemblyscript/loader';
 
 export type WasmApi = { 
   getTextMaze: (width: number, height: number) => number;
-  generateClasses: (arrBuffer: ArrayBuffer, arrOffset: number, height: number, width: number) => number;
+  generateClasses: (arrOffset: number, height: number, width: number) => number;
   updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => number;
   getMazeDescriptor: (width: number, height: number) => number;
+  __getArray: (address: number) => number[];
+  __getString: (address: number) => string;
+  memory: WebAssembly.Memory;
 }
 
 export type Api = { 
@@ -20,22 +23,26 @@ export type MazeDescriptor = {
   final: number[][],
 }
 
-export function formatApi(api: ASUtil & WasmApi): Api {
+export function formatApi(api: WasmApi): Api {
   return { 
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
-    
+
     generateClasses: (maze) => {
       if (maze.length === 0) {
         return [['']];
       }
-      const arrBuffer = api.memory!.buffer;
-      const wasmGrid = new Int32Array(arrBuffer, 0, maze.length * maze[0].length);
-      const index = api.generateClasses(arrBuffer, wasmGrid.byteOffset, wasmGrid.length, maze[0].length);
-      // console.log('index', api);
-      const res = api.__getArray(index)
-        .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
-      console.log('generate', res);
-      return res;
+      const buffer = api.memory!.buffer;
+      const flatMaze = maze.reduce((acc, row) => acc.concat(row), []);
+      const wasmGrid = new Int32Array(buffer, undefined, maze.length * maze[0].length);
+      wasmGrid.set(flatMaze);
+      // console.log('wasmGrid', wasmGrid);
+      const index = api.generateClasses(wasmGrid.byteOffset, maze.length, maze[0].length);
+      console.log('index', index);
+      // const res = api.__getArray(index);
+      // const res = api.__getArray(index)
+      //   .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
+      // console.log('generate', res);
+      return [['']];
     },
 
     updateClasses: (maze, cls, change, dir) => api.__getArray(api.updateClasses(maze, cls, change, dir))

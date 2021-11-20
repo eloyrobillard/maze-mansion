@@ -39,7 +39,7 @@ export default function Dashboard() {
   useEffect(() => {
     (async () => {
       const ascMod = await Asc();
-      console.log('ascMod', ascMod);
+      // console.log('ascMod', ascMod);
       setApi(formatApi(ascMod));
     })();
   }, []);
