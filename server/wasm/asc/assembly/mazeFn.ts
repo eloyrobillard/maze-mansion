@@ -1,4 +1,4 @@
-// import { Console } from 'as-wasi';
+import * as console from './console';
 import { getRand } from './utilsFn';
 
 export const NULL = -1;
@@ -27,7 +27,7 @@ export function getY(cell: i32): i32 {
 }
 
 export function isVisited(grid: Int32Array[], x: i32, y: i32): bool {
-  // Console.log(`${x} ${y} is visited? ${!!(grid[y][x] & (1 << 8)) ? 'true' : 'false'}`);
+  // console.log(`${x} ${y}`)
   return !!(grid[y][x] & (1 << 8));
 }
 

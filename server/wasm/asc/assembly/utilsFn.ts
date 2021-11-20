@@ -68,38 +68,26 @@ export function printMaze (grid: Int32Array[]): string {
   return res;
 }
 
-export function generateClassLists(ptr: i32, height: i32, width: i32): i32 {
-// export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
-	return ptr;
-/* 	const grid = new Array<Int32Array>(height*width);
-	return grid;
-	if (buffer.byteLength === 0) {
-		return [new Int32Array(0)];
-		// return [[`no buffer`]];
-	}
+export function generateClassLists(grid: Int32Array[], height: i32, width: i32): StaticArray<StaticArray<string>> {
 	if (height <= 0) {
-		return [new Int32Array(0)];
-		// return [[`no height`]];
+		return [[`no height`]];
 	}
 	if (width <= 0) {
-		return [new Int32Array(0)];
-		// return [[`no width`]];
-	} */
-
-	/* 
-	for (let y = 0; y < height; y += 1) {
-		grid[y] = Int32Array.wrap(buffer, offset + 4 * y * width, 4 * width);
-		// grid[y] = new Array<i32>(width);
-		// for (let x = 0; x < width; x += 1) {
-		// 	grid[y][x] = load<i32>(4 * y * width, 4 * x);
-		// }
-	}
+		return [[`no width`]];
+	} 
+	
+	console.log(`${height} ${grid[0][4]}`)
+	// const grid = new Array<Int32Array>(height);
+	// for (let y = 0; y < height; y += 1) {
+	// 	grid[y] = ptr.slice(y * width, y * (width + 1));
+	// 	// console.log(`loop ${grid[y].toString()} ${ptr.slice(y * width, y * (width + 1))}`);
+	// }
+	// console.log(`${grid.length.toString()} ${ptr.length.toString()}`);
   
 	// NOTE checks if grid state is initial or final
 	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';
 	
 	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(height);
-	// const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(height);
   for (let i = 0; i < height; i++) {
 		res[i] = new StaticArray<string>(width);
     // for (let x = 0; x < width; x++) {
@@ -160,7 +148,7 @@ export function generateClassLists(ptr: i32, height: i32, width: i32): i32 {
       // Console.log(`neighs ${x}, ${y}`);
 		}
 	}
-	// return res; */
+	return res;
 }
 
 export function updateClassLists(grid: Int32Array[], classLists: string[][], change: i32[], updateDir: i32): string[][] {

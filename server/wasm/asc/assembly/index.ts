@@ -7,13 +7,13 @@ import RecursiveBacktracker from './rbtFn';
 // Export type ID
 // LINK https://github.com/AssemblyScript/examples/blob/main/loader/assembly/index.ts
 export const Int32Array_ID = idof<Int32Array>();
+export const ArrayInt32Arrays_ID = idof<Int32Array[]>();
 
 export function getTextMaze (width: i32, height: i32): string {
 	return printMaze(RecursiveBacktracker(width, height)[2]);
 }
 
-export function generateClasses (ptr: i32, height: i32, width: i32): i32 {
-	// export function generateClasses(buffer: ArrayBuffer, arrOffset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
+export function generateClasses (ptr: Int32Array[], height: i32, width: i32): StaticArray<StaticArray<string>> {
 	return generateClassLists(ptr, height, width);
 }
 

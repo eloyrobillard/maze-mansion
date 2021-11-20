@@ -14,6 +14,7 @@ export type WasmApi = {
 	__getString: (address: number) => string;
 	memory: WebAssembly.Memory;
 	Int32Array_ID: number;
+	ArrayInt32Arrays_ID: number;
 };
 
 export type Api = {
@@ -49,12 +50,13 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 			}
 			// Passing array to WebAssembly
 			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/index.js
-			const flatMaze = maze.reduce((acc, row) => acc.concat(row), []);
-			console.log(maze.length);
-			const ptr = api.__pin(api.__newArray(api.Int32Array_ID, flatMaze));
-			const index = api.generateClasses(ptr, maze.length, maze[0].length);
+			const elemPtrs = maze.map(arr => api.__pin(api.__newArray(api.ArrayInt32Arrays_ID, arr)));
+      const inPtr = api.__pin(api.__newArray(api.ArrayInt32Arrays_ID, elemPtrs));
+      elemPtrs.forEach(api.__unpin);
+
+			const index = api.generateClasses(inPtr, maze.length, maze[0].length);
 			console.log('index', index);
-			api.__unpin(ptr);
+			api.__unpin(inPtr);
 			// const res = api.__getArray(index);
 			// const res = api.__getArray(index)
 			//   .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
