@@ -68,7 +68,10 @@ export function printMaze (grid: Int32Array[]): string {
   return res;
 }
 
-export function generateClassLists(grid: Int32Array[], height: i32, width: i32): StaticArray<StaticArray<string>> {
+export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<string>> {
+	const height = grid.length;
+	const width = grid[0].length;
+	
 	if (height <= 0) {
 		return [[`no height`]];
 	}
@@ -77,12 +80,6 @@ export function generateClassLists(grid: Int32Array[], height: i32, width: i32):
 	} 
 	
 	console.log(`${height} ${grid[0][4]}`)
-	// const grid = new Array<Int32Array>(height);
-	// for (let y = 0; y < height; y += 1) {
-	// 	grid[y] = ptr.slice(y * width, y * (width + 1));
-	// 	// console.log(`loop ${grid[y].toString()} ${ptr.slice(y * width, y * (width + 1))}`);
-	// }
-	// console.log(`${grid.length.toString()} ${ptr.length.toString()}`);
   
 	// NOTE checks if grid state is initial or final
 	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';

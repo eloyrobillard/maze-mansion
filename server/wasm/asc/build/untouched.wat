@@ -1,7 +1,7 @@
 (module
  (type $i32_i32_=>_none (func (param i32 i32)))
- (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_=>_i32 (func (param i32) (result i32)))
+ (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_i32_i32_=>_none (func (param i32 i32 i32)))
  (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
  (type $i32_=>_none (func (param i32)))
@@ -5078,10 +5078,8 @@
   local.get $2
   call $~lib/staticarray/StaticArray<~lib/string/String>#__uset
  )
- (func $assembly/index/generateClasses (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/index/generateClasses (param $0 i32) (result i32)
   local.get $0
-  local.get $1
-  local.get $2
   call $assembly/utilsFn/generateClassLists
  )
  (func $~lib/array/Array<i32>#__get (param $0 i32) (param $1 i32) (result i32)
@@ -6934,7 +6932,9 @@
   global.set $~lib/memory/__stack_pointer
   local.get $2
  )
- (func $assembly/utilsFn/generateClassLists (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/utilsFn/generateClassLists (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6959,6 +6959,19 @@
   global.get $~lib/memory/__stack_pointer
   i64.const 0
   i64.store offset=16
+  local.get $0
+  call $~lib/array/Array<~lib/typedarray/Int32Array>#get:length
+  local.set $1
+  local.get $0
+  i32.const 0
+  call $~lib/array/Array<~lib/typedarray/Int32Array>#__get
+  local.set $12
+  global.get $~lib/memory/__stack_pointer
+  local.get $12
+  i32.store
+  local.get $12
+  call $~lib/typedarray/Int32Array#get:length
+  local.set $2
   local.get $1
   i32.const 0
   i32.le_s
@@ -6969,7 +6982,7 @@
    i32.const 0
    call $~lib/rt/__newBuffer
    local.tee $3
-   i32.store
+   i32.store offset=4
    local.get $3
    i32.const 0
    i32.const 4
@@ -6996,7 +7009,7 @@
    i32.const 0
    call $~lib/rt/__newBuffer
    local.tee $3
-   i32.store
+   i32.store offset=4
    local.get $3
    i32.const 0
    i32.const 4
@@ -7018,7 +7031,7 @@
   i32.const 10
   call $~lib/number/I32#toString
   local.tee $3
-  i32.store
+  i32.store offset=4
   global.get $~lib/memory/__stack_pointer
   local.get $0
   i32.const 0
@@ -7068,7 +7081,7 @@
   local.set $12
   global.get $~lib/memory/__stack_pointer
   local.get $12
-  i32.store offset=4
+  i32.store
   local.get $12
   call $assembly/console/log
   global.get $~lib/memory/__stack_pointer
@@ -7088,7 +7101,7 @@
   local.get $1
   call $~lib/staticarray/StaticArray<~lib/staticarray/StaticArray<~lib/string/String>>#constructor
   local.tee $3
-  i32.store
+  i32.store offset=4
   i32.const 0
   local.set $5
   loop $for-loop|0
@@ -7220,7 +7233,7 @@
         local.set $12
         global.get $~lib/memory/__stack_pointer
         local.get $12
-        i32.store offset=4
+        i32.store
         local.get $12
         local.get $7
         local.get $9
@@ -7345,7 +7358,7 @@
        local.set $12
        global.get $~lib/memory/__stack_pointer
        local.get $12
-       i32.store offset=4
+       i32.store
        local.get $12
        local.get $7
        local.get $9
@@ -9706,8 +9719,8 @@
   global.set $~lib/memory/__stack_pointer
   local.get $3
  )
- (func $export:assembly/index/generateClasses (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
-  (local $3 i32)
+ (func $export:assembly/index/generateClasses (param $0 i32) (result i32)
+  (local $1 i32)
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.sub
@@ -9717,15 +9730,13 @@
   local.get $0
   i32.store
   local.get $0
-  local.get $1
-  local.get $2
   call $assembly/index/generateClasses
-  local.set $3
+  local.set $1
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.add
   global.set $~lib/memory/__stack_pointer
-  local.get $3
+  local.get $1
  )
  (func $export:assembly/index/updateClasses (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)

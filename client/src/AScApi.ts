@@ -2,7 +2,7 @@ import { ASUtil } from '@assemblyscript/loader';
 
 export type WasmApi = {
 	getTextMaze: (width: number, height: number) => number;
-	generateClasses: (ptr: number, height: number, width: number) => number;
+	generateClasses: (ptr: number) => number;
 	updateClasses: (
 		maze: number[][],
 		classLists: string[][],
@@ -54,7 +54,7 @@ export function formatApi (api: ASUtil & WasmApi): Api {
       const inPtr = api.__pin(api.__newArray(api.ArrayInt32Arrays_ID, elemPtrs));
       elemPtrs.forEach(api.__unpin);
 
-			const index = api.generateClasses(inPtr, maze.length, maze[0].length);
+			const index = api.generateClasses(inPtr);
 			console.log('index', index);
 			api.__unpin(inPtr);
 			// const res = api.__getArray(index);
