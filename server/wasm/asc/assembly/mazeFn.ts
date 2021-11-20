@@ -42,10 +42,10 @@ export function getNeighbors(grid: Int32Array[], x: i32, y: i32): i32 {
   // if (!isVisited(grid, x, y)) {
   //   return NULL;
   // }
-  // Console.log(`${x} ${y} ${grid.length} ${grid[5].length}`);
+  // console.log(`${x} ${y} ${grid.length} ${grid[5].length}`);
   const cell = grid[y][x];
   if (cell & 1) {
-    // Console.log(`${x} ${y} ret neighs: ${((cell & 0xF0) >> 4).toString(2)}`);
+    // console.log(`${x} ${y} ret neighs: ${((cell & 0xF0) >> 4).toString(2)}`);
     return (cell & 0xF0) >> 4;
   }
 
@@ -69,7 +69,7 @@ export function getNeighbors(grid: Int32Array[], x: i32, y: i32): i32 {
 
   // set neighbors, set neighbors ready
   grid[y][x] |= (neighs << 4) + 1;
-  // Console.log(`${x} ${y} get neighs: ${neighs.toString(2)}`);
+  // console.log(`${x} ${y} get neighs: ${neighs.toString(2)}`);
   return neighs;
 }
 
@@ -129,7 +129,7 @@ function getVisitables(grid: Int32Array[], x: i32, y: i32, neighbors: i32): i32 
         default:
           break;
       }
-      // Console.log(`3 - i: ${3 - i}`);
+      // console.log(`3 - i: ${3 - i}`);
     }
   }
     
@@ -137,8 +137,8 @@ function getVisitables(grid: Int32Array[], x: i32, y: i32, neighbors: i32): i32 
 }
 
 function getNumVisitables(visitables: i32): i32 {
-  // Console.log(`${x} ${y} neighbors: ${neighbors.toString(2)}`);
-  // Console.log(`${x} ${y}: ${grid[y][x].toString(2)}`);
+  // console.log(`${x} ${y} neighbors: ${neighbors.toString(2)}`);
+  // console.log(`${x} ${y}: ${grid[y][x].toString(2)}`);
   let numOnes = 0;
   for (let i = 0; i < 4; i++) {
     if (visitables & (1 << i)) {
@@ -191,7 +191,7 @@ export function getNext(grid: Int32Array[], cell: i32): i32 {
   const rand = getRand(numVis);
   let count = -1;
   let i = 0;
-  // Console.log(`${visitables.toString(2)} ${numVis}`);
+  // console.log(`${visitables.toString(2)} ${numVis}`);
   // find neigh corresponding to n = rand
   for (; i < 4; i++) {
     if (visitables & (1 << (3 - i))) {
@@ -204,34 +204,34 @@ export function getNext(grid: Int32Array[], cell: i32): i32 {
 
   // Cell
   // XX YY VV NR (neighbors, ready?)
-  // Console.log(`${x} ${y} neighbors: ${neighbors.toString(2)} numNeighs: ${numNeighs.toString()} rand: ${rand.toString()} i: ${i.toString()}`);
+  // console.log(`${x} ${y} neighbors: ${neighbors.toString(2)} numNeighs: ${numNeighs.toString()} rand: ${rand.toString()} i: ${i.toString()}`);
   switch (i) {
     // top
     case 0: {
       setVisited(grid, x, y-1);
       removeNeighbor(grid, x, y, 0);
-      // Console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
+      // console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
       return grid[y-1][x];
     }
     // right
     case 1: {
       setVisited(grid, x+1, y);
       removeNeighbor(grid, x, y, 1);
-      // Console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
+      // console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
       return grid[y][x+1];
     }
     // bottom
     case 2: {
       setVisited(grid, x, y+1);
       removeNeighbor(grid, x, y, 2);
-      // Console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
+      // console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
       return grid[y+1][x];
     }
     // left
     case 3: {
       setVisited(grid, x-1, y);
       removeNeighbor(grid, x, y, 3);
-      // Console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
+      // console.log(`${x} ${y} neighs after: ${getNeighbors(grid, x, y).toString(2)}`);
       return grid[y][x-1];
     }
 

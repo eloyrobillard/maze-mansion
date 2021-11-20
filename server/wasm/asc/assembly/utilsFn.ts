@@ -1,4 +1,4 @@
-// import { Console } from 'as-wasi';
+// import { console } from 'as-wasi';
 import { NULL, getNeighbors, getX, getY, neighsToStrings, isVisited } from './mazeFn';
 import * as console from './console';
 
@@ -71,6 +71,11 @@ export function printMaze (grid: Int32Array[]): string {
 export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<string>> {
 	const height = grid.length;
 	const width = grid[0].length;
+	// const grid = ptr.map((row) => {
+	// 	const arr = new Array<i32>(width);
+	// 	arr.map((_, i) => row[i]);
+	// 	return arr;
+	// });
 	
 	if (height <= 0) {
 		return [[`no height`]];
@@ -79,24 +84,20 @@ export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<
 		return [[`no width`]];
 	} 
 	
-	console.log(`${height} ${grid[0][4]}`)
   
 	// NOTE checks if grid state is initial or final
-	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';
+	const base = /* isVisited(grid, 0, 0) ? 'cell visited' : */ 'cell';
 	
 	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(height);
   for (let i = 0; i < height; i++) {
 		res[i] = new StaticArray<string>(width);
-    // for (let x = 0; x < width; x++) {
-			//   res[y][x] = '';
-			// }
 	}
-	// Console.log(`${height} ${width} ${res.length} ${res[0].length}`);
-
+	
 	for (let y = 0; y < height; y += 1) {
 		for (let x = 0; x < width; x += 1) {
+			console.log(`南出矢念 ${x} ${y} ${grid[y][x]}`);
 			let classList = base;
-
+			
 			if (y === 0) {
 				classList = `${classList} wall-top`;
 			}
@@ -109,17 +110,17 @@ export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<
 			if (x + 1 >= width) {
 				classList = `${classList} wall-right`;
 			}
-
+			
 			const neighbors = getNeighbors(grid, x, y);
 			if (neighbors === NULL) {
-        // Console.log(`no neighs ${x}, ${y}`);
+				// console.log(`no neighs ${x}, ${y}`);
         res[y][x] = classList;
         continue;
 			}
       
       //* if has bottom
 			if (neighbors & (1 << 1)) {
-        classList = `${classList} wall-bottom`
+				classList = `${classList} wall-bottom`
 			}
       //* if has right
 			if (neighbors & (1 << 2)) {
@@ -127,22 +128,23 @@ export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<
 			}
 			// NOTE keep all walls to bot/right to avoid breaks in wall lines
 			if (y + 1 < height) {
-        const neighborsBot = getNeighbors(grid, x, y + 1);
+				const neighborsBot = getNeighbors(grid, x, y + 1);
         //* if has top
 				if (neighborsBot !== NULL && (neighborsBot & (1 << 3))) {
-          classList = `${classList} wall-bottom`;
+					classList = `${classList} wall-bottom`;
 				}
 			}
+			console.log(`莫迦かお前 ${x} ${y} ${grid[y][x]}`);
 			if (x + 1 < width) {
-        const neighborsRight = getNeighbors(grid, x + 1, y);
+				const neighborsRight = getNeighbors(grid, x + 1, y);
         //* if has left
 				if (neighborsRight !== NULL && (neighborsRight & 1)) {
-          classList = `${classList} wall-right`;
+					classList = `${classList} wall-right`;
 				}
 			}
-      // Console.log(`${x} ${y} ${classList}`);
+      // console.log(`${x} ${y} ${classList}`);
 			res[y][x] = classList;
-      // Console.log(`neighs ${x}, ${y}`);
+      // console.log(`neighs ${x}, ${y}`);
 		}
 	}
 	return res;
@@ -152,7 +154,7 @@ export function updateClassLists(grid: Int32Array[], classLists: string[][], cha
 	if (updateDir > 0) {
 		return updateForward(grid, classLists, change);
 	}
-
+	
 	return updateBackward(grid, classLists, change);
 }
 

@@ -58,14 +58,10 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 			console.log('index', index);
 			api.__unpin(inPtr);
 			// const res = api.__getArray(index);
-			// const res = api.__getArray(index)
-			//   .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
+			const res = api.__getArray(index)
+			  .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
 			// console.log('generate', res);
-			return [
-				[
-					''
-				]
-			];
+			return res;
 		},
 
 		updateClasses: (maze, cls, change, dir) =>
