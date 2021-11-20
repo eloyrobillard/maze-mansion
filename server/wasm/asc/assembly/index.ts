@@ -4,6 +4,8 @@
 import { printMaze, generateClassLists, updateClassLists } from './utilsFn';
 import RecursiveBacktracker from './rbtFn';
 
+export * from './imports';
+
 export function getTextMaze(width: i32, height: i32): string {
   return printMaze(RecursiveBacktracker(width, height)[2]);
 }

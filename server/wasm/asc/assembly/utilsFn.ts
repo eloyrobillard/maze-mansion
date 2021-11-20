@@ -1,5 +1,6 @@
 // import { Console } from 'as-wasi';
 import { NULL, getNeighbors, getX, getY, neighsToStrings, isVisited } from './mazeFn';
+import { log } from './imports';
 
 export function getRand (max: i32): i32 {
 	return Math.floor(Math.random() * max as f32) as i32;
@@ -67,17 +68,28 @@ export function printMaze (grid: Int32Array[]): string {
   return res;
 }
 
-export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
+export function generateClassLists(offset: i32, height: i32, width: i32): i32 {
+// export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
+	log(height.toString());
+	return offset;
+/* 	const grid = new Array<Int32Array>(height*width);
+	return grid;
+	if (buffer.byteLength === 0) {
+		return [new Int32Array(0)];
+		// return [[`no buffer`]];
+	}
 	if (height <= 0) {
-		return [[`no height`]];
+		return [new Int32Array(0)];
+		// return [[`no height`]];
 	}
 	if (width <= 0) {
-		return [[`no width`]];
-	}
+		return [new Int32Array(0)];
+		// return [[`no width`]];
+	} */
 
-	const grid = new Array<Int32Array>(height);
-	for (let y = 0; y < width; y += 1) {
-		grid[y] = Int32Array.wrap(buffer, offset + 4 * y * width, width * 4);
+	/* 
+	for (let y = 0; y < height; y += 1) {
+		grid[y] = Int32Array.wrap(buffer, offset + 4 * y * width, 4 * width);
 		// grid[y] = new Array<i32>(width);
 		// for (let x = 0; x < width; x += 1) {
 		// 	grid[y][x] = load<i32>(4 * y * width, 4 * x);
@@ -149,7 +161,7 @@ export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32
       // Console.log(`neighs ${x}, ${y}`);
 		}
 	}
-	return res;
+	// return res; */
 }
 
 export function updateClassLists(grid: Int32Array[], classLists: string[][], change: i32[], updateDir: i32): string[][] {

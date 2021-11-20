@@ -2,6 +2,6 @@
 // AS modules.
 
 // avoiding @external
-declare function log(msg: string): void
+declare function log (msg: string): void
 
-export { log }
+export { log };
