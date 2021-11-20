@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { createAsBindHook } from 'use-as-bind';
 import Settings from './SettingsComp/Settings';
 import { formatApi } from './AScApi';
 import Maze from './MazeComp/Maze';
-import { Api } from './AScApi';
+// import { Api } from './AScApi';
 import Asc from './RBT/asc/index';
 import './App.css';
 

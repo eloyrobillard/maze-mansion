@@ -30,7 +30,7 @@
  (global $~lib/math/random_state1_64 (mut i64) (i64.const 0))
  (global $~lib/rt/__rtti_base i32 (i32.const 5408))
  (global $~lib/memory/__stack_pointer (mut i32) (i32.const 21884))
- (memory $0 20)
+ (memory $0 1)
  (data (i32.const 1036) ",")
  (data (i32.const 1048) "\01\00\00\00\1c\00\00\00I\00n\00v\00a\00l\00i\00d\00 \00l\00e\00n\00g\00t\00h")
  (data (i32.const 1084) "<")
