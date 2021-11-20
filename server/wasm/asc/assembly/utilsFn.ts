@@ -1,6 +1,6 @@
 // import { Console } from 'as-wasi';
 import { NULL, getNeighbors, getX, getY, neighsToStrings, isVisited } from './mazeFn';
-import { log } from './imports';
+import * as console from './console';
 
 export function getRand (max: i32): i32 {
 	return Math.floor(Math.random() * max as f32) as i32;
@@ -70,7 +70,7 @@ export function printMaze (grid: Int32Array[]): string {
 
 export function generateClassLists(offset: i32, height: i32, width: i32): i32 {
 // export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
-	log(height.toString());
+	console.log(height.toString());
 	return offset;
 /* 	const grid = new Array<Int32Array>(height*width);
 	return grid;

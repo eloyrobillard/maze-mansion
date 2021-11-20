@@ -17,7 +17,7 @@
  (type $i32_i64_i32_i32_=>_none (func (param i32 i64 i32 i32)))
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
  (import "env" "seed" (func $~lib/builtins/seed (result f64)))
- (import "imports" "log" (func $assembly/imports/log (param i32)))
+ (import "console" "log" (func $assembly/console/log (param i32)))
  (global $assembly/mazeFn/NULL i32 (i32.const -1))
  (global $~lib/rt/itcms/total (mut i32) (i32.const 0))
  (global $~lib/rt/itcms/threshold (mut i32) (i32.const 0))
@@ -111,7 +111,6 @@
  (export "__rtti_base" (global $~lib/rt/__rtti_base))
  (export "memory" (memory $0))
  (export "updateClasses" (func $export:assembly/index/updateClasses))
- (export "log" (func $export:assembly/imports/log))
  (start $~start)
  (func $~lib/rt/itcms/Object#set:nextWithColor (param $0 i32) (param $1 i32)
   local.get $0
@@ -6833,7 +6832,7 @@
   local.get $3
   i32.store
   local.get $3
-  call $assembly/imports/log
+  call $assembly/console/log
   local.get $0
   local.set $3
   global.get $~lib/memory/__stack_pointer
@@ -9053,21 +9052,5 @@
   i32.add
   global.set $~lib/memory/__stack_pointer
   local.get $4
- )
- (func $export:assembly/imports/log (param $0 i32)
-  global.get $~lib/memory/__stack_pointer
-  i32.const 4
-  i32.sub
-  global.set $~lib/memory/__stack_pointer
-  call $~stack_check
-  global.get $~lib/memory/__stack_pointer
-  local.get $0
-  i32.store
-  local.get $0
-  call $assembly/imports/log
-  global.get $~lib/memory/__stack_pointer
-  i32.const 4
-  i32.add
-  global.set $~lib/memory/__stack_pointer
  )
 )
