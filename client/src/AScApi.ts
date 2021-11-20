@@ -2,12 +2,13 @@ import { ASUtil } from '@assemblyscript/loader';
 
 export type WasmApi = { 
   getTextMaze: (width: number, height: number) => number;
-  generateClasses: (arrOffset: number, height: number, width: number) => number;
+  generateClasses: (ptr: number, height: number, width: number) => number;
   updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => number;
   getMazeDescriptor: (width: number, height: number) => number;
   __getArray: (address: number) => number[];
   __getString: (address: number) => string;
   memory: WebAssembly.Memory;
+  Int32Array_ID: number;
 }
 
 export type Api = { 
@@ -23,7 +24,7 @@ export type MazeDescriptor = {
   final: number[][],
 }
 
-export function formatApi(api: WasmApi): Api {
+export function formatApi(api: ASUtil & WasmApi): Api {
   return { 
     getTextMaze: (width, height) => api.__getString(api.getTextMaze(width, height)),
 
@@ -31,13 +32,13 @@ export function formatApi(api: WasmApi): Api {
       if (maze.length === 0) {
         return [['']];
       }
-      const buffer = api.memory!.buffer;
+      // Passing array to WebAssembly
+      // LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/index.js
       const flatMaze = maze.reduce((acc, row) => acc.concat(row), []);
-      const wasmGrid = new Int32Array(buffer, undefined, maze.length * maze[0].length);
-      wasmGrid.set(flatMaze);
-      // console.log('wasmGrid', wasmGrid);
-      const index = api.generateClasses(wasmGrid.byteOffset, maze.length, maze[0].length);
-      console.log('index', index);
+      const ptr = api.__pin(api.__newArray(api.Int32Array_ID, flatMaze));
+      const index = api.generateClasses(ptr, maze.length, maze[0].length);
+      api.__unpin(ptr);
+      console.log('index', api.__getArray(index));
       // const res = api.__getArray(index);
       // const res = api.__getArray(index)
       //   .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));

@@ -13,6 +13,7 @@
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
  (import "env" "seed" (func $~lib/builtins/seed (result f64)))
  (import "console" "log" (func $assembly/console/log (param i32)))
+ (global $assembly/index/Int32Array_ID i32 (i32.const 3))
  (global $~lib/rt/itcms/total (mut i32) (i32.const 0))
  (global $~lib/rt/itcms/threshold (mut i32) (i32.const 0))
  (global $~lib/rt/itcms/state (mut i32) (i32.const 0))
@@ -135,6 +136,7 @@
  (data (i32.const 5032) "\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d")
  (data (i32.const 5088) "\n\00\00\00 \00\00\00\00\00\00\00 ")
  (data (i32.const 5116) "\01\t\00\00\02\00\00\00\02A\00\00\00\00\00\00\04A\00\00\00\00\00\00\02\t\00\00\00\00\00\00\04A\00\00\00\00\00\00\02A\00\00\00\00\00\00\02A")
+ (export "Int32Array_ID" (global $assembly/index/Int32Array_ID))
  (export "getTextMaze" (func $assembly/index/getTextMaze))
  (export "generateClasses" (func $assembly/index/generateClasses))
  (export "getMazeDescriptor" (func $assembly/index/getMazeDescriptor))
@@ -2880,6 +2882,8 @@
   global.get $~lib/memory/__stack_pointer
   i32.const 0
   i32.store
+  local.get $0
+  local.set $1
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.sub

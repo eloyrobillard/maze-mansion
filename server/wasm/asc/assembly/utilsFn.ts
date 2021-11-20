@@ -68,10 +68,9 @@ export function printMaze (grid: Int32Array[]): string {
   return res;
 }
 
-export function generateClassLists(offset: i32, height: i32, width: i32): i32 {
+export function generateClassLists(ptr: i32, height: i32, width: i32): i32 {
 // export function generateClassLists(buffer: ArrayBuffer, offset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
-	console.log(height.toString());
-	return offset;
+	return ptr;
 /* 	const grid = new Array<Int32Array>(height*width);
 	return grid;
 	if (buffer.byteLength === 0) {

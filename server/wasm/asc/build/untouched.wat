@@ -19,6 +19,7 @@
  (import "env" "seed" (func $~lib/builtins/seed (result f64)))
  (import "console" "log" (func $assembly/console/log (param i32)))
  (global $assembly/mazeFn/NULL i32 (i32.const -1))
+ (global $assembly/index/Int32Array_ID i32 (i32.const 3))
  (global $~lib/rt/itcms/total (mut i32) (i32.const 0))
  (global $~lib/rt/itcms/threshold (mut i32) (i32.const 0))
  (global $~lib/rt/itcms/state (mut i32) (i32.const 0))
@@ -101,6 +102,7 @@
  (data (i32.const 4064) "\n\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\01\t\00\00\02\00\00\00\02A\00\00\00\00\00\00\04A\00\00\00\00\00\00\02\t\00\00\00\00\00\00\04A\00\00\00\00\00\00\02A\00\00\00\00\00\00\02A\00\00\00\00\00\00")
  (table $0 1 funcref)
  (elem $0 (i32.const 1))
+ (export "Int32Array_ID" (global $assembly/index/Int32Array_ID))
  (export "getTextMaze" (func $assembly/index/getTextMaze))
  (export "generateClasses" (func $assembly/index/generateClasses))
  (export "getMazeDescriptor" (func $assembly/index/getMazeDescriptor))
@@ -6824,7 +6826,7 @@
   global.get $~lib/memory/__stack_pointer
   i32.const 0
   i32.store
-  local.get $1
+  local.get $0
   i32.const 10
   call $~lib/number/I32#toString
   local.set $3
