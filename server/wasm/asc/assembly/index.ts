@@ -8,8 +8,9 @@ export function getTextMaze(width: i32, height: i32): string {
   return printMaze(RecursiveBacktracker(width, height)[2]);
 }
 
-export function generateClasses(buffer: ArrayBuffer, arrOffset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
-  return generateClassLists(buffer, arrOffset, height, width);
+export function generateClasses(arrOffset: i32, height: i32, width: i32): i32 {
+// export function generateClasses(buffer: ArrayBuffer, arrOffset: i32, height: i32, width: i32): StaticArray<StaticArray<string>> {
+  return generateClassLists(arrOffset, height, width);
 }
 
 export function updateClasses(maze: Int32Array[], classLists: string[][], change: i32[], updateDir: i32): string[][] {
