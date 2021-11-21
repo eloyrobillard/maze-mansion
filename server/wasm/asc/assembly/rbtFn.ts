@@ -1,5 +1,5 @@
-// import * as console from './console';
-import { NULL, getNext, setVisited, isVisited, initGrid } from './mazeFn';
+import * as console from './console';
+import { NULL, getNext, setVisited, loadNeighbors, initGrid, getX, getY } from './mazeFn';
 import { getRand } from './utilsFn' ;
 
 export default function RecursiveBacktracker(width: i32, height: i32): StaticArray<Int32Array[]> {
@@ -7,7 +7,7 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
     return [ 
       [new Int32Array(0)], 
       [new Int32Array(0)], 
-      [new Int32Array(0)]
+      // [new Int32Array(0)]
     ];
   }
 
@@ -27,11 +27,12 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
     steps, 
     grid
   ];
-  // Console.log(descriptor.initial.toString());
+  // console.log(descriptor.initial.toString());
   
   const x = getRand(width);
   const y = getRand(height);
   current = setVisited(grid, x, y);
+  current = loadNeighbors(grid, x, y);
   let numVisited = 1;
 
   cellStack.push(current);
@@ -42,33 +43,37 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
       current = cellStack.pop();
     }
 
+    current = grid[getY(current)][getX(current)];
+
     const step = new Int32Array(3);
     step[0] = prev;
     step[1] = current;
-    step[2] = (current & 1) ? 0 : 1;
-    // console.log(isVisitedCell(prev).toString());
+    // step[2] = (current & 1) ? 0 : 1;
+    // console.log(`${(prev & 0xFF).toString(2)} ${(current & 0xFF).toString(2)}`);
     steps.push(step);
     
     prev = current;
     current = getNext(grid, current);
+    // NOTE load self back after wall update
+    prev = grid[getY(prev)][getX(prev)]
     if (current !== NULL) {
       numVisited += 1;
       cellStack.push(current);
     }
-    // Console.log(`current: ${current}, numVis: ${numVisited}`);
+    // console.log(`current: ${current}, numVis: ${numVisited}`);
   }
 
-  // Console.log(`${numVisited.toString()} ${cellStack}`);
+  // console.log(`${numVisited.toString()} ${cellStack}`);
 
   // NOTE yield last change
   const step = new Int32Array(3);
   step[0] = prev;
   step[1] = current;
-  step[2] = 1;
+  // step[2] = 1;
   steps.push(step);
 
-  // Console.log(`initial grid: ${descriptor[0].toString()}`);
-  // Console.log(`final grid: ${descriptor[2].toString()}`);
+  // console.log(`initial grid: ${descriptor[0].toString()}`);
+  // console.log(`final grid: ${descriptor[2].toString()}`);
   
   return descriptor;
 }

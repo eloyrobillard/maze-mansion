@@ -37,7 +37,9 @@ export function setVisited (grid: Int32Array[], x: i32, y: i32): i32 {
 }
 
 export function getNeighborsCell (cell: i32): i32 {
-  return (cell & 0xf0) >> 4;
+  const neighbors = (cell & 0xf0) >> 4;
+  // console.log(`${cell.toString(2)} ${neighbors}`);
+  return neighbors;
 }
 
 // Neighbors
@@ -79,6 +81,42 @@ export function getNeighbors (grid: Int32Array[], x: i32, y: i32): i32 {
 	grid[y][x] |= (neighs << 4) + 1;
 	// console.log(`${x} ${y} get neighs: ${neighs.toString(2)}`);
 	return neighs;
+}
+export function loadNeighbors (grid: Int32Array[], x: i32, y: i32): i32 {
+	// if (!isVisited(grid, x, y)) {
+	//   return NULL;
+	// }
+	// console.log(`${x} ${y} ${grid.length} ${grid[0].length}`);
+	const cell = grid[y][x];
+	if (cell & 1) {
+		// console.log(`${x} ${y} ret neighs: ${((cell & 0xF0) >> 4).toString(2)}`);
+		return (cell & 0xf0) >> 4;
+	}
+
+	let neighs = 0;
+	// top
+	if (y > 0 && !isVisited(grid, x, y - 1)) {
+		neighs |= 1 << 3;
+		// console.log(`${x} ${y} ${neighs}`);
+	}
+	// right
+	if (x + 1 < grid[0].length && !isVisited(grid, x + 1, y)) {
+		neighs |= 1 << 2;
+		// console.log(`${x} ${y} ${neighs}`);
+	}
+	// bottom
+	if (y + 1 < grid.length && !isVisited(grid, x, y + 1)) {
+		neighs |= 1 << 1;
+		// console.log(`${x} ${y} ${neighs}`);
+	}
+	// left
+	if (x > 0 && !isVisited(grid, x - 1, y)) {
+		neighs |= 1;
+		// console.log(`${x} ${y} ${neighs}`);
+	}
+
+	// set neighbors, set neighbors ready
+	return grid[y][x] |= (neighs << 4) + 1;
 }
 
 export function neighsToStrings (neighbors: i32): string[] {
