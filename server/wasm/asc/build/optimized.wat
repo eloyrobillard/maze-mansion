@@ -6026,11 +6026,11 @@
     local.get $4
     call $~lib/typedarray/Int32Array#__set
     local.get $0
-    i32.const 0
+    i32.const 1
     local.get $3
     call $~lib/typedarray/Int32Array#__set
     local.get $0
-    i32.const 0
+    i32.const 2
     local.get $3
     i32.const 1
     i32.and
@@ -6068,11 +6068,11 @@
   local.get $4
   call $~lib/typedarray/Int32Array#__set
   local.get $0
-  i32.const 0
+  i32.const 1
   local.get $3
   call $~lib/typedarray/Int32Array#__set
   local.get $0
-  i32.const 0
+  i32.const 2
   i32.const 1
   call $~lib/typedarray/Int32Array#__set
   local.get $8

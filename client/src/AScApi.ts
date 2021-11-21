@@ -94,7 +94,6 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 			const res = api
 				.__getArray(api.updateClasses(mazePtr, clsPtr, changePtr, dir))
 				.map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
-			console.log(res);
 
 			api.__unpin(mazePtr);
 			api.__unpin(clsPtr);

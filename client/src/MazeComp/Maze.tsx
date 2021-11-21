@@ -172,7 +172,7 @@ export default function Maze ({ api }: { api: Api }) {
 	// NOTE handle maze update (front AND back)
 	useEffect(
 		() => {
-			// console.log('cls', stepCount);
+			// console.log('cls', descriptor.steps);
 			if (stepCount === FIRST_STATE) {
 				const initialCls = api.generateClasses(descriptor.initial);
 				setClassLists(initialCls);
