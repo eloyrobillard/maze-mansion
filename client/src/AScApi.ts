@@ -91,8 +91,9 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 
 			const changePtr = api.__pin(api.__newArray(api.Int32Array_ID, change));
 
+			const resPtr = api.updateClasses(mazePtr, clsPtr, changePtr, dir);
 			const res = api
-				.__getArray(api.updateClasses(mazePtr, clsPtr, changePtr, dir))
+				.__getArray(resPtr)
 				.map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
 
 			api.__unpin(mazePtr);

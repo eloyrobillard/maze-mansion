@@ -150,7 +150,7 @@ export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<
 	return res;
 }
 
-export function updateClassLists(grid: Int32Array[], classLists: string[][], change: i32[], updateDir: i32): string[][] {
+export function updateClassLists(grid: Int32Array[], classLists: string[][], change: Int32Array, updateDir: i32): string[][] {
 	if (updateDir > 0) {
 		return updateForward(grid, classLists, change);
 	}
@@ -158,15 +158,15 @@ export function updateClassLists(grid: Int32Array[], classLists: string[][], cha
 	return updateBackward(grid, classLists, change);
 }
 
-function updateForward(grid: Int32Array[], classLists: string[][], change: i32[]): string[][] {
+function updateForward(grid: Int32Array[], classLists: string[][], change: Int32Array): string[][] {
 	const prev = change[0];
 	const current = change[1];
-	// console.log(prev, current);
+	
   const cx = getX(current);
   const cy = getY(current);
   const currNeighs = getNeighbors(grid, cx, cy);
   const cNeighStrs = neighsToStrings(currNeighs);
-	if (prev) {
+	if (prev !== NULL) {
 		const px = getX(prev);
 	  const py = getY(prev);
     const prevNeighs = getNeighbors(grid, px, py);
@@ -185,14 +185,14 @@ function updateForward(grid: Int32Array[], classLists: string[][], change: i32[]
 	// return classLists;
 }
 
-function updateBackward(grid: Int32Array[], classLists: string[][], change: i32[]): string[][] {
+function updateBackward(grid: Int32Array[], classLists: string[][], change: Int32Array): string[][] {
 	const prev = change[0];
 	const current = change[1];
 	const firstVisit = change[2];
 	
 	const cx = getX(current);
 	const cy = getY(current);
-	if (!prev) {
+	if (prev !== NULL) {
 		classLists[cy][cx] = `cell`;
 		return classLists;
 	} 

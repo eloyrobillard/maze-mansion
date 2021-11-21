@@ -22,7 +22,7 @@ export function generateClasses (ptr: Int32Array[]): StaticArray<StaticArray<str
 export function updateClasses (
 	maze: Int32Array[],
 	classLists: string[][],
-	change: i32[],
+	change: Int32Array,
 	updateDir: i32
 ): string[][] {
 	return updateClassLists(maze, classLists, change, updateDir);
