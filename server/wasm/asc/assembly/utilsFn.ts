@@ -86,7 +86,7 @@ export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<
 	
   
 	// NOTE checks if grid state is initial or final
-	const base = /* isVisited(grid, 0, 0) ? 'cell visited' : */ 'cell';
+	const base = isVisited(grid, 0, 0) ? 'cell visited' : 'cell';
 	
 	const res: StaticArray<StaticArray<string>> = new StaticArray<StaticArray<string>>(height);
   for (let i = 0; i < height; i++) {
@@ -95,7 +95,7 @@ export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<
 	
 	for (let y = 0; y < height; y += 1) {
 		for (let x = 0; x < width; x += 1) {
-			console.log(`南出矢念 ${x} ${y} ${grid[y][x]}`);
+			// console.log(`南出矢念 ${x} ${y} ${grid[y][x]}`);
 			let classList = base;
 			
 			if (y === 0) {
@@ -134,7 +134,7 @@ export function generateClassLists(grid: Int32Array[]): StaticArray<StaticArray<
 					classList = `${classList} wall-bottom`;
 				}
 			}
-			console.log(`莫迦かお前 ${x} ${y} ${grid[y][x]}`);
+			// console.log(`莫迦かお前 ${x} ${y} ${grid[y][x]}`);
 			if (x + 1 < width) {
 				const neighborsRight = getNeighbors(grid, x + 1, y);
         //* if has left
