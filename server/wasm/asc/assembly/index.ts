@@ -15,7 +15,7 @@ export function getTextMaze (width: i32, height: i32): string {
 	return printMaze(RecursiveBacktracker(width, height)[2]);
 }
 
-export function generateClasses (ptr: Int32Array[]): StaticArray<StaticArray<string>> {
+export function generateClasses (ptr: Int32Array[]): Array<Array<string>> {
 	return generateClassLists(ptr);
 }
 
