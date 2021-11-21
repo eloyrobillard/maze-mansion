@@ -10,6 +10,8 @@ export type WasmApi = {
 		updateDir: number
 	) => number;
 	getMazeDescriptor: (width: number, height: number) => number;
+	getX: (cell: number) => number;
+	getY: (cell: number) => number;
 	Int32Array_ID: number;
 	ArrayInt32Arrays_ID: number;
 	ArrayOfStrings_ID: number;
@@ -68,6 +70,13 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 			if (maze.length === 0) {
 				return [ [ '' ] ];
 			}
+
+			const current = change[1];
+			const x = api.getX(current);
+			const y = api.getY(current);
+
+			maze[y][x] = current;
+
 			// Passing array to WebAssembly
 			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/index.js
 			const elemPtrs = maze.map((arr) =>

@@ -11,6 +11,8 @@ export const ArrayInt32Arrays_ID = idof<Int32Array[]>();
 export const ArrayOfStrings_ID = idof<string[]>();
 export const Array2DStrings_ID = idof<string[][]>();
 
+export { getX, getY } from './mazeFn';
+
 export function getTextMaze (width: i32, height: i32): string {
 	return printMaze(RecursiveBacktracker(width, height)[2]);
 }
