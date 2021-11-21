@@ -11,7 +11,7 @@ function getAScAssembly() {
 }
 
 async function getRustAssembly() {
-
+  
 }
 
 module.exports = { getAScAssembly, getRustAssembly };

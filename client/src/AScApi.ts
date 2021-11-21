@@ -46,7 +46,7 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 				return [ [ '' ] ];
 			}
 			// Passing array to WebAssembly
-			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/index.js
+			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/offset.js
 			const elemPtrs = maze.map((arr) =>
 				api.__pin(api.__newArray(api.Int32Array_ID, arr))
 			);
@@ -55,12 +55,12 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 			);
 			elemPtrs.forEach(api.__unpin);
 
-			const index = api.generateClasses(inPtr);
-			console.log('index', index);
+			const offset = api.generateClasses(inPtr);
+			console.log('class lists generated');
 			api.__unpin(inPtr);
-			// const res = api.__getArray(index);
+			// const res = api.__getArray(offset);
 			const res = api
-				.__getArray(index)
+				.__getArray(offset)
 				.map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
 			// console.log('generate', res);
 			return res;
@@ -72,7 +72,7 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 			}
 
 			// Passing array to WebAssembly
-			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/index.js
+			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/offset.js
 			const elemPtrs = maze.map((arr) =>
 				api.__pin(api.__newArray(api.Int32Array_ID, arr))
 			);
