@@ -189,23 +189,21 @@ function updateForward (
 
 	const cx = getX(current);
 	const cy = getY(current);
-	console.log(classLists[cy][cx]);
+	// console.log(classLists[cy][cx]);
 	const currNeighs = getNeighbors(grid, cx, cy);
 	const cNeighStrs = neighsToStrings(currNeighs);
-	if (prev !== NULL) {
+	const currCls = getClassList(grid, cx, cy, cNeighStrs);
+	classLists[cy][cx] = `${currCls} current`;
+	if (prev !== NULL && prev !== current) {
 		const px = getX(prev);
 		const py = getY(prev);
 		const prevNeighs = getNeighbors(grid, px, py);
 		const pNeighStrs = neighsToStrings(prevNeighs);
 		classLists[py][px] = getClassList(grid, px, py, pNeighStrs);
-
-		if (cx === px && cy === py) {
-			classLists[cy][cx] = `${getClassList(grid, cx, cy, cNeighStrs)} stuck`;
-		}
 	} else {
-		classLists[cy][cx] = `${getClassList(grid, cx, cy, cNeighStrs)} current`;
+		classLists[cy][cx] = `${currCls} stuck`;
 	}
-	console.log(classLists[cy][cx]);
+	// console.log(classLists[cy][cx]);
 	return classLists;
 }
 

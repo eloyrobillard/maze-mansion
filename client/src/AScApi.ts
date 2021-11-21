@@ -100,7 +100,7 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 			api.__unpin(clsPtr);
 			api.__unpin(changePtr);
 
-			console.log(res);
+			// console.log(res);
 
 			return res;
 		},
