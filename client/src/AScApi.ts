@@ -10,12 +10,9 @@ export type WasmApi = {
 		updateDir: number
 	) => number;
 	getMazeDescriptor: (width: number, height: number) => number;
-	__getArray: (address: number) => number[];
-	__getString: (address: number) => string;
-	memory: WebAssembly.Memory;
 	Int32Array_ID: number;
 	ArrayInt32Arrays_ID: number;
-	ArrayOfArrayOfStrings_ID: number;
+	Array2DStrings: number;
 	ArrayOfStrings_ID: number;
 };
 
@@ -81,7 +78,7 @@ export function formatApi (api: ASUtil & WasmApi): Api {
       // elemPtrs.forEach(api.__unpin);
 			// TODO newStrings
 			// const strArrsPtrs = cls.map(arr => api.__pin(api.__newArray(api.ArrayOfStrings_ID, arr)));
-      // const clsPtr = api.__pin(api.__newArray(api.ArrayOfArrayOfStrings_ID, ));
+      // const clsPtr = api.__pin(api.__newArray(api.Array2DStrings, ));
       // strArrsPtrs.forEach(api.__unpin);
 			
       // const changePtr = api.__pin(api.__newArray(api.Int32Array_ID, ));

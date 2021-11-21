@@ -8,6 +8,8 @@ import RecursiveBacktracker from './rbtFn';
 // LINK https://github.com/AssemblyScript/examples/blob/main/loader/assembly/index.ts
 export const Int32Array_ID = idof<Int32Array>();
 export const ArrayInt32Arrays_ID = idof<Int32Array[]>();
+export const ArrayOfStrings = idof<string[]>();
+export const Array2DStrings = idof<string[][]>();
 
 export function getTextMaze (width: i32, height: i32): string {
 	return printMaze(RecursiveBacktracker(width, height)[2]);
