@@ -12,8 +12,8 @@ export type WasmApi = {
 	getMazeDescriptor: (width: number, height: number) => number;
 	Int32Array_ID: number;
 	ArrayInt32Arrays_ID: number;
-	Array2DStrings: number;
 	ArrayOfStrings_ID: number;
+	Array2DStrings_ID: number;
 };
 
 export type Api = {
@@ -41,51 +41,66 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 
 		generateClasses: (maze) => {
 			if (maze.length === 0) {
-				return [
-					[
-						''
-					]
-				];
+				return [ [ '' ] ];
 			}
 			// Passing array to WebAssembly
 			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/index.js
-			const elemPtrs = maze.map(arr => api.__pin(api.__newArray(api.Int32Array_ID, arr)));
-      const inPtr = api.__pin(api.__newArray(api.ArrayInt32Arrays_ID, elemPtrs));
-      elemPtrs.forEach(api.__unpin);
+			const elemPtrs = maze.map((arr) =>
+				api.__pin(api.__newArray(api.Int32Array_ID, arr))
+			);
+			const inPtr = api.__pin(
+				api.__newArray(api.ArrayInt32Arrays_ID, elemPtrs)
+			);
+			elemPtrs.forEach(api.__unpin);
 
 			const index = api.generateClasses(inPtr);
 			console.log('index', index);
 			api.__unpin(inPtr);
 			// const res = api.__getArray(index);
-			const res = api.__getArray(index)
-			  .map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
+			const res = api
+				.__getArray(index)
+				.map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
 			// console.log('generate', res);
 			return res;
 		},
 
 		updateClasses: (maze, cls, change, dir) => {
 			if (maze.length === 0) {
-				return [
-					[
-						''
-					]
-				];
+				return [ [ '' ] ];
 			}
 			// Passing array to WebAssembly
 			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/index.js
-			// const elemPtrs = maze.map(arr => api.__pin(api.__newArray(api.Int32Array_ID, arr)));
-      // const mazePtr = api.__pin(api.__newArray(api.ArrayInt32Arrays_ID, elemPtrs));
-      // elemPtrs.forEach(api.__unpin);
-			// TODO newStrings
-			// const strArrsPtrs = cls.map(arr => api.__pin(api.__newArray(api.ArrayOfStrings_ID, arr)));
-      // const clsPtr = api.__pin(api.__newArray(api.Array2DStrings, ));
-      // strArrsPtrs.forEach(api.__unpin);
-			
-      // const changePtr = api.__pin(api.__newArray(api.Int32Array_ID, ));
+			const elemPtrs = maze.map((arr) =>
+				api.__pin(api.__newArray(api.Int32Array_ID, arr))
+			);
+			const mazePtr = api.__pin(
+				api.__newArray(api.ArrayInt32Arrays_ID, elemPtrs)
+			);
+			elemPtrs.forEach(api.__unpin);
 
-			return api
-					.__getArray(api.updateClasses(0, 0, 0, dir))
-					.map((row) => api.__getArray(row).map((cl) => api.__getString(cl)))
+			const strArrsPtrs = cls.map((arr, i) => {
+				const strsPtr = arr.map((str) => api.__pin(api.__newString(str)));
+				const res = api.__pin(api.__newArray(api.ArrayOfStrings_ID, strsPtr));
+				strsPtr.forEach(api.__unpin);
+				return res;
+			});
+			const clsPtr = api.__pin(
+				api.__newArray(api.Array2DStrings_ID, strArrsPtrs)
+			);
+			strArrsPtrs.forEach(api.__unpin);
+
+			const changePtr = api.__pin(api.__newArray(api.Int32Array_ID, change));
+
+			const res = api
+				.__getArray(api.updateClasses(mazePtr, clsPtr, changePtr, dir))
+				.map((row) => api.__getArray(row).map((cl) => api.__getString(cl)));
+			console.log(res);
+
+			api.__unpin(mazePtr);
+			api.__unpin(clsPtr);
+			api.__unpin(changePtr);
+
+			return res;
 		},
 
 		getMazeDescriptor: (width, height) => {

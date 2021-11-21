@@ -18,62 +18,48 @@ export const FIRST_STATE = -1;
 export default function Maze ({ api }: { api: Api }) {
 	const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
-	const [
-		cellWidth,
-		setCellWidth
-	]: [number, Dispatch<SetStateAction<number>>] = useState(50);
-	const [
-		cellHeight,
-		setCellHeight
-	]: [number, Dispatch<SetStateAction<number>>] = useState(50);
+	const [ cellWidth, setCellWidth ]: [
+		number,
+		Dispatch<SetStateAction<number>>
+	] = useState(50);
+	const [ cellHeight, setCellHeight ]: [
+		number,
+		Dispatch<SetStateAction<number>>
+	] = useState(50);
 
-	const [
-		classLists,
-		setClassLists
-	]: [string[][], Dispatch<SetStateAction<string[][]>>] = useState([
-		[
-			''
-		]
-	]);
-	const [
-		descriptor,
-		setDescriptor
-	]: [MazeDescriptor, Dispatch<SetStateAction<MazeDescriptor>>] = useState(
-		api.getMazeDescriptor(mazeWidth, mazeHeight)
-	);
+	const [ classLists, setClassLists ]: [
+		string[][],
+		Dispatch<SetStateAction<string[][]>>
+	] = useState([ [ '' ] ]);
+	const [ descriptor, setDescriptor ]: [
+		MazeDescriptor,
+		Dispatch<SetStateAction<MazeDescriptor>>
+	] = useState(api.getMazeDescriptor(mazeWidth, mazeHeight));
 
-	const [
-		stepCount,
-		setStepCount
-	]: [number, Dispatch<SetStateAction<number>>] = useState(FIRST_STATE);
-	const [
-		updateDir,
-		setUpdateDir
-	]: [number, Dispatch<SetStateAction<number>>] = useState(1);
+	const [ stepCount, setStepCount ]: [
+		number,
+		Dispatch<SetStateAction<number>>
+	] = useState(FIRST_STATE);
+	const [ updateDir, setUpdateDir ]: [
+		number,
+		Dispatch<SetStateAction<number>>
+	] = useState(1);
 
-	const [
-		LAST_STATE,
-		setLastState
-	] = useState(0);
+	const [ LAST_STATE, setLastState ] = useState(0);
 	// NOTE update last state index
 	useEffect(
 		() => {
 			// console.log('descriptor', descriptor);
 			setLastState(descriptor.steps.length);
 		},
-		[
-			descriptor
-		]
+		[ descriptor ]
 	);
 
 	// LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
 	const intervalRef: React.MutableRefObject<NodeJS.Timeout | null> = useRef(
 		null
 	);
-	const [
-		isPlaying,
-		setIsPlaying
-	] = useState(false);
+	const [ isPlaying, setIsPlaying ] = useState(false);
 	const play = useCallback(
 		() => {
 			if (intervalRef.current !== null) {
@@ -90,11 +76,7 @@ export default function Maze ({ api }: { api: Api }) {
 				});
 			}, Math.floor(1000 / fps));
 		},
-		[
-			updateDir,
-			fps,
-			LAST_STATE
-		]
+		[ updateDir, fps, LAST_STATE ]
 	);
 
 	const pause = useCallback(() => {
@@ -113,11 +95,7 @@ export default function Maze ({ api }: { api: Api }) {
 			}
 			return pause();
 		},
-		[
-			isPlaying,
-			play,
-			pause
-		]
+		[ isPlaying, play, pause ]
 	);
 
 	// NOTE pause automatically when at the end
@@ -127,10 +105,7 @@ export default function Maze ({ api }: { api: Api }) {
 				setIsPlaying(false);
 			}
 		},
-		[
-			stepCount,
-			LAST_STATE
-		]
+		[ stepCount, LAST_STATE ]
 	);
 
 	function togglePlay () {
@@ -156,10 +131,7 @@ export default function Maze ({ api }: { api: Api }) {
 				setUpdateDir(-1);
 			}
 		},
-		[
-			stepCount,
-			LAST_STATE
-		]
+		[ stepCount, LAST_STATE ]
 	);
 
 	useEffect(
@@ -171,10 +143,7 @@ export default function Maze ({ api }: { api: Api }) {
 				setCellHeight
 			});
 		},
-		[
-			mazeWidth,
-			mazeHeight
-		]
+		[ mazeWidth, mazeHeight ]
 	);
 
 	useEffect(
@@ -188,12 +157,7 @@ export default function Maze ({ api }: { api: Api }) {
 				grid.style.height = `${cellHeight * mazeHeight}px`;
 			})();
 		},
-		[
-			cellWidth,
-			cellHeight,
-			mazeWidth,
-			mazeHeight
-		]
+		[ cellWidth, cellHeight, mazeWidth, mazeHeight ]
 	);
 
 	// NOTE fetch descriptor and set to initial
@@ -202,11 +166,7 @@ export default function Maze ({ api }: { api: Api }) {
 			setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
 			setStepCount(FIRST_STATE);
 		},
-		[
-			mazeWidth,
-			mazeHeight,
-			api
-		]
+		[ mazeWidth, mazeHeight, api ]
 	);
 
 	// NOTE handle maze update (front AND back)
@@ -229,13 +189,7 @@ export default function Maze ({ api }: { api: Api }) {
 				);
 			}
 		},
-		[
-			descriptor,
-			stepCount,
-			updateDir,
-			LAST_STATE,
-			api
-		]
+		[ descriptor, stepCount, updateDir, LAST_STATE, api ]
 	);
 
 	return (
