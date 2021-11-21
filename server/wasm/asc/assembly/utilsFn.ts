@@ -2,6 +2,7 @@
 import {
 	NULL,
 	getNeighbors,
+	getNeighborsCell,
 	getX,
 	getY,
 	neighsToStrings,
@@ -190,14 +191,14 @@ function updateForward (
 	const cx = getX(current);
 	const cy = getY(current);
 	// console.log(classLists[cy][cx]);
-	const currNeighs = getNeighbors(grid, cx, cy);
+	const currNeighs = getNeighborsCell(current);
 	const cNeighStrs = neighsToStrings(currNeighs);
 	const currCls = getClassList(grid, cx, cy, cNeighStrs);
 	classLists[cy][cx] = `${currCls} current`;
 	if (prev !== NULL && prev !== current) {
 		const px = getX(prev);
 		const py = getY(prev);
-		const prevNeighs = getNeighbors(grid, px, py);
+		const prevNeighs = getNeighborsCell(prev);
 		const pNeighStrs = neighsToStrings(prevNeighs);
 		classLists[py][px] = getClassList(grid, px, py, pNeighStrs);
 	} else {

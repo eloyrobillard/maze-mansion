@@ -1,5 +1,5 @@
-// import { Console } from 'as-wasi';
-import { NULL, getNext, setVisited, initGrid } from './mazeFn';
+// import * as console from './console';
+import { NULL, getNext, setVisited, isVisited, initGrid } from './mazeFn';
 import { getRand } from './utilsFn' ;
 
 export default function RecursiveBacktracker(width: i32, height: i32): StaticArray<Int32Array[]> {
@@ -46,6 +46,7 @@ export default function RecursiveBacktracker(width: i32, height: i32): StaticArr
     step[0] = prev;
     step[1] = current;
     step[2] = (current & 1) ? 0 : 1;
+    // console.log(isVisitedCell(prev).toString());
     steps.push(step);
     
     prev = current;

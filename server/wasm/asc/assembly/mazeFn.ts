@@ -27,13 +27,17 @@ export function getY (cell: i32): i32 {
 }
 
 export function isVisited (grid: Int32Array[], x: i32, y: i32): bool {
-	console.log(`${x} ${y} ${!!(grid[y][x] & (1 << 8))}`)
+	// console.log(`${x} ${y} ${!!(grid[y][x] & (1 << 8))}`)
 	return !!(grid[y][x] & (1 << 8));
 }
 
 export function setVisited (grid: Int32Array[], x: i32, y: i32): i32 {
 	grid[y][x] |= 1 << 8;
 	return grid[y][x];
+}
+
+export function getNeighborsCell (cell: i32): i32 {
+  return (cell & 0xf0) >> 4;
 }
 
 // Neighbors
@@ -73,7 +77,7 @@ export function getNeighbors (grid: Int32Array[], x: i32, y: i32): i32 {
 
 	// set neighbors, set neighbors ready
 	grid[y][x] |= (neighs << 4) + 1;
-	console.log(`${x} ${y} get neighs: ${neighs.toString(2)}`);
+	// console.log(`${x} ${y} get neighs: ${neighs.toString(2)}`);
 	return neighs;
 }
 
