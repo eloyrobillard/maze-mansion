@@ -45,21 +45,32 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
     neighbors
 }
 
-fn get_visitables(neighbors: i32) -> Vec<i32> {
+fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<i32> {
   let mut res: Vec<i32> = Vec::new();
+  let neighbors = cell & 0xFF;
 
-  for i in 0..4 {
+  let x = get_x(cell) as usize;
+  let y = get_y(cell) as usize;
+
+  for i in 0..4 as usize {
     if neighbors & (1 << i) == 1 {
-      res.push(i);
+      let visited = match i {
+        0 => is_visited(grid[y][x-1]),
+        1 => is_visited(grid[y+1][x]),
+        2 => is_visited(grid[y][x+1]),
+        3 => is_visited(grid[y-1][x]),
+      };
+      if !visited {
+        res.push(i as i32);
+      }
     }
   }
   
   res
 }
 
-pub fn get_next(cell: i32) -> i32 {
-  let neighbors = cell & 0xFF;
-  let visitables = get_visitables(neighbors);
+pub fn get_next(cell: i32, grid: Vec<Vec<i32>>) -> i32 {
+  let visitables = get_visitables(cell, grid);
 
   let rand_visitable = 
 }
