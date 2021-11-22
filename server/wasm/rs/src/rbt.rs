@@ -1,25 +1,12 @@
 use crate::utils::*;
 
-use super::utils;
+// use super::utils;
 
-pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<i32>> {
+pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> {
     let null = -1;
-
-    let mut y = -1;
-    let mut x = -1;
-    let mut grid: Vec<Vec<i32>> = Vec::with_capacity(height)
-        .into_iter()
-        .map(|_: Vec<i32>| {
-            y += 1;
-            Vec::with_capacity(width)
-                .into_iter()
-                .map(|_: i32| {
-                    x += 1;
-                    utils::init_cell(x, y)
-                })
-                .collect()
-        })
-        .collect();
+    let mut res: Vec<Vec<Vec<i32>>> = vec![init_grid(width, height)];
+    
+    let mut grid: Vec<Vec<i32>> = init_grid(width, height);
 
     let mut cell_stack: Vec<i32> = Vec::new();
 
@@ -34,9 +21,9 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<i32>> {
 
     let mut steps: Vec<Vec<i32>> = Vec::new();
 
-    let toVisit = width * height;
+    let to_visit = width * height;
 
-    while visited < toVisit {
+    while visited < to_visit {
         if current == null {
             current = cell_stack.pop().unwrap();
         }
@@ -52,6 +39,7 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<i32>> {
     }
 
     steps.push(vec![prev, current]);
-
-    grid
+    res.push(steps);
+    res.push(grid);
+    res
 }
