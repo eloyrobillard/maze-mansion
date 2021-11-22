@@ -41,6 +41,25 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
         neighbors += 1;
     }
 
-    grid[y][x] += neighbors;
+    grid[y][x] += neighbors + (1 << 4);
     neighbors
+}
+
+fn get_visitables(neighbors: i32) -> Vec<i32> {
+  let mut res: Vec<i32> = Vec::new();
+
+  for i in 0..4 {
+    if neighbors & (1 << i) == 1 {
+      res.push(i);
+    }
+  }
+  
+  res
+}
+
+pub fn get_next(cell: i32) -> i32 {
+  let neighbors = cell & 0xFF;
+  let visitables = get_visitables(neighbors);
+
+  let rand_visitable = 
 }
