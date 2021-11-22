@@ -45,8 +45,8 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
     neighbors
 }
 
-fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<i32> {
-  let mut res: Vec<i32> = Vec::new();
+fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<usize> {
+  let mut res: Vec<usize> = Vec::new();
   let neighbors = cell & 0xFF;
 
   let x = get_x(cell) as usize;
@@ -59,9 +59,10 @@ fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<i32> {
         1 => is_visited(grid[y+1][x]),
         2 => is_visited(grid[y][x+1]),
         3 => is_visited(grid[y-1][x]),
+        _ => panic!("Wrong visitable direction.")
       };
       if !visited {
-        res.push(i as i32);
+        res.push(i);
       }
     }
   }
@@ -69,8 +70,40 @@ fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<i32> {
   res
 }
 
-pub fn get_next(cell: i32, grid: Vec<Vec<i32>>) -> i32 {
-  let visitables = get_visitables(cell, grid);
+fn destroy_wall(x: usize, y: usize, dir: usize, grid: &mut Vec<Vec<i32>>) -> i32 {
+  grid[y][x] &= match dir {
+    0 => 0x7FFFFFFE,
+    1 => 0x7FFFFFFD,
+    2 => 0x7FFFFFFB,
+    3 => 0x7FFFFFF7,
+    _ => panic!("Wrong wall direction.")
+  };
 
-  let rand_visitable = 
+  grid[y][x]
+}
+
+fn set_visited(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) -> i32 {
+  grid[y][x] &= 1 << 8;
+
+  grid[y][x]
+}
+
+pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
+  let visitables = get_visitables(cell, grid.to_vec());
+  let rand_visitable = fastrand::usize(0..2);
+
+  let x = get_x(cell) as usize;
+  let y = get_y(cell) as usize;
+  let dir = visitables[rand_visitable];
+  destroy_wall(x, y, dir, grid);
+
+  let next = match dir {
+    0 => set_visited(grid, y, x-1),
+    1 => set_visited(grid, y+1, x),
+    2 => set_visited(grid, y, x+1),
+    3 => set_visited(grid, y-1, x),
+    _ => panic!("Wrong neighbor direction.")
+  };
+
+  next
 }

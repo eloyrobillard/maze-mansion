@@ -44,7 +44,8 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<i32>> {
         steps.push(vec![prev, current]);
 
         prev = current;
-        current = get_next(current);
+        current = get_next(current, &mut grid);
+        prev = grid[get_y(prev) as usize][get_x(prev) as usize];
         if current != null {
             visited += 1;
         }
