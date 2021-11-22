@@ -18,3 +18,8 @@ extern {
 pub fn greet() {
     alert("なんじゃこりゃあ!");
 }
+
+#[wasm_bindgen]
+pub fn recursive_backtracker(width: usize, height: usize) {
+    rbt::recursive_backtracker(width, height);
+}
