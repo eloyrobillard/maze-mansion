@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "client": "cd ../client && yarn start",
+    "server": "nodemon",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,5 +17,8 @@
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.1.1",
     "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "concurrently": "^6.4.0"
   }
 }

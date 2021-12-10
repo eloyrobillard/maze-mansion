@@ -23,6 +23,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "client": "yarn start",
+    "server": "cd ../server && nodemon",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,6 +49,7 @@
     ]
   },
   "devDependencies": {
-    "assemblyscript": "^0.19.18"
+    "assemblyscript": "^0.19.18",
+    "concurrently": "^6.4.0"
   }
 }
