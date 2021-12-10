@@ -1,4 +1,5 @@
 # Maze Mansion
+
 A visualizer for maze generator algorithms. \
 Currently supports the [recursive backtracker] algorithm, written in [AssemblyScript].  \
 Serves as a follow-up to [this](https://github.com/eloyrobillard/Legum-s-Halls) project featuring an exploring recursive backtracker created with Unity.
@@ -7,7 +8,9 @@ Serves as a follow-up to [this](https://github.com/eloyrobillard/Legum-s-Halls) 
 [AssemblyScript]: https://www.assemblyscript.org/
 
 ***
+
 ## Getting Started
+
 1. Do the traditional `npm i` in `client/` and `server/`.
 2. Go to `server/wasm/asc` and run `npm run asbuild`.
 3. From `client/` or `server/`, run `npm run dev`.
@@ -16,11 +19,15 @@ Serves as a follow-up to [this](https://github.com/eloyrobillard/Legum-s-Halls) 
 [nodemon]: https://nodemon.io/
 
 ***
+
 ## Tech stack
+
 ### _Front End_
+
 - React
 - WebAssembly through [AssemblyScript]
 
 ### _Back End_
+
 - mongoose
 - koa
