@@ -9,7 +9,8 @@ Serves as a follow-up to [this](https://github.com/eloyrobillard/Legum-s-Halls) 
 ***
 ## Getting Started
 1. Do the traditional `npm i` in `client/` and `server/`.
-2. From `client/` or `server/`, run `npm run dev`.
+2. Go to `server/wasm/asc` and run `npm run asbuild`.
+3. From `client/` or `server/`, run `npm run dev`.
    > if you do not have [nodemon] installed globally, make sure to `npm i --save-dev nodemon` from `server/`.
 
 [nodemon]: https://nodemon.io/
