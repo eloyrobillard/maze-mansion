@@ -1,6 +1,7 @@
 # Maze Mansion
 A visualizer for maze generator algorithms. \
-Currently supports the [recursive backtracker] algorithm, written in [AssemblyScript].
+Currently supports the [recursive backtracker] algorithm, written in [AssemblyScript].  \
+Serves as a follow-up to [this](https://github.com/eloyrobillard/Legum-s-Halls) project featuring an exploring recursive backtracker created with Unity.
 
 [recursive backtracker]: https://www.wikiwand.com/en/Maze_generation_algorithm#/Randomized_depth-first_search
 [AssemblyScript]: https://www.assemblyscript.org/
