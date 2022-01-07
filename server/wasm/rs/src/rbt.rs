@@ -36,7 +36,7 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> 
         prev = grid[get_y(prev) as usize][get_x(prev) as usize];
         if current != invalid {
             visited += 1;
-            current += get_neighbors(&mut grid, get_x(current), get_y(current));
+            current |= get_neighbors(&mut grid, get_x(current), get_y(current));
             cell_stack.push(current)
         }
     }

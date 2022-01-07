@@ -31,7 +31,6 @@ mod tests {
     #[test]
     fn it_works() {
         let grid = super::recursive_backtracker(10, 10);
-        println!("{}", grid);
-        assert!(grid.len() > 10)
+        assert!(grid.len() == 10)
     }
 }

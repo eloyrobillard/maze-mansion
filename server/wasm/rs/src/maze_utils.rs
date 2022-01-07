@@ -7,7 +7,7 @@ pub fn get_y(cell: i32) -> usize {
 }
 
 fn is_visited(cell: i32) -> bool {
-    cell & (1 << 4) == 1
+    cell & (1 << 4) > 0
 }
 
 pub fn has_neighbor(neighbor: &str, cell: i32) -> bool {
@@ -29,8 +29,6 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
     if cell & (1 << 4) > 0 {
         return cell & 0xFF;
     }
-
-    println!("get neighs: {} {} {:#010X} {:#06b}", x, y, cell, cell & 0xFFF);
 
     let width = grid[0].len();
     let height = grid.len();
@@ -63,8 +61,6 @@ fn get_visitables(cell: i32, grid: &mut Vec<Vec<i32>>) -> Vec<usize> {
     let y = get_y(cell) as usize;
     let neighbors = get_neighbors(grid, x, y);
 
-    println!("visitables: {} {} {:#010X} {:#06b}", x, y, cell, cell & 0xFFF);
-
     for i in 0..4 as usize {
         if (neighbors & (1 << i)) > 0 {
             let visited = match i {
@@ -79,8 +75,6 @@ fn get_visitables(cell: i32, grid: &mut Vec<Vec<i32>>) -> Vec<usize> {
             }
         }
     }
-
-    println!("{:?}", res);
 
     res
 }

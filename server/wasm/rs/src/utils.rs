@@ -47,5 +47,6 @@ pub fn print_maze(grid: &Vec<Vec<i32>>) -> String {
     }
     res = format!("{}{}", res, "---*".repeat(grid[0].len()));
     // console.log(res);
-    return res;
+    println!("{}", res);
+    res
 }
