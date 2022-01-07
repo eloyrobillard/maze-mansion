@@ -1,0 +1,19 @@
+{
+  "name": "maze-mansion",
+  "version": "1.0.0",
+  "description": "A visualizer for maze generator algorithms. \\ Currently supports the [recursive backtracker] algorithm, written in [AssemblyScript].  \\ Serves as a follow-up to [this project](https://github.com/eloyrobillard/Legum-s-Halls) featuring a 3D explorable maze created with Unity.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eloyrobillard/maze-mansion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eloyrobillard/maze-mansion/issues"
+  },
+  "homepage": "https://github.com/eloyrobillard/maze-mansion#readme"
+}
