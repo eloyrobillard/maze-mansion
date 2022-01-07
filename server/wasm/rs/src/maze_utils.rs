@@ -1,9 +1,9 @@
-pub fn get_x(cell: i32) -> i32 {
-    cell >> 24
+pub fn get_x(cell: i32) -> usize {
+    (cell >> 24) as usize
 }
 
-pub fn get_y(cell: i32) -> i32 {
-    (cell >> 16) & 0xFF
+pub fn get_y(cell: i32) -> usize {
+    ((cell >> 16) & 0xFF) as usize
 }
 
 fn is_visited(cell: i32) -> bool {
@@ -75,7 +75,7 @@ fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<usize> {
             }
         }
     }
-    println!("visitables for: {:#010X} {} {} {:?}", cell, x, y, res);
+    
     res
 }
 
@@ -100,9 +100,9 @@ fn set_visited(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) -> i32 {
 pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
     let visitables = get_visitables(cell, grid.to_vec());
     let rand_visitable = fastrand::usize(0..visitables.len());
-    println!("get_next: rand={}", rand_visitable);
-    let x = get_x(cell) as usize;
-    let y = get_y(cell) as usize;
+    
+    let x = get_x(cell);
+    let y = get_y(cell);
     let dir = visitables[rand_visitable];
     destroy_wall(x, y, dir, grid);
 

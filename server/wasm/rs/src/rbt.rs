@@ -13,7 +13,7 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> 
     let rng = fastrand::Rng::new();
     let x = rng.usize(0..width);
     let y = rng.usize(0..height);
-    println!("{} {} {} {}", x, y, grid.len(), grid[0].len());
+
     let mut prev = invalid;
     let mut current = grid[y][x] + get_neighbors(&mut grid, x, y);
 
@@ -33,6 +33,7 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> 
 
         prev = current;
         current = get_next(current, &mut grid);
+        current += get_neighbors(&mut grid, get_x(current), get_y(current));
         prev = grid[get_y(prev) as usize][get_x(prev) as usize];
         if current != invalid {
             visited += 1;
