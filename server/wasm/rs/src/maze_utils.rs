@@ -26,9 +26,11 @@ pub fn read_neighbors(cell: i32) -> i32 {
 
 pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
     let cell = grid[y][x];
-    if cell & (4 << 1) == 1 {
+    if cell & (1 << 4) > 0 {
         return cell & 0xFF;
     }
+
+    println!("get neighs: {} {} {:#010X} {:#06b}", x, y, cell, cell & 0xFFF);
 
     let width = grid[0].len();
     let height = grid.len();
@@ -36,32 +38,32 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
 
     // top
     if y > 0 && !is_visited(grid[y - 1][x]) {
-        neighbors += 1 << 3;
+        neighbors |= 1 << 3;
     }
     // right
     if x + 1 < width && !is_visited(grid[y][x + 1]) {
-        neighbors += 1 << 2;
+        neighbors |= 1 << 2;
     }
     // bottom
     if y + 1 < height && !is_visited(grid[y + 1][x]) {
-        neighbors += 1 << 1;
+        neighbors |= 1 << 1;
     }
     // left
     if x > 0 && !is_visited(grid[y][x - 1]) {
-        neighbors += 1;
+        neighbors |= 1;
     }
-    grid[y][x] += neighbors + (1 << 4);
+    grid[y][x] |= neighbors | (1 << 4);
     neighbors
 }
 
-fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<usize> {
+fn get_visitables(cell: i32, grid: &mut Vec<Vec<i32>>) -> Vec<usize> {
     let mut res: Vec<usize> = Vec::new();
-    let neighbors = cell & 0xFF;
-
+    
     let x = get_x(cell) as usize;
     let y = get_y(cell) as usize;
+    let neighbors = get_neighbors(grid, x, y);
 
-    println!("visitables: {} {} {:#010X}", x, y, cell);
+    println!("visitables: {} {} {:#010X} {:#06b}", x, y, cell, cell & 0xFFF);
 
     for i in 0..4 as usize {
         if (neighbors & (1 << i)) > 0 {
@@ -102,7 +104,7 @@ fn set_visited(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) -> i32 {
 }
 
 pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
-    let visitables = get_visitables(cell, grid.to_vec());
+    let visitables = get_visitables(cell, grid);
     let rand_visitable = match visitables.len() {
         0 => usize::MAX,
         x => fastrand::usize(0..x),
