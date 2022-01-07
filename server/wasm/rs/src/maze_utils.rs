@@ -21,13 +21,13 @@ pub fn has_neighbor(neighbor: &str, cell: i32) -> bool {
 }
 
 pub fn read_neighbors(cell: i32) -> i32 {
-    (cell >> 4) & 0xFF
+    cell & 0xFF
 }
 
 pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
     let cell = grid[y][x];
     if cell & (4 << 1) == 1 {
-        return (cell >> 4) & 0xFF;
+        return cell & 0xFF;
     }
 
     let width = grid[0].len();
@@ -35,8 +35,7 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
     let mut neighbors = 0;
 
     // top
-    //* y - 1 >= 0 comparison is useless due to usize type limits
-    if !is_visited(grid[y - 1][x]) {
+    if y > 0 && !is_visited(grid[y - 1][x]) {
         neighbors += 1 << 3;
     }
     // right
@@ -48,11 +47,9 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
         neighbors += 1 << 1;
     }
     // left
-    //* x - 1 >= 0 comparison is useless due to usize type limits
-    if !is_visited(grid[y][x - 1]) {
+    if x > 0 && !is_visited(grid[y][x - 1]) {
         neighbors += 1;
     }
-
     grid[y][x] += neighbors + (1 << 4);
     neighbors
 }
@@ -63,9 +60,9 @@ fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<usize> {
 
     let x = get_x(cell) as usize;
     let y = get_y(cell) as usize;
-
+    println!("{:#08X} {} {}", cell, x, y);
     for i in 0..4 as usize {
-        if neighbors & (1 << i) == 1 {
+        if (neighbors & (1 << i)) == 1 {
             let visited = match i {
                 0 => is_visited(grid[y][x - 1]),
                 1 => is_visited(grid[y + 1][x]),
@@ -118,4 +115,17 @@ pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
     };
 
     next
+}
+
+pub fn init_grid(width: usize, height: usize) -> Vec<Vec<i32>> {
+    vec![vec![0; width]; height]
+        .into_iter()
+        .enumerate()
+        .map(|(y, row)| {
+            row.into_iter()
+                .enumerate()
+                .map(|(x, _)| ((x << 24) + (y << 16)) as i32)
+                .collect()
+        })
+        .collect()
 }
