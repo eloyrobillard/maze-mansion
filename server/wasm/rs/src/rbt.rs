@@ -1,4 +1,4 @@
-use crate::utils::*;
+use crate::maze_utils::*;
 
 // use super::utils;
 

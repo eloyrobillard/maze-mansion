@@ -1,5 +1,6 @@
 mod rbt;
 mod utils;
+mod maze_utils;
 
 use wasm_bindgen::prelude::*;
 
@@ -20,6 +21,6 @@ pub fn greet() {
 }
 
 #[wasm_bindgen]
-pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> {
-    rbt::recursive_backtracker(width, height)
+pub fn recursive_backtracker(width: usize, height: usize) -> String {
+    utils::recursive_backtracker(width, height)
 }
