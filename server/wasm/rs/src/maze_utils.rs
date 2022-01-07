@@ -14,6 +14,20 @@ fn is_visited(cell: i32) -> bool {
     cell & (1 << 4) == 1
 }
 
+pub fn has_neighbor(neighbor: &str, cell: i32) -> bool {
+    match neighbor {
+        "top" => cell & (1 << 3) > 0,
+        "right" => cell & (1 << 2) > 0,
+        "bottom" => cell & (1 << 1) > 0,
+        "left" => cell & (1 << 0) > 0,
+        _ => panic!("Invalid neighbor query")
+    }
+}
+
+pub fn read_neighbors(cell: i32) -> i32 {
+    (cell >> 4) & 0xFF
+}
+
 pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
     let cell = grid[y][x];
     if cell & (4 << 1) == 1 {
@@ -26,7 +40,7 @@ pub fn get_neighbors(grid: &mut Vec<Vec<i32>>, x: usize, y: usize) -> i32 {
 
     // top
     //* y - 1 >= 0 comparison is useless due to usize type limits
-    if  !is_visited(grid[y - 1][x]) {
+    if !is_visited(grid[y - 1][x]) {
         neighbors += 1 << 3;
     }
     // right
