@@ -1,7 +1,3 @@
-fn init_cell(x: i32, y: i32) -> i32 {
-    x << 24 + y << 16
-}
-
 pub fn get_x(cell: i32) -> i32 {
     cell >> 24
 }
@@ -20,7 +16,7 @@ pub fn has_neighbor(neighbor: &str, cell: i32) -> bool {
         "right" => cell & (1 << 2) > 0,
         "bottom" => cell & (1 << 1) > 0,
         "left" => cell & (1 << 0) > 0,
-        _ => panic!("Invalid neighbor query")
+        _ => panic!("Invalid neighbor query"),
     }
 }
 
@@ -124,19 +120,19 @@ pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
     next
 }
 
+fn init_cell(x: usize, y: usize) -> i32 {
+    (x << 24 + y << 16) as i32
+}
+
 pub fn init_grid(width: usize, height: usize) -> Vec<Vec<i32>> {
-    let mut y = -1;
-    let mut x = -1;
     Vec::with_capacity(height)
         .into_iter()
-        .map(|_: Vec<i32>| {
-            y += 1;
+        .enumerate()
+        .map(|(y, _): (usize, Vec<i32>)| {
             Vec::with_capacity(width)
                 .into_iter()
-                .map(|_: i32| {
-                    x += 1;
-                    init_cell(x, y)
-                })
+                .enumerate()
+                .map(|(x, _): (usize, i32)| init_cell(x, y))
                 .collect()
         })
         .collect()

@@ -3,7 +3,7 @@ use crate::maze_utils::*;
 // use super::utils;
 
 pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> {
-    let null = -1;
+    let invalid = -1;
     let mut res: Vec<Vec<Vec<i32>>> = vec![init_grid(width, height)];
     
     let mut grid: Vec<Vec<i32>> = init_grid(width, height);
@@ -13,7 +13,8 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> 
     let rng = fastrand::Rng::new();
     let x = rng.usize(0..width);
     let y = rng.usize(0..height);
-    let mut prev = null;
+    println!("{} {} {}", x, y, grid.len());
+    let mut prev = invalid;
     let mut current = grid[y][x] + get_neighbors(&mut grid, x, y);
 
     cell_stack.push(current);
@@ -24,7 +25,7 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> 
     let to_visit = width * height;
 
     while visited < to_visit {
-        if current == null {
+        if current == invalid {
             current = cell_stack.pop().unwrap();
         }
 
@@ -33,7 +34,7 @@ pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> 
         prev = current;
         current = get_next(current, &mut grid);
         prev = grid[get_y(prev) as usize][get_x(prev) as usize];
-        if current != null {
+        if current != invalid {
             visited += 1;
         }
     }

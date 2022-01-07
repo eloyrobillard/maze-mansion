@@ -1,12 +1,6 @@
-use super::rbt;
 use super::maze_utils::{read_neighbors, has_neighbor};
 
-pub fn recursive_backtracker(width: usize, height: usize) -> String {
-    let maze = rbt::recursive_backtracker(width, height);
-    print_maze(&maze[2])
-}
-
-fn print_maze(grid: &Vec<Vec<i32>>) -> String {
+pub fn print_maze(grid: &Vec<Vec<i32>>) -> String {
     let mut res = format!("{}*", "*---".repeat(grid[0].len()));
     let grid = grid;
 
