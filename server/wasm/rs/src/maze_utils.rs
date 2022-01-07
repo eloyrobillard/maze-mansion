@@ -119,21 +119,3 @@ pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
 
     next
 }
-
-fn init_cell(x: usize, y: usize) -> i32 {
-    (x << 24 + y << 16) as i32
-}
-
-pub fn init_grid(width: usize, height: usize) -> Vec<Vec<i32>> {
-    Vec::with_capacity(height)
-        .into_iter()
-        .enumerate()
-        .map(|(y, _): (usize, Vec<i32>)| {
-            Vec::with_capacity(width)
-                .into_iter()
-                .enumerate()
-                .map(|(x, _): (usize, i32)| init_cell(x, y))
-                .collect()
-        })
-        .collect()
-}
