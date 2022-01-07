@@ -1,6 +1,33 @@
 use crate::maze_utils::*;
+use crate::utils::*;
 
-// use super::utils;
+use wasm_bindgen::prelude::*;
+#[wasm_bindgen]
+pub struct Maze {
+    init: Vec<Vec<i32>>,
+    steps: Vec<Vec<i32>>,
+    fin: Vec<Vec<i32>>
+}
+
+#[wasm_bindgen]
+impl Maze {
+    pub fn populate(&mut self, width: usize, height: usize) {
+        let maze = recursive_backtracker(width, height);
+        self.init = maze[0].clone();
+        self.steps = maze[1].clone();
+        self.fin = maze[2].clone();
+    }
+
+    pub fn to_str(&self) -> String {
+        print_maze(&self.fin)
+    }
+}
+
+
+pub fn rb_str(width: usize, height: usize) -> String {
+    let maze = recursive_backtracker(width, height);
+    print_maze(&maze[2])
+}
 
 pub fn recursive_backtracker(width: usize, height: usize) -> Vec<Vec<Vec<i32>>> {
     let invalid = -1;

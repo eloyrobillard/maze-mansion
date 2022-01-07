@@ -22,8 +22,7 @@ pub fn greet() {
 
 #[wasm_bindgen]
 pub fn recursive_backtracker(width: usize, height: usize) -> String {
-    let maze = rbt::recursive_backtracker(width, height);
-    utils::print_maze(&maze[2])
+    rbt::rb_str(width, height)
 }
 
 #[cfg(test)]
