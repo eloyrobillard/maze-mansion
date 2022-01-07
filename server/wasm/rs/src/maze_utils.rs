@@ -60,7 +60,9 @@ fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<usize> {
 
     let x = get_x(cell) as usize;
     let y = get_y(cell) as usize;
-    
+
+    println!("visitables: {} {} {:#010X}", x, y, cell);
+
     for i in 0..4 as usize {
         if (neighbors & (1 << i)) > 0 {
             let visited = match i {
@@ -75,7 +77,9 @@ fn get_visitables(cell: i32, grid: Vec<Vec<i32>>) -> Vec<usize> {
             }
         }
     }
-    
+
+    println!("{:?}", res);
+
     res
 }
 
@@ -99,8 +103,14 @@ fn set_visited(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) -> i32 {
 
 pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
     let visitables = get_visitables(cell, grid.to_vec());
-    let rand_visitable = fastrand::usize(0..visitables.len());
-    
+    let rand_visitable = match visitables.len() {
+        0 => usize::MAX,
+        x => fastrand::usize(0..x),
+    };
+    if rand_visitable == usize::MAX {
+        return -1;
+    }
+
     let x = get_x(cell);
     let y = get_y(cell);
     let dir = visitables[rand_visitable];
