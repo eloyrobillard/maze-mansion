@@ -27,9 +27,10 @@ pub fn recursive_backtracker(width: usize, height: usize) -> String {
 
 #[cfg(test)]
 mod tests {
+    use crate::rbt::Maze;
     #[test]
     fn it_works() {
-        let grid = super::recursive_backtracker(10, 10);
-        assert!(grid.len() == 10)
+        let maze = Maze::new(10, 10);
+        assert!(maze.to_str().len() == 10)
     }
 }

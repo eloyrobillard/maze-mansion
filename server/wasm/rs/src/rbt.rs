@@ -11,11 +11,13 @@ pub struct Maze {
 
 #[wasm_bindgen]
 impl Maze {
-    pub fn populate(&mut self, width: usize, height: usize) {
+    pub fn new(width: usize, height: usize) -> Maze {
         let maze = recursive_backtracker(width, height);
-        self.init = maze[0].clone();
-        self.steps = maze[1].clone();
-        self.fin = maze[2].clone();
+        Maze {
+            init: maze[0].clone(),
+            steps: maze[1].clone(),
+            fin: maze[2].clone(),
+        }
     }
 
     pub fn to_str(&self) -> String {
