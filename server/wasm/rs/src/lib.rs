@@ -1,5 +1,4 @@
 mod rbt;
-mod utils;
 mod maze_utils;
 
 use wasm_bindgen::prelude::*;
@@ -18,11 +17,6 @@ extern {
 #[wasm_bindgen]
 pub fn greet() {
     alert("なんじゃこりゃあ!");
-}
-
-#[wasm_bindgen]
-pub fn recursive_backtracker(width: usize, height: usize) -> String {
-    rbt::rb_str(width, height)
 }
 
 #[cfg(test)]
