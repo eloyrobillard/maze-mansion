@@ -92,7 +92,7 @@ fn destroy_wall(x: usize, y: usize, dir: usize, grid: &mut Vec<Vec<i32>>) -> i32
 }
 
 fn set_visited(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) -> i32 {
-    grid[y][x] &= 1 << 8;
+    grid[y][x] |= 1 << 8;
 
     grid[y][x]
 }
@@ -100,7 +100,7 @@ fn set_visited(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) -> i32 {
 pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
     let visitables = get_visitables(cell, grid.to_vec());
     let rand_visitable = fastrand::usize(0..visitables.len());
-    
+    println!("get_next: rand={}", rand_visitable);
     let x = get_x(cell) as usize;
     let y = get_y(cell) as usize;
     let dir = visitables[rand_visitable];
