@@ -17,8 +17,6 @@ pub struct MazeDescriptor {
     fin: Vec<Vec<i32>>,
 }
 
-static mut WASM_MEMORY_BUFFER: [u8; 1024 * 1024] = [0; 1024 * 1024];
-
 #[wasm_bindgen]
 impl MazeDescriptor {
     pub fn get_height(&self) -> usize {
@@ -29,26 +27,11 @@ impl MazeDescriptor {
         self.width
     }
 
-    pub fn get_wasm_memory_buffer_pointer(&self) -> *const u8 {
-        let pointer: *const u8;
-        unsafe {
-            pointer = WASM_MEMORY_BUFFER.as_ptr();
-        }
-
-        return pointer;
-    }
-
-    pub fn store_value_in_wasm_memory_buffer_index_zero(&self) {
-        unsafe {
-          WASM_MEMORY_BUFFER;
-        }
-      }
-
     pub fn get_steps_len(&self) -> usize {
         self.steps.len()
     }
 
-    pub fn get_final(&self) -> *const *const *const u8 {
+    pub fn get_final(&self) -> *const *const String {
         let grid = &self.fin;
         let height = grid.len();
         let width = grid[0].len();
@@ -62,73 +45,70 @@ impl MazeDescriptor {
         for y in 0..height {
             for x in 0..width {
                 // console.log(`南出矢念 ${x} ${y} ${grid[y][x]}`);
-                let mut classList = String::from(base);
+                let mut class_list = String::from(base);
 
                 if y == 0 {
-                    classList.push_str(" wall-top");
+                    class_list.push_str(" wall-top");
                 }
                 if y + 1 >= height {
-                    classList.push_str(" wall-bottom");
+                    class_list.push_str(" wall-bottom");
                 }
                 if x == 0 {
-                    classList.push_str(" wall-left");
+                    class_list.push_str(" wall-left");
                 }
                 if x + 1 >= width {
-                    classList.push_str(" wall-right");
+                    class_list.push_str(" wall-right");
                 }
 
                 let neighbors = read_neighbors(grid[y][x]);
                 if neighbors == 0 {
                     // console.log(`no neighs ${x}, ${y}`);
-                    res[y][x] = String::from(classList);
+                    res[y][x] = String::from(class_list);
                     continue;
                 }
 
                 //* if has bottom
                 if neighbors & (1 << 1) != 0 {
-                    classList.push_str(" wall-bottom");
+                    class_list.push_str(" wall-bottom");
                 }
                 //* if has right
                 if neighbors & (1 << 2) != 0 {
-                    classList.push_str(" wall-right");
+                    class_list.push_str(" wall-right");
                 }
                 // NOTE keep all walls to bot/right to avoid breaks in wall lines
                 if y + 1 < height {
-                    let neighborsBot = read_neighbors(grid[y + 1][x]);
+                    let neighs_bot = read_neighbors(grid[y + 1][x]);
                     //* if has top
-                    if neighborsBot & (1 << 3) != 0 {
-                        classList.push_str(" wall-bottom");
+                    if neighs_bot & (1 << 3) != 0 {
+                        class_list.push_str(" wall-bottom");
                     }
                 }
                 // console.log(`莫迦かお前 ${x} ${y} ${grid[y][x]}`);
                 if x + 1 < width {
-                    let neighborsRight = read_neighbors(grid[y][x + 1]);
+                    let neighs_right = read_neighbors(grid[y][x + 1]);
                     //* if has left
-                    if (neighborsRight & 1) != 0 {
-                        classList.push_str(" wall-right");
+                    if (neighs_right & 1) != 0 {
+                        class_list.push_str(" wall-right");
                     }
                 }
-                // console.log(`${x} ${y} ${classList}`);
-                res[y][x] = String::from(classList);
+                // console.log(`${x} ${y} ${class_list}`);
+                res[y][x] = String::from(class_list);
                 // console.log(`neighs ${x}, ${y}`);
             }
         }
         res.into_iter()
             .map(|vec| {
-                vec.into_iter()
-                    .map(|str| str.as_ptr())
-                    .collect::<Vec<*const u8>>()
-                    .as_ptr()
+                vec.as_ptr()
             })
-            .collect::<Vec<*const *const u8>>()
+            .collect::<Vec<*const String>>()
             .as_ptr()
     }
 
     pub fn update_classes(
         &self,
-        classes: *const *const String,
-        step: usize,
-        update_direction: i32,
+        _classes: *const *const String,
+        _step: usize,
+        _update_direction: i32,
     ) -> *const *const u8 {
         &String::from("JFK").as_ptr()
     }
