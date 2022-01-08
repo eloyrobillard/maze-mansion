@@ -17,16 +17,13 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "rs_bg": "file:../wasm/pkg/",
+    "rs_bg": "file:./wasm/pkg/",
     "typescript": "^4.1.2",
     "use-as-bind": "^0.1.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "client": "yarn start",
-    "server": "cd ../server && nodemon",
-    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -48,9 +45,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "assemblyscript": "^0.19.18",
-    "concurrently": "^6.4.0"
   }
 }
