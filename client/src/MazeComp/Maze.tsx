@@ -5,38 +5,37 @@ import React, {
 	Dispatch,
 	SetStateAction
 } from 'react';
-import { SettingsContext } from '../Dashboard';
+import { SettingsContext } from 'Dashboard';
 
-import Grid from './GridWasm';
-import { MazeDescriptor, Api } from '../AScApi';
+import Grid from './Grid';
+import { MazeDescriptor } from 'rs';
 import './Maze.css';
 
-export { FIRST_STATE } from './GridWasm';
+export { FIRST_STATE } from './Grid';
 
-export default function Maze ({ api }: { api: Api }) {
+export default function Maze () {
 	const { mazeWidth, mazeHeight } = useContext(SettingsContext);
-
 	const [ descriptor, setDescriptor ]: [
 		MazeDescriptor,
 		Dispatch<SetStateAction<MazeDescriptor>>
-	] = useState(api.getMazeDescriptor(mazeWidth, mazeHeight));
+	] = useState(MazeDescriptor.new(mazeWidth, mazeHeight));
 
 	function handleReset () {
-		setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
+		setDescriptor(MazeDescriptor.new(mazeWidth, mazeHeight));
 	}
 
 	// NOTE fetch descriptor and set to initial
 	useEffect(
 		() => {
-			setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
+			setDescriptor(MazeDescriptor.new(mazeWidth, mazeHeight));
 		},
-		[ mazeWidth, mazeHeight, api ]
+		[ mazeWidth, mazeHeight ]
 	);
 
 	return (
 		<div id='maze'>
 			
-			<Grid api={api} descriptor={descriptor} handleReset={handleReset}/>
+			<Grid descriptor={descriptor} handleReset={handleReset}/>
 		</div>
 	);
 }

@@ -1,33 +1,23 @@
 # Maze Mansion
 
 A visualizer for maze generator algorithms. \
-Currently supports the [recursive backtracker] algorithm, written in [AssemblyScript].  \
+Currently supports the [recursive backtracker] algorithm, written in [Rust].  \
 Serves as a follow-up to [this project](https://github.com/eloyrobillard/Legum-s-Halls) featuring a 3D explorable maze created with Unity.
 
 [recursive backtracker]: https://www.wikiwand.com/en/Maze_generation_algorithm#/Randomized_depth-first_search
-[AssemblyScript]: https://www.assemblyscript.org/
 
 ***
 
 ## Getting Started
 
-1. Do the traditional `npm i` in `client/` and `server/`.
-2. Go to `server/wasm/asc` and run `npm run asbuild`.
-3. From `client/` or `server/`, run `npm run dev`.
-   > if you do not have [nodemon] installed globally, make sure to `npm i --save-dev nodemon` from `server/`.
-
-[nodemon]: https://nodemon.io/
+1. Do the traditional `npm i` in `client/`.
+2. Go to `wasm/` and run `wasm-pack build`.
+3. From `client/` run `npm start`.
 
 ***
 
 ## Tech stack
 
-### _Front End_
-
+- TypeScript
 - React
-- WebAssembly through [AssemblyScript]
-
-### _Back End_
-
-- mongoose
-- koa
+- WebAssembly with [Rust]
