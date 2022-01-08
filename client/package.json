@@ -17,7 +17,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "rs": "file:../server/wasm/rs/pkg",
+    "rs": "file:../server/rs/pkg",
     "typescript": "^4.1.2",
     "use-as-bind": "^0.1.0",
     "web-vitals": "^1.0.1"
