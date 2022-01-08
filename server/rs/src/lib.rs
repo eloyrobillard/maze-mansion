@@ -22,11 +22,105 @@ impl MazeDescriptor {
         self.steps.len()
     }
 
-    pub fn get_classes(&self, stage: &str) -> *const *const u8 {
-        &String::from("JFK").as_ptr()
+    pub fn get_classes(&self, stage: &str) -> *const *const *const u8 {
+        let is_final: bool = stage == "fin";
+        let grid = match is_final {
+            false => &self.init,
+            true => &self.fin,
+        };
+        let height = grid.len();
+        let width = grid[0].len();
+
+        // NOTE checks if grid state is initial or final
+
+        let mut res: Vec<Vec<String>> = vec![vec![String::from("cell"); width]; height];
+
+        if !is_final {
+            return res
+                .into_iter()
+                .map(|vec| {
+                    vec.into_iter()
+                        .map(|str| str.as_ptr())
+                        .collect::<Vec<*const u8>>()
+                        .as_ptr()
+                })
+                .collect::<Vec<*const *const u8>>()
+                .as_ptr();
+        }
+
+        let base = "cell visited";
+
+        for y in 0..height {
+            for x in 0..width {
+                // console.log(`南出矢念 ${x} ${y} ${grid[y][x]}`);
+                let mut classList = String::from(base);
+
+                if y == 0 {
+                    classList.push_str(" wall-top");
+                }
+                if y + 1 >= height {
+                    classList.push_str(" wall-bottom");
+                }
+                if x == 0 {
+                    classList.push_str(" wall-left");
+                }
+                if x + 1 >= width {
+                    classList.push_str(" wall-right");
+                }
+
+                let neighbors = read_neighbors(grid[y][x]);
+                if neighbors == 0 {
+                    // console.log(`no neighs ${x}, ${y}`);
+                    res[y][x] = String::from(classList);
+                    continue;
+                }
+
+                //* if has bottom
+                if neighbors & (1 << 1) != 0 {
+                    classList.push_str(" wall-bottom");
+                }
+                //* if has right
+                if neighbors & (1 << 2) != 0 {
+                    classList.push_str(" wall-right");
+                }
+                // NOTE keep all walls to bot/right to avoid breaks in wall lines
+                if y + 1 < height {
+                    let neighborsBot = read_neighbors(grid[y + 1][x]);
+                    //* if has top
+                    if neighborsBot & (1 << 3) != 0 {
+                        classList.push_str(" wall-bottom");
+                    }
+                }
+                // console.log(`莫迦かお前 ${x} ${y} ${grid[y][x]}`);
+                if x + 1 < width {
+                    let neighborsRight = read_neighbors(grid[y][x + 1]);
+                    //* if has left
+                    if (neighborsRight & 1) != 0 {
+                        classList.push_str(" wall-right");
+                    }
+                }
+                // console.log(`${x} ${y} ${classList}`);
+                res[y][x] = String::from(classList);
+                // console.log(`neighs ${x}, ${y}`);
+            }
+        }
+        res.into_iter()
+            .map(|vec| {
+                vec.into_iter()
+                    .map(|str| str.as_ptr())
+                    .collect::<Vec<*const u8>>()
+                    .as_ptr()
+            })
+            .collect::<Vec<*const *const u8>>()
+            .as_ptr()
     }
 
-    pub fn update_classes(&self, classes: *const *const String, step: usize, update_direction: i32) -> *const *const u8 {
+    pub fn update_classes(
+        &self,
+        classes: *const *const String,
+        step: usize,
+        update_direction: i32,
+    ) -> *const *const u8 {
         &String::from("JFK").as_ptr()
     }
 
@@ -80,6 +174,8 @@ impl MazeDescriptor {
         self.to_string()
     }
 }
+
+impl MazeDescriptor {}
 
 use std::fmt;
 
