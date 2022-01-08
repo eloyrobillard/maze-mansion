@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Settings from './SettingsComp/Settings';
 import { formatApi } from './AScApi';
 import Maze from './MazeComp/Maze';
+import { Maze as MazeRS } from 'rs';
 // import { Api } from './AScApi';
 import Asc from './RBT/asc/index';
 import './App.css';
@@ -11,11 +12,11 @@ export const FPS_INSTANT = 0;
 
 export const SettingsContext = React.createContext({
   mazeWidth: 10,
-  setWidth: (_: number) => {return},
+  setWidth: (_: number) => { return },
   mazeHeight: 10,
-  setHeight: (_: number) => {return},
-  fps: 5, 
-  setFps: (_: number) => {return},
+  setHeight: (_: number) => { return },
+  fps: 5,
+  setFps: (_: number) => { return },
 });
 
 export default function Dashboard() {
@@ -48,15 +49,16 @@ export default function Dashboard() {
 
   return (
     <div id="dashboard">
+      {MazeRS.new(10, 10).render()}
       <SettingsContext.Provider value={{
-          mazeWidth,
-          setWidth,
-          mazeHeight,
-          setHeight,
-          fps,
-          setFps,
-        }}>
-        {maze} 
+        mazeWidth,
+        setWidth,
+        mazeHeight,
+        setHeight,
+        fps,
+        setFps,
+      }}>
+        {maze}
         <Settings />
       </SettingsContext.Provider>
     </div>
