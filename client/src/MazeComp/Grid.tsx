@@ -7,10 +7,11 @@ import React, {
 	Dispatch,
 	SetStateAction
 } from 'react';
-import { MazeDescriptor } from 'rs';
+import { MazeDescriptor } from 'rs_bg';
 import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
 import { handleUpdate, resizeMazeElements } from './MazeUtils';
+import WASM from 'WasmApi';
 
 type Props = {
   descriptor: MazeDescriptor;
@@ -82,7 +83,7 @@ export default function Grid ({descriptor, handleReset}: Props) {
 		intervalRef.current = null;
 	}, []);
 
-	// NOTE play/pause on push play button AND 手動的に toggle した時
+	// NOTE play/pause on push play button & when 手動的に toggling
 	useEffect(
 		() => {
 			if (isPlaying) {
@@ -110,7 +111,7 @@ export default function Grid ({descriptor, handleReset}: Props) {
 		return setIsPlaying(false);
 	}
 
-	// NOTE update dir on reaching either end
+	// NOTE update direction on reaching either end
 	useEffect(
 		() => {
 			if (stepCount > FIRST_STATE && stepCount < LAST_STATE) {
@@ -155,18 +156,17 @@ export default function Grid ({descriptor, handleReset}: Props) {
 		Dispatch<SetStateAction<string[][]>>
 	] = useState([ [ '' ] ]);
 
-  // NOTE handle maze update (front AND back)
 	useEffect(
 		() => {
-			// console.log('cls', descriptor.steps);
 			if (stepCount === FIRST_STATE) {
-				const initialCls = descriptor.get_classes("init");
-				setClassLists(initialCls);
+				setClassLists(Array(mazeHeight).map(() => Array(mazeWidth).fill('cell')));
 			} else if (stepCount === LAST_STATE) {
-				setClassLists(descriptor.get_classes("fin"));
+				setClassLists(WASM.generateClasses(descriptor));
 			} else {
+				// NOTE handle maze update, front & back
 				setClassLists((cls: string[][]) =>
-					descriptor.update_classes(
+					WASM.updateClasses(
+						descriptor,
 						cls,
 						stepCount,
 						updateDir
@@ -174,7 +174,7 @@ export default function Grid ({descriptor, handleReset}: Props) {
 				);
 			}
 		},
-		[ descriptor, stepCount, updateDir, LAST_STATE ]
+		[ descriptor, stepCount, updateDir, LAST_STATE, mazeHeight, mazeWidth ]
 	);
 
   return (

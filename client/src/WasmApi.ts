@@ -1,18 +1,17 @@
-import { MazeDescriptor } from 'rs';
-const memory = new WebAssembly.Memory({ initial: 1 });
+import { MazeDescriptor } from 'rs_bg';
 
 type WASMApi = {
-	generateClasses: (maze: MazeDescriptor, stage: string) => string[][];
+	generateClasses: (maze: MazeDescriptor) => string[][];
 	updateClasses: (
 		maze: MazeDescriptor,
 		classLists: string[][],
-		change: number[],
+		stepIndex: number,
 		updateDir: number
 	) => string[][];
 };
 
-const WASMAPI: WASMApi = {
-	generateClasses: (maze, stage) => {
+const WASM: WASMApi = {
+	generateClasses: (maze) => {
 		// LINK https://stackoverflow.com/questions/47529643/how-to-return-a-string-or-similar-from-rust-in-webassembly
 		// LINK https://stackoverflow.com/questions/49014610/passing-a-javascript-string-to-a-rust-function-compiled-to-webassembly/49020435#49020435
 		const height = maze.get_height();
@@ -33,4 +32,4 @@ const WASMAPI: WASMApi = {
 	}
 };
 
-export default WASMAPI;
+export default WASM;
