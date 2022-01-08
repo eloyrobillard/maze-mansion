@@ -11,42 +11,51 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
 pub struct MazeDescriptor {
-    init: Vec<Vec<i32>>,
+    height: usize,
+    width: usize,
     steps: Vec<Vec<i32>>,
     fin: Vec<Vec<i32>>,
 }
 
+static mut WASM_MEMORY_BUFFER: [u8; 1024 * 1024] = [0; 1024 * 1024];
+
 #[wasm_bindgen]
 impl MazeDescriptor {
+    pub fn get_height(&self) -> usize {
+        self.height
+    }
+
+    pub fn get_width(&self) -> usize {
+        self.width
+    }
+
+    pub fn get_wasm_memory_buffer_pointer(&self) -> *const u8 {
+        let pointer: *const u8;
+        unsafe {
+            pointer = WASM_MEMORY_BUFFER.as_ptr();
+        }
+
+        return pointer;
+    }
+
+    pub fn store_value_in_wasm_memory_buffer_index_zero(&self) {
+        unsafe {
+          WASM_MEMORY_BUFFER;
+        }
+      }
+
     pub fn get_steps_len(&self) -> usize {
         self.steps.len()
     }
 
-    pub fn get_classes(&self, stage: &str) -> *const *const *const u8 {
-        let is_final: bool = stage == "fin";
-        let grid = match is_final {
-            false => &self.init,
-            true => &self.fin,
-        };
+    pub fn get_final(&self) -> *const *const *const u8 {
+        let grid = &self.fin;
         let height = grid.len();
         let width = grid[0].len();
 
         // NOTE checks if grid state is initial or final
 
         let mut res: Vec<Vec<String>> = vec![vec![String::from("cell"); width]; height];
-
-        if !is_final {
-            return res
-                .into_iter()
-                .map(|vec| {
-                    vec.into_iter()
-                        .map(|str| str.as_ptr())
-                        .collect::<Vec<*const u8>>()
-                        .as_ptr()
-                })
-                .collect::<Vec<*const *const u8>>()
-                .as_ptr();
-        }
 
         let base = "cell visited";
 
@@ -164,7 +173,8 @@ impl MazeDescriptor {
 
         steps.push(vec![prev, current]);
         MazeDescriptor {
-            init: init_grid(width, height),
+            height,
+            width,
             steps,
             fin: grid,
         }
