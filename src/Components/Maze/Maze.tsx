@@ -6,7 +6,7 @@ import React, {
 import { SettingsContext } from 'Dashboard';
 
 import Grid from './Grid';
-import { WASMApi } from 'WasmApi';
+import { WASMApi } from 'Types';
 import './Maze.css';
 
 export { FIRST_STATE } from './Grid';

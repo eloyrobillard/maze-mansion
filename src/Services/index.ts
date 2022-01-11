@@ -1,0 +1,1 @@
+export { formatApi } from './wasm.service';

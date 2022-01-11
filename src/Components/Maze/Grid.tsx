@@ -7,7 +7,7 @@ import React, {
 	Dispatch,
 	SetStateAction
 } from 'react';
-import { SettingsContext } from '../Dashboard';
+import { SettingsContext } from '../../Dashboard';
 import Commands from './Commands';
 import { handleUpdate, resizeMazeElements } from './MazeUtils';
 import { WASMApi } from 'WasmApi';
