@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Settings from './Components/Settings/Settings';
 import Maze from './Components/Maze/Maze';
-import { formatApi } from 'Services';
+import { getApi } from 'Services';
 import { WASMApi } from 'Types';
 import './App.css';
 
@@ -33,9 +33,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     (async () => {
-      const wasm = await import('maze-mansion-rbt-rs');
-      // @ts-ignore
-      setApi(formatApi(wasm.MazeDescriptor));
+      setApi(getApi());
     })();
   }, [])
 
