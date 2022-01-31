@@ -1,1 +1,1 @@
-export { formatApi } from './wasm.service';
+export { getApi } from './wasm.service';

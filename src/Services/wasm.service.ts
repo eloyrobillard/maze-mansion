@@ -4,15 +4,19 @@ let mod: WebAssembly.Module;
 let mem: WebAssembly.Memory;
 let instance: WebAssembly.Instance;
 
-// @ts-ignore
-export const getApi = (): WASMApi => {
-	fetch('maze-mansion-rbt-rs/rs_bg.wasm')
+const wasmImports = {
+	memoryBase: 0,
+	tableBase: 0,
+	memory: new WebAssembly.Memory({ initial: 256 }),
+	table: new WebAssembly.Table({ initial: 0, element: 'anyfunc' })
+};
+
+export const getApi = async (): Promise<WASMApi> => {
+	fetch('rs')
 		.then(response => response.arrayBuffer())
-		.then(bytes => {
-			mod = new WebAssembly.Module(bytes);
-			mem = new WebAssembly.Memory({ initial: 1, maximum: 10 });
-			instance = new WebAssembly.Instance(mod);
-			console.log(mod, mem, instance);
+		.then(bytes => WebAssembly.instantiate(bytes, { env: wasmImports }))
+		.then(results => {
+			return results.instance.exports;
 		});
 	let curMaze: MazeDescriptor/*  = maze.new(10, 10) */;
 	return (() => {
@@ -32,7 +36,7 @@ export const getApi = (): WASMApi => {
 				);
 			},
 
-			updateClasses: (cls, change, dir) => {
+			updateClasses: (cls: string[][], change: number, dir: number) => {
 				// Passing array to WebAssembly
 				// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/offset.js
 				// return maze.update_classes(cls, change, dir);
@@ -41,9 +45,3 @@ export const getApi = (): WASMApi => {
 		}
 	})();
 }
-
-// // LINK_TO https://maffydub.wordpress.com/2017/12/02/getting-started-with-rust-webassembly/
-// const wasmReadStrFromMemory = (ptr, length) => {
-//   const buf = new Uint8Array(WASM_ASTAR.wasmModule.memory.buffer, ptr, length);
-//   return new TextDecoder('utf8').decode(buf);
-// };

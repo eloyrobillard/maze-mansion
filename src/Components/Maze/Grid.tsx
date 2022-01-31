@@ -10,7 +10,7 @@ import React, {
 import { SettingsContext } from '../../Dashboard';
 import Commands from './Commands';
 import { handleUpdate, resizeMazeElements } from './MazeUtils';
-import { WASMApi } from 'WasmApi';
+import { WASMApi } from 'Types';
 
 type Props = {
 	api: WASMApi;

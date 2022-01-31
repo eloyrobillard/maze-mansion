@@ -25,15 +25,16 @@ export default function Dashboard() {
     getStepsLen: () => 0,
     generateClasses: () => [[ '' ]],
     updateClasses: (
-      classLists: string[][],
-      stepIndex: number,
-      updateDir: number
+      cls: string[][],
+      change: number,
+      dir: number
     ) => [['']]
   });
 
   useEffect(() => {
     (async () => {
-      setApi(getApi());
+      const wasmApi = await getApi();
+      setApi(wasmApi);
     })();
   }, [])
 
