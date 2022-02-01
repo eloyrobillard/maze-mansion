@@ -2,7 +2,7 @@ import { MazeDescriptor, WASMApi } from "Types";
 
 const wasmImports = {
 	memoryBase: 0,
-	memory: new WebAssembly.Memory({ initial: 256 }),
+	memory: new WebAssembly.Memory({ initial: 1 }),
 };
 
 export const getApi = async (): Promise<WASMApi> => {

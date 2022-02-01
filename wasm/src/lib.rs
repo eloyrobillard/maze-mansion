@@ -1,8 +1,16 @@
+#[macro_use]
+extern crate lazy_static;
+
 mod maze_utils;
 mod rand;
 
+use std::sync::Mutex;
 use maze_utils::*;
 use rand::{gen};
+
+lazy_static! {
+    static ref MAZE_DESCRIPTOR: Mutex<MazeDescriptor> = Mutex::new(MazeDescriptor::new(10, 10));
+}
 
 #[repr(C)]
 pub struct MazeDescriptor {
@@ -58,25 +66,39 @@ impl MazeDescriptor {
             fin: grid,
         }
     }
+
+    pub fn reset(&mut self, width: usize, height: usize) {
+        *self = MazeDescriptor::new(width, height);
+    }
 }
 
 #[no_mangle]
-pub extern "C" fn get_height(maze: &MazeDescriptor) -> usize {
+pub extern "C" fn create_maze(width: usize, height: usize) {
+    let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
+    maze.reset(width, height);
+}
+
+#[no_mangle]
+pub extern "C" fn get_height() -> usize {
+    let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
     maze.height
 }
 
 #[no_mangle]
-pub extern "C" fn get_width(maze: &MazeDescriptor) -> usize {
+pub extern "C" fn get_width() -> usize {
+    let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
     maze.width
 }
 
 #[no_mangle]
-pub extern "C" fn get_steps_len(maze: &MazeDescriptor) -> usize {
+pub extern "C" fn get_steps_len() -> usize {
+    let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
     maze.steps.len()
 }
 
 #[no_mangle]
-pub extern "C" fn get_final(maze: &MazeDescriptor) -> *const *const String {
+pub extern "C" fn get_final() -> *const *const String {
+    let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
     let grid = &maze.fin;
     let height = grid.len();
     let width = grid[0].len();
@@ -144,16 +166,17 @@ pub extern "C" fn get_final(maze: &MazeDescriptor) -> *const *const String {
 
 #[no_mangle]
 pub extern "C" fn update_classes(
-    maze: &MazeDescriptor,
     _classes: *const *const String,
     _step: usize,
     _update_direction: i32,
 ) -> *const *const u8 {
+    let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
     &String::from("JFK").as_ptr()
 }
 
 #[no_mangle]
-pub extern "C" fn render(maze: &MazeDescriptor) -> String {
+pub extern "C" fn render() -> String {
+    let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
     maze.to_string()
 }
 
