@@ -97,13 +97,12 @@ fn set_visited(grid: &mut Vec<Vec<i32>>, y: usize, x: usize) -> i32 {
     grid[y][x]
 }
 
-use rand::{thread_rng, Rng};
+use crate::rand::{gen};
 pub fn get_next(cell: i32, grid: &mut Vec<Vec<i32>>) -> i32 {
     let visitables = get_visitables(cell, grid);
-    let mut rng = thread_rng();
     let rand_visitable = match visitables.len() {
         0 => usize::MAX,
-        x => rng.gen_range(0..x),
+        x => gen(x),
     };
     
     if rand_visitable == usize::MAX {

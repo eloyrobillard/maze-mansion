@@ -1,7 +1,8 @@
 mod maze_utils;
+mod rand;
 
-use crate::maze_utils::*;
-use rand::{thread_rng, Rng};
+use maze_utils::*;
+use rand::{gen};
 
 #[repr(C)]
 pub struct MazeDescriptor {
@@ -19,9 +20,8 @@ impl MazeDescriptor {
 
         let mut cell_stack: Vec<i32> = Vec::new();
 
-        let mut rng = thread_rng();
-        let x: usize = rng.gen_range(0..width);
-        let y: usize = rng.gen_range(0..height);
+        let x: usize = gen(width-1);
+        let y: usize = gen(height-1);
 
         let mut prev = invalid;
         let mut current = grid[y][x] + get_neighbors(&mut grid, x, y);
