@@ -1,10 +1,10 @@
 #[macro_use]
 extern crate lazy_static;
 
+use std::sync::Mutex;
 mod maze_utils;
 mod rand;
 
-use std::sync::Mutex;
 use maze_utils::*;
 use rand::{gen};
 
@@ -230,15 +230,16 @@ impl fmt::Display for MazeDescriptor {
 
 #[cfg(test)]
 mod tests {
-    use crate::{MAZE_DESCRIPTOR,MazeDescriptor, get_width, create_maze};
-    use std::sync::Mutex;
+    use crate::{MAZE_DESCRIPTOR, get_width, get_height, create_maze, get_steps_len};
     #[test]
     fn it_works() {
         assert!(get_width() == 10);
         create_maze(20, 20);
         assert!(get_width() == 20);
+        assert!(get_width() == get_height());
+        assert!(get_steps_len() > 0);
         let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
-        println!("{}", maze);
-        assert!(maze.to_string().len() == 100);
+        println!("{}\n{} steps", maze, maze.steps.len());
+        assert!(maze.steps.len() == 100);
     }
 }
