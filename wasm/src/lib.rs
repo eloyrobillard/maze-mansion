@@ -228,13 +228,15 @@ impl fmt::Display for MazeDescriptor {
     }
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use crate::MazeDescriptor;
-//     #[test]
-//     fn it_works() {
-//         let maze = MazeDescriptor::new(10, 10);
-//         println!("{}", maze);
-//         assert!(maze.to_string().len() == 10)
-//     }
-// }
+#[cfg(test)]
+mod tests {
+    use crate::{MAZE_DESCRIPTOR,MazeDescriptor, get_width, create_maze};
+    use std::sync::Mutex;
+    #[test]
+    fn it_works() {
+        assert!(get_width() == 10);
+        create_maze(20, 20);
+        assert!(get_width() == 20);
+        assert!(get_width() == 100);
+    }
+}
