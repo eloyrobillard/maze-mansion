@@ -5,5 +5,5 @@ pub fn gen(max: usize) -> usize {
   let since_the_epoch = start
       .duration_since(UNIX_EPOCH)
       .expect("Time went backwards");
-  (since_the_epoch.as_millis() % max as u128).try_into().unwrap()
+  (since_the_epoch.as_nanos() % max as u128).try_into().unwrap()
 }

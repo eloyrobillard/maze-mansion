@@ -237,6 +237,8 @@ mod tests {
         assert!(get_width() == 10);
         create_maze(20, 20);
         assert!(get_width() == 20);
-        assert!(get_width() == 100);
+        let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
+        println!("{}", maze);
+        assert!(maze.to_string().len() == 100);
     }
 }
