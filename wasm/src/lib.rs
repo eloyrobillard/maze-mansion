@@ -10,7 +10,7 @@ use maze_utils::*;
 use std::sync::Mutex;
 
 lazy_static! {
-    static ref MAZE_DESCRIPTOR: Mutex<MazeDescriptor> = Mutex::new(MazeDescriptor::new(10, 10));
+    static ref MAZE_DESCRIPTOR: Mutex<MazeDescriptor> = Mutex::new(MazeDescriptor::new(0, 0));
 }
 
 #[no_mangle]
@@ -174,13 +174,20 @@ mod tests {
     use crate::{MAZE_DESCRIPTOR, get_width, get_height, new_maze, get_steps_len};
     #[test]
     fn it_works() {
-        assert!(get_width() == 10);
+        assert!(get_width() == 0);
         new_maze(20, 20);
         assert!(get_width() == 20);
+        // let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
+        // println!("{}\n{} steps", maze, maze.steps.len());
+        // assert!(maze.steps.len() == 100);
+    }
+
+    fn reset_maze() {
+        new_maze(40, 40);
         assert!(get_width() == get_height());
+        new_maze(10, 15);
         assert!(get_steps_len() > 0);
-        let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
-        println!("{}\n{} steps", maze, maze.steps.len());
-        assert!(maze.steps.len() == 100);
+        new_maze(10, 5);
+        assert!(get_height() == 5);
     }
 }

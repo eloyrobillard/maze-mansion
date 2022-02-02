@@ -16,12 +16,15 @@ impl MazeDescriptor {
           steps: Vec::new(),
           fin: Vec::new(),
       };
-
       md.reset(width, height);
       md
   }
 
   pub fn reset(&mut self, width: usize, height: usize) {
+      if width * height == 0 {
+        return;
+      }
+
       let invalid = -1;
 
       let mut grid: Vec<Vec<i32>> = init_grid(width, height);
