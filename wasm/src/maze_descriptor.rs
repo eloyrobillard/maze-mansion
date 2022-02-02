@@ -21,7 +21,7 @@ impl MazeDescriptor {
   }
 
   pub fn reset(&mut self, width: usize, height: usize) {
-      if width * height == 0 {
+      if width * height <= 0 {
         return;
       }
 
