@@ -1,5 +1,5 @@
 export type MazeDescriptor = {
-	create_maze: (width: number, height: number) => void;
+	new_maze: (width: number, height: number) => void;
 	get_height: () => number;
 	get_width: () => number;
 	get_final: () => number;

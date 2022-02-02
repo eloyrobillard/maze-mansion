@@ -41,20 +41,10 @@ export default function Grid({ api, handleReset }: Props) {
 		Dispatch<SetStateAction<number>>
 	] = useState(1);
 
-	const [LAST_STATE, setLastState] = useState(0);
-	// NOTE update last state index
-	useEffect(
-		() => {
-			// console.log('descriptor', descriptor);
-			setLastState(api.getStepsLen());
-		},
-		[api]
-	);
+	const [LAST_STATE, setLastState] = useState(api.getStepsLen());
 
 	// LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
-	const intervalRef: React.MutableRefObject<NodeJS.Timeout | null> = useRef(
-		null
-	);
+	const intervalRef: React.MutableRefObject<NodeJS.Timeout | null> = useRef(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const play = useCallback(
 		() => {
@@ -192,6 +182,7 @@ export default function Grid({ api, handleReset }: Props) {
 				handleReset={() => {
 					setStepCount(FIRST_STATE);
 					handleReset();
+					setLastState(api.getStepsLen());
 				}}
 				togglePlay={togglePlay}
 			/>

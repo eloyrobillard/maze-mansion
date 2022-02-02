@@ -14,7 +14,7 @@ lazy_static! {
 }
 
 #[no_mangle]
-pub extern "C" fn create_maze(width: usize, height: usize) {
+pub extern "C" fn new_maze(width: usize, height: usize) {
     let maze = &mut MAZE_DESCRIPTOR.lock().unwrap();
     maze.reset(width, height);
 }
@@ -171,11 +171,11 @@ impl fmt::Display for MazeDescriptor {
 
 #[cfg(test)]
 mod tests {
-    use crate::{MAZE_DESCRIPTOR, get_width, get_height, create_maze, get_steps_len};
+    use crate::{MAZE_DESCRIPTOR, get_width, get_height, new_maze, get_steps_len};
     #[test]
     fn it_works() {
         assert!(get_width() == 10);
-        create_maze(20, 20);
+        new_maze(20, 20);
         assert!(get_width() == 20);
         assert!(get_width() == get_height());
         assert!(get_steps_len() > 0);
