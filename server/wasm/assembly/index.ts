@@ -2,10 +2,10 @@
 // NOTE #2 comment back to compile module
 // import 'wasi';
 // import { Console } from 'as-wasi';
-import { printMaze, generateClassLists, updateClassLists } from './utilsFn';
+import { printMaze, generateFinalLists, updateClassLists } from './utilsFn';
 import RecursiveBacktracker from './rbtFn';
 
-let instance: StaticArray<Int32Array[]>;
+export let instance = RecursiveBacktracker(10, 10);
 
 export { getX, getY } from './mazeFn';
 // Export type ID
@@ -15,30 +15,31 @@ export const ArrayInt32Arrays_ID = idof<Int32Array[]>();
 export const ArrayOfStrings_ID = idof<string[]>();
 export const Array2DStrings_ID = idof<string[][]>();
 
-
 export function getTextMaze(width: i32, height: i32): string {
 	return printMaze(instance[2]);
 }
 
-export function generateClasses(ptr: Int32Array[]): Array<Array<string>> {
-	return generateClassLists(ptr);
+export function generateFinal(): Array<Array<string>> {
+	return generateFinalLists();
 }
 
 export function updateClasses(
 	classLists: string[][],
-	change: Int32Array,
+	step: i32,
 	updateDir: i32
 ): string[][] {
-	return updateClassLists(instance[2], classLists, change, updateDir);
+	return updateClassLists(instance[2], classLists, step, updateDir);
 }
 
 export function newMazeDescriptor(width: i32, height: i32): void {
 	instance = RecursiveBacktracker(width, height);
 }
 
-// export const Grid_ID = idof<i32[][]>();
+export function getStepsLen(): i32 {
+	return instance[1].length;
+}
 
-// const maze = RecursiveBacktracker(10, 10)[0];
+// export const Grid_ID = idof<i32[][]>();
 
 // Console.log(printMaze(maze));
 // Console.log(generateClasses(maze).reduce((acc, row) => `${acc} ${row.toString()}`, ''));

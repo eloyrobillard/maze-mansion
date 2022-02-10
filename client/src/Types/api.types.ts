@@ -17,14 +17,14 @@ export type MazeDescriptor = {
 
 export type WasmApi = {
 	getTextMaze: (width: number, height: number) => number;
-	generateClasses: (ptr: number) => number;
+	generateFinal: () => number;
 	updateClasses: (
-		maze: number,
 		classLists: number,
-		change: number,
+		step: number,
 		updateDir: number
 	) => number;
-	getMazeDescriptor: (width: number, height: number) => number;
+	newMazeDescriptor: (width: number, height: number) => void;
+	getStepsLen: () => number;
 	getX: (cell: number) => number;
 	getY: (cell: number) => number;
 	Int32Array_ID: number;
@@ -35,14 +35,14 @@ export type WasmApi = {
 
 export type Api = {
 	getTextMaze: (width: number, height: number) => string;
-	generateClasses: (maze: number[][]) => string[][];
+	generateFinal: () => string[][];
 	updateClasses: (
-		maze: number[][],
 		classLists: string[][],
-		change: number[],
+		step: number,
 		updateDir: number
 	) => string[][];
-	getMazeDescriptor: (width: number, height: number) => WasmMazeDesc;
+	newMazeDescriptor: (width: number, height: number) => void;
+	getStepsLen: () => number;
 };
 
 export type WasmMazeDesc = {

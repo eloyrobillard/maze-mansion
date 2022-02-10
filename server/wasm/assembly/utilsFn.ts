@@ -1,4 +1,6 @@
 // import { console } from 'as-wasi';
+// import * as console from './console';
+import { instance } from './index';
 import {
 	NULL,
 	getNeighbors,
@@ -8,7 +10,6 @@ import {
 	neighsToStrings,
 	isVisited
 } from './mazeFn';
-import * as console from './console';
 
 export function getRand(max: i32): i32 {
 	return Math.floor((Math.random() * max) as f32) as i32;
@@ -76,9 +77,8 @@ export function printMaze(grid: Int32Array[]): string {
 	return res;
 }
 
-export function generateClassLists(
-	grid: Int32Array[]
-): Array<Array<string>> {
+export function generateFinalLists(): Array<Array<string>> {
+	const grid = instance[2];
 	const height = grid.length;
 	const width = grid[0].length;
 
@@ -165,21 +165,22 @@ export function generateClassLists(
 export function updateClassLists(
 	grid: Int32Array[],
 	classLists: string[][],
-	change: Int32Array,
+	step: i32,
 	updateDir: i32
 ): string[][] {
 	if (updateDir > 0) {
-		return updateForward(grid, classLists, change);
+		return updateForward(grid, classLists, step);
 	}
 
-	return updateBackward(grid, classLists, change);
+	return updateBackward(grid, classLists, step);
 }
 
 function updateForward(
 	grid: Int32Array[],
 	classLists: string[][],
-	change: Int32Array
+	step: i32
 ): string[][] {
+	const change = instance[1][step];
 	const prev = change[0];
 	const current = change[1];
 
@@ -206,11 +207,13 @@ function updateForward(
 function updateBackward(
 	grid: Int32Array[],
 	classLists: string[][],
-	change: Int32Array
+	step: i32
 ): string[][] {
+	const change = instance[1][step];
 	const prev = change[0];
 	const current = change[1];
 	const firstVisit = change[2];
+	
 	const cx = getX(current);
 	const cy = getY(current);
 

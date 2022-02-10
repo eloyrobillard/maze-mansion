@@ -13,49 +13,36 @@ import Commands from './Commands/Commands';
 import { handleUpdate, resizeMazeElements } from './MazeUtils';
 
 type Props = {
-  descriptor: MazeDescriptor;
-  api: Api;
-  handleReset: () => void;
+	api: Api;
+	handleReset: () => void;
 }
 
 export const FIRST_STATE = -1;
 
-export default function Grid ({descriptor, api, handleReset}: Props) {
-  const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
+export default function Grid({ api, handleReset }: Props) {
+	const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
-	const [ cellWidth, setCellWidth ]: [
-		number,
-		Dispatch<SetStateAction<number>>
-	] = useState(50);
-	const [ cellHeight, setCellHeight ]: [
-		number,
-		Dispatch<SetStateAction<number>>
-	] = useState(50);
+	const [cellWidth, setCellWidth] = useState(50);
+	const [cellHeight, setCellHeight] = useState(50);
 
-  const [ stepCount, setStepCount ]: [
-		number,
-		Dispatch<SetStateAction<number>>
-	] = useState(FIRST_STATE);
-	const [ updateDir, setUpdateDir ]: [
-		number,
-		Dispatch<SetStateAction<number>>
-	] = useState(1);
+	const [stepCount, setStepCount] = useState(FIRST_STATE);
+	const [updateDir, setUpdateDir] = useState(1);
 
-	const [ LAST_STATE, setLastState ] = useState(0);
+	const [LAST_STATE, setLastState] = useState(0);
+	const [classLists, setClassLists] = useState([['']]);
 	// NOTE update last state index
 	useEffect(
 		() => {
-			// console.log('descriptor', descriptor);
-			setLastState(descriptor.steps.length);
+			setLastState(api.getStepsLen());
 		},
-		[ descriptor ]
+		[api]
 	);
 
 	// LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
 	const intervalRef: React.MutableRefObject<NodeJS.Timeout | null> = useRef(
 		null
 	);
-	const [ isPlaying, setIsPlaying ] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const play = useCallback(
 		() => {
 			if (intervalRef.current !== null) {
@@ -72,7 +59,7 @@ export default function Grid ({descriptor, api, handleReset}: Props) {
 				});
 			}, Math.floor(1000 / fps));
 		},
-		[ updateDir, fps, LAST_STATE ]
+		[updateDir, fps, LAST_STATE]
 	);
 
 	const pause = useCallback(() => {
@@ -91,7 +78,7 @@ export default function Grid ({descriptor, api, handleReset}: Props) {
 			}
 			return pause();
 		},
-		[ isPlaying, play, pause ]
+		[isPlaying, play, pause]
 	);
 
 	// NOTE pause automatically when at the end
@@ -101,10 +88,10 @@ export default function Grid ({descriptor, api, handleReset}: Props) {
 				setIsPlaying(false);
 			}
 		},
-		[ stepCount, LAST_STATE ]
+		[stepCount, LAST_STATE]
 	);
 
-	function togglePlay () {
+	function togglePlay() {
 		if (!isPlaying) {
 			return setIsPlaying(true);
 		}
@@ -122,7 +109,7 @@ export default function Grid ({descriptor, api, handleReset}: Props) {
 				setUpdateDir(-1);
 			}
 		},
-		[ stepCount, LAST_STATE ]
+		[stepCount, LAST_STATE]
 	);
 
 	useEffect(
@@ -134,7 +121,7 @@ export default function Grid ({descriptor, api, handleReset}: Props) {
 				setCellHeight
 			});
 		},
-		[ mazeWidth, mazeHeight ]
+		[mazeWidth, mazeHeight]
 	);
 
 	useEffect(
@@ -148,40 +135,32 @@ export default function Grid ({descriptor, api, handleReset}: Props) {
 				grid.style.height = `${cellHeight * mazeHeight}px`;
 			})();
 		},
-		[ cellWidth, cellHeight, mazeWidth, mazeHeight ]
+		[cellWidth, cellHeight, mazeWidth, mazeHeight]
 	);
 
-  const [ classLists, setClassLists ]: [
-		string[][],
-		Dispatch<SetStateAction<string[][]>>
-	] = useState([ [ '' ] ]);
-
-  // NOTE handle maze update (front AND back)
+	// NOTE handle maze update (front AND back)
 	useEffect(
 		() => {
-			// console.log('cls', descriptor.steps);
 			if (stepCount === FIRST_STATE) {
-				const initialCls = api.generateClasses(descriptor.initial);
-				setClassLists(initialCls);
+				setClassLists(Array.from({ length: mazeHeight }, () => Array(mazeWidth).fill('cell')));
 			} else if (stepCount === LAST_STATE) {
-				setClassLists(api.generateClasses(descriptor.final));
+				setClassLists(api.generateFinal());
 			} else {
 				setClassLists((cls: string[][]) =>
 					api.updateClasses(
-						descriptor.initial,
 						cls,
-						descriptor.steps[stepCount],
+						stepCount,
 						updateDir
 					)
 				);
 			}
 		},
-		[ descriptor, stepCount, updateDir, LAST_STATE, api ]
+		[mazeHeight, mazeWidth, stepCount, updateDir, LAST_STATE, api]
 	);
 
-  return (
-    <>
-    <Commands
+	return (
+		<>
+			<Commands
 				handleUpdate={(e) => {
 					e.preventDefault();
 					handleUpdate({
@@ -193,36 +172,27 @@ export default function Grid ({descriptor, api, handleReset}: Props) {
 					});
 				}}
 				handleReset={() => {
-          setStepCount(FIRST_STATE);
-          handleReset();
-        }}
-				// handleReset={(e) => {
-				//   e.preventDefault();
-				//   handleReset({
-				//     setStepCount,
-				//     setDescriptor,
-				//     mazeWidth,
-				//     mazeHeight
-				//   });
-				// }}
+					setStepCount(FIRST_STATE);
+					handleReset();
+				}}
 				togglePlay={togglePlay}
 			/>
-    <div id='grid-container'>
-      <div id='grid'>
-        {classLists
-          .reduce((acc, row) => acc.concat(row), [])
-          .map((list, i) => {
-            return (
-              <div
-                key={i}
-                style={{ width: cellWidth + 'px', height: cellHeight + 'px' }}
-                title={`x: ${i % mazeWidth}\ny: ${Math.floor(i / mazeWidth)}`}
-                className={list}
-              />
-            );
-          })}
-      </div>
-    </div>
-    </>
-  );
+			<div id='grid-container'>
+				<div id='grid'>
+					{classLists
+						.reduce((acc, row) => acc.concat(row), [])
+						.map((list, i) => {
+							return (
+								<div
+									key={i}
+									style={{ width: cellWidth + 'px', height: cellHeight + 'px' }}
+									title={`x: ${i % mazeWidth}\ny: ${Math.floor(i / mazeWidth)}`}
+									className={list}
+								/>
+							);
+						})}
+				</div>
+			</div>
+		</>
+	);
 }

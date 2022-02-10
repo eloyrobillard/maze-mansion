@@ -23,15 +23,10 @@ export default function Dashboard() {
 
   const [api, setApi] = useState<Api>({
     getTextMaze: (width: number, height: number) => '',
-    generateClasses: (maze: number[][]) => [['']],
-    updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => [['']],
-    getMazeDescriptor: (width: number, height: number) => {
-      return {
-        initial: [[1]],
-        steps: [[0]],
-        final: [[0]]
-      }
-    }
+    generateFinal: () => [['']],
+    updateClasses: (classLists: string[][], change: number, updateDir: number) => [['']],
+    newMazeDescriptor: (width: number, height: number) => { return; },
+    getStepsLen: () => 0
   });
 
   useEffect(() => {
