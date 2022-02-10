@@ -1,17 +1,11 @@
-const asc = require('./asc/index');
+const fs = require("fs");
 
-function getAScAssembly() {
+function getAssembly() {
   try {
-    const asm = asc.getAssembly();
-    // console.log(asm)
-    return asm;
+    return fs.promises.readFile(__dirname + "/build/optimized.wasm");
   } catch (e) {
     console.log(e);
   }
 }
 
-async function getRustAssembly() {
-  
-}
-
-module.exports = { getAScAssembly, getRustAssembly };
+module.exports = { getAssembly };

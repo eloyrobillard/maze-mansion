@@ -1,9 +1,8 @@
 const Router = require('koa-router');
 const router = new Router();
 
-const src = require('./controllers/src');
-// const user = require('./controllers/user');
+const wasm = require('./wasm/index');
 
-router.get('/maze/:algo/:src', src.getMazeAssembly);
+router.get('/maze/:algo/:src', wasm.getAssembly);
 
 module.exports = router;
