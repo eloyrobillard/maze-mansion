@@ -1,5 +1,5 @@
 import { instantiate } from "@assemblyscript/loader";
-import { WasmApi } from 'WasmApi';
+import { WasmApi } from 'Types';
 
 export default async function loadWasm() {
   const module = await instantiate<WasmApi>(fetch('http://localhost:3002/maze') , {

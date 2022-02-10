@@ -7,10 +7,10 @@ import React, {
 	Dispatch,
 	SetStateAction
 } from 'react';
-import { MazeDescriptor, Api } from '../WasmApi';
-import { SettingsContext } from '../Dashboard';
-import Commands from './Commands';
-import { handleUpdate, resizeMazeElements } from './MazeUtilsWasm';
+import { WasmMazeDesc as MazeDescriptor, Api } from 'Types';
+import { SettingsContext } from 'Dashboard';
+import Commands from './Commands/Commands';
+import { handleUpdate, resizeMazeElements } from './MazeUtils';
 
 type Props = {
   descriptor: MazeDescriptor;

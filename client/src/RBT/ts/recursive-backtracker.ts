@@ -1,4 +1,4 @@
-import { MazeDescriptor } from '../../ApiTypes';
+import { MazeDescriptor } from '../../Types/api.types';
 import { Cell, Maze } from './maze';
 import { getRand } from './utils' ;
 

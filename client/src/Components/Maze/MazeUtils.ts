@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { FIRST_STATE } from './MazeJS';
+import { FIRST_STATE } from './Maze';
 
 type ResizeArgs = { 
   mazeWidth: number, 

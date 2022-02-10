@@ -7,11 +7,11 @@ import {
 } from 'react';
 import { SettingsContext } from 'Dashboard';
 
-import Grid from './GridWasm';
-import { MazeDescriptor, Api } from 'WasmApi';
+import Grid from './Grid';
+import { WasmMazeDesc as MazeDescriptor, Api } from 'Types';
 import './Maze.css';
 
-export { FIRST_STATE } from './GridWasm';
+export { FIRST_STATE } from './Grid';
 
 export default function Maze({ api }: { api: Api }) {
 	const { mazeWidth, mazeHeight } = useContext(SettingsContext);

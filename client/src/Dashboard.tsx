@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Settings from 'SettingsComp/Settings';
-import { formatApi, Api } from './WasmApi';
-import Maze from 'MazeComp/Maze';
+import Settings from 'Components/Settings/Settings';
+import { formatApi } from 'Services';
+import { Api } from 'Types';
+import Maze from 'Components/Maze/Maze';
 import Wasm from 'RBT/asc/index';
 import 'App.css';
 

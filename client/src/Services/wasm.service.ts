@@ -1,49 +1,14 @@
 import { ASUtil } from '@assemblyscript/loader';
+import { WasmApi, Api, WasmMazeDesc as MazeDescriptor } from 'Types';
 
-export type WasmApi = {
-	getTextMaze: (width: number, height: number) => number;
-	generateClasses: (ptr: number) => number;
-	updateClasses: (
-		maze: number,
-		classLists: number,
-		change: number,
-		updateDir: number
-	) => number;
-	getMazeDescriptor: (width: number, height: number) => number;
-	getX: (cell: number) => number;
-	getY: (cell: number) => number;
-	Int32Array_ID: number;
-	ArrayInt32Arrays_ID: number;
-	ArrayOfStrings_ID: number;
-	Array2DStrings_ID: number;
-};
-
-export type Api = {
-	getTextMaze: (width: number, height: number) => string;
-	generateClasses: (maze: number[][]) => string[][];
-	updateClasses: (
-		maze: number[][],
-		classLists: string[][],
-		change: number[],
-		updateDir: number
-	) => string[][];
-	getMazeDescriptor: (width: number, height: number) => MazeDescriptor;
-};
-
-export type MazeDescriptor = {
-	initial: number[][];
-	steps: number[][];
-	final: number[][];
-};
-
-export function formatApi (api: ASUtil & WasmApi): Api {
+export function formatApi(api: ASUtil & WasmApi): Api {
 	return {
 		getTextMaze: (width, height) =>
 			api.__getString(api.getTextMaze(width, height)),
 
 		generateClasses: (maze) => {
 			if (maze.length === 0) {
-				return [ [ '' ] ];
+				return [['']];
 			}
 			// Passing array to WebAssembly
 			// LINK https://github.com/AssemblyScript/examples/blob/main/loader/tests/offset.js
@@ -68,7 +33,7 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 
 		updateClasses: (maze, cls, change, dir) => {
 			if (maze.length === 0) {
-				return [ [ '' ] ];
+				return [['']];
 			}
 
 			// Passing array to WebAssembly
@@ -114,7 +79,7 @@ export function formatApi (api: ASUtil & WasmApi): Api {
 				initial: api.__getArray(descriptor[0]).map((el) => api.__getArray(el)),
 				steps: api.__getArray(descriptor[1]).map((el) => api.__getArray(el)),
 				final: api.__getArray(descriptor[2]).map((el) => api.__getArray(el))
-			};
+			} as MazeDescriptor;
 		}
 	};
 }
