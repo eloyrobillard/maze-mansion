@@ -10,11 +10,11 @@ import {
 } from './mazeFn';
 import * as console from './console';
 
-export function getRand (max: i32): i32 {
+export function getRand(max: i32): i32 {
 	return Math.floor((Math.random() * max) as f32) as i32;
 }
 
-export function printMaze (grid: Int32Array[]): string {
+export function printMaze(grid: Int32Array[]): string {
 	const height = grid.length;
 	if (height <= 0) {
 		return '**\n**';
@@ -65,8 +65,8 @@ export function printMaze (grid: Int32Array[]): string {
 			/* if (current && x === current.x && y === current.y) {
 				newRight = `${newRight.substr(0, 1)}o${newRight.substr(2)}`;
 			} else if (grid[y][x].visited) {
-        newRight = `${newRight.substr(0, 1)}-${newRight.substr(2)}`;
-      } */
+				newRight = `${newRight.substr(0, 1)}-${newRight.substr(2)}`;
+			} */
 			mid += newRight;
 		}
 		res += `${mid}|\n${bot}`;
@@ -76,27 +76,22 @@ export function printMaze (grid: Int32Array[]): string {
 	return res;
 }
 
-export function generateClassLists (
+export function generateClassLists(
 	grid: Int32Array[]
 ): Array<Array<string>> {
 	const height = grid.length;
 	const width = grid[0].length;
-	// const grid = ptr.map((row) => {
-	// 	const arr = new Array<i32>(width);
-	// 	arr.map((_, i) => row[i]);
-	// 	return arr;
-	// });
 
 	if (height <= 0) {
-		return [ [ `no height` ] ];
+		return [[`no height`]];
 	}
 	if (width <= 0) {
-		return [ [ `no width` ] ];
+		return [[`no width`]];
 	}
 
 	// NOTE checks if grid state is initial or final
 	const isFinal = isVisited(grid, 0, 0);
-	
+
 	const res: string[][] = new Array<Array<string>
 	>(height);
 	for (let i = 0; i < height; i++) {
@@ -167,7 +162,7 @@ export function generateClassLists (
 	return res;
 }
 
-export function updateClassLists (
+export function updateClassLists(
 	grid: Int32Array[],
 	classLists: string[][],
 	change: Int32Array,
@@ -180,7 +175,7 @@ export function updateClassLists (
 	return updateBackward(grid, classLists, change);
 }
 
-function updateForward (
+function updateForward(
 	grid: Int32Array[],
 	classLists: string[][],
 	change: Int32Array
@@ -208,7 +203,7 @@ function updateForward (
 	return classLists;
 }
 
-function updateBackward (
+function updateBackward(
 	grid: Int32Array[],
 	classLists: string[][],
 	change: Int32Array
@@ -218,7 +213,7 @@ function updateBackward (
 	const firstVisit = change[2];
 	const cx = getX(current);
 	const cy = getY(current);
-	
+
 	if (prev !== NULL) {
 		classLists[cy][cx] = `cell`;
 		return classLists;
@@ -236,8 +231,8 @@ function updateBackward (
 		classLists[cy][cx] = `grid[y][x] ${cx === 0
 			? ' wall-left'
 			: cx === grid[0].length - 1 ? ' wall-right' : ''}${cy === 0
-			? ' wall-top'
-			: cy === grid.length - 1 ? ' wall-bottom' : ''}`;
+				? ' wall-top'
+				: cy === grid.length - 1 ? ' wall-bottom' : ''}`;
 	} else {
 		const currNeighs = getNeighbors(grid, cx, cy);
 		const cNeighStrs = neighsToStrings(currNeighs);
@@ -247,7 +242,7 @@ function updateBackward (
 	return classLists;
 }
 
-function getClassList (
+function getClassList(
 	grid: Int32Array[],
 	x: i32,
 	y: i32,
@@ -262,6 +257,6 @@ function getClassList (
 	return `cell visited ${innerWallList}${x === 0
 		? ' wall-left'
 		: x === grid[0].length - 1 ? ' wall-right' : ''}${y === 0
-		? ' wall-top'
-		: y === grid.length - 1 ? ' wall-bottom' : ''}`;
+			? ' wall-top'
+			: y === grid.length - 1 ? ' wall-bottom' : ''}`;
 }

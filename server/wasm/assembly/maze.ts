@@ -10,7 +10,6 @@ export class Step {
   firstVisit: boolean;
 }
 
-// 
 export class MazeDescriptor { 
   initial: Maze = new Maze(0 ,0);
   steps: Step[] = [];
