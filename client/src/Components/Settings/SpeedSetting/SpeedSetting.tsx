@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { SettingsContext } from 'Dashboard';
 import './SpeedSettings.css';
 
@@ -7,16 +7,8 @@ const maxFPS = 100;
 export default function SpeedSetting() {
   const {fps, setFps} = useContext(SettingsContext);
 
-  // NOTE update fps with new maxFPS
-  useEffect(() => {
-    if (fps > maxFPS) {
-      setFps(maxFPS);
-    }
-  }, [fps, setFps]);
-
   function handleFps(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-
     setFps(Number(e.target.value));
   }
 
