@@ -8,7 +8,7 @@ import React, {
 import { SettingsContext } from '../Dashboard';
 
 import Grid from './GridWasm';
-import { MazeDescriptor, Api } from '../AScApi';
+import { MazeDescriptor, Api } from '../WasmApi';
 import './Maze.css';
 
 export { FIRST_STATE } from './GridWasm';

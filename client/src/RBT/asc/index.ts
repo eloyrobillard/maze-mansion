@@ -1,5 +1,5 @@
 import { instantiate } from "@assemblyscript/loader";
-import { WasmApi } from '../../AScApi';
+import { WasmApi } from '../../WasmApi';
 
 export default async function Asc() {
   const module = await instantiate<WasmApi>(fetch('http://localhost:3001/maze/rbt/asc') , {

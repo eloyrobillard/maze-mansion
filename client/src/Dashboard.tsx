@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-// import { createAsBindHook } from 'use-as-bind';
 import Settings from './SettingsComp/Settings';
-import { formatApi } from './AScApi';
+import { formatApi, Api } from './WasmApi';
 import Maze from './MazeComp/Maze';
-// import { Api } from './AScApi';
-import Asc from './RBT/asc/index';
+import Wasm from './RBT/asc/index';
 import './App.css';
 
 export const FPS_INSTANT = 0;
@@ -22,27 +20,25 @@ export default function Dashboard() {
   const [mazeWidth, setWidth] = useState(10);
   const [mazeHeight, setHeight] = useState(10);
   const [fps, setFps] = useState(10);
-  const [maze, setMaze] = useState(<></>);
 
-  // const [api, setApi]: [Api, Dispatch<SetStateAction<Api>>] = useState({
-  //   getTextMaze: (width: number, height: number) => '',
-  //   generateClasses: (maze: number[][]) => [['']],
-  //   updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => [['']],
-  //   getMazeDescriptor: (width: number, height: number) => { 
-  //     return {
-  //       initial: [[1]],
-  //       steps: [[0]],
-  //       final: [[0]]
-  //     }
-  //   }
-  // });
+  const [api, setApi] = useState<Api>({
+    getTextMaze: (width: number, height: number) => '',
+    generateClasses: (maze: number[][]) => [['']],
+    updateClasses: (maze: number[][], classLists: string[][], change: number[], updateDir: number) => [['']],
+    getMazeDescriptor: (width: number, height: number) => { 
+      return {
+        initial: [[1]],
+        steps: [[0]],
+        final: [[0]]
+      }
+    }
+  });
 
   useEffect(() => {
     (async () => {
-      const ascMod = await Asc();
-      // console.log('ascMod', ascMod);
-      const api = formatApi(ascMod);
-      setMaze(<Maze api={api} />);
+      const ascModule = await Wasm();
+      const api = formatApi(ascModule);
+      setApi(api);
     })();
   }, []);
 
@@ -56,7 +52,7 @@ export default function Dashboard() {
           fps,
           setFps,
         }}>
-        {maze} 
+        <Maze api={api} />
         <Settings />
       </SettingsContext.Provider>
     </div>

@@ -7,7 +7,7 @@ import React, {
 	Dispatch,
 	SetStateAction
 } from 'react';
-import { MazeDescriptor, Api } from '../AScApi';
+import { MazeDescriptor, Api } from '../WasmApi';
 import { SettingsContext } from '../Dashboard';
 import Commands from './Commands';
 import { handleUpdate, resizeMazeElements } from './MazeUtilsWasm';
