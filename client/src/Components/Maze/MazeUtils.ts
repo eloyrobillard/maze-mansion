@@ -25,18 +25,6 @@ export function resizeMazeElements({mazeWidth, mazeHeight, setCellWidth, setCell
   })();
 }
 
-// type ResetArgs = {
-//   setStepCount: Dispatch<SetStateAction<number>>;
-//   setDescriptor: Dispatch<SetStateAction<MazeDescriptor>>;
-//   mazeWidth: number;
-//   mazeHeight: number;
-// }
-
-// export function handleReset({setStepCount, setDescriptor, mazeWidth, mazeHeight}: ResetArgs) {
-//   setStepCount(FIRST_STATE);
-//   setDescriptor(api!.getMazeDescriptor(mazeWidth, mazeHeight));
-// }
-
 type UpdateArgs = {
   dir: string;
   setStepCount: Dispatch<SetStateAction<number>>;
