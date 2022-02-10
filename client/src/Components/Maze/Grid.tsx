@@ -8,7 +8,7 @@ import React, {
 import { Api } from 'Types';
 import { SettingsContext } from 'Dashboard';
 import Commands from './Commands/Commands';
-import { handleUpdate, resizeMazeElements } from './MazeUtils';
+import { handleUpdate, resizeMazeElements, emptyMaze } from './MazeUtils';
 
 type Props = {
 	api: Api;
@@ -26,9 +26,17 @@ export default function Grid({ api }: Props) {
 	const [updateDir, setUpdateDir] = useState(1);
 
 	const [LAST_STATE, setLastState] = useState(0);
-	const [classLists, setClassLists] = useState([['']]);
+	const [classLists, setClassLists] = useState(emptyMaze(mazeWidth, mazeHeight));
 
 	function handleReset() {
+		resizeMazeElements({
+			mazeWidth,
+			mazeHeight,
+			setCellWidth,
+			setCellHeight
+		});
+		setClassLists(emptyMaze(mazeWidth, mazeHeight));
+		setStepCount(FIRST_STATE);
 		api.newMazeDescriptor(mazeWidth, mazeHeight);
 		setLastState(api.getStepsLen());
 	}
@@ -102,48 +110,20 @@ export default function Grid({ api }: Props) {
 	// NOTE update dir on reaching either end
 	useEffect(
 		() => {
-			if (stepCount > FIRST_STATE && stepCount < LAST_STATE) {
-				return;
-			} else if (stepCount === FIRST_STATE) {
+			if (stepCount === FIRST_STATE) {
 				setUpdateDir(1);
-			} else {
+			} else if (stepCount === LAST_STATE) {
 				setUpdateDir(-1);
 			}
 		},
 		[stepCount, LAST_STATE]
 	);
 
-	useEffect(
-		() => {
-			resizeMazeElements({
-				mazeWidth,
-				mazeHeight,
-				setCellWidth,
-				setCellHeight
-			});
-		},
-		[mazeWidth, mazeHeight]
-	);
-
-	useEffect(
-		() => {
-			let grid;
-			return (() => {
-				if (!grid) {
-					grid = document.getElementById('grid') as HTMLDivElement;
-				}
-				grid.style.width = `${cellWidth * mazeWidth}px`;
-				grid.style.height = `${cellHeight * mazeHeight}px`;
-			})();
-		},
-		[cellWidth, cellHeight, mazeWidth, mazeHeight]
-	);
-
 	// NOTE handle maze update (front AND back)
 	useEffect(
 		() => {
 			if (stepCount === FIRST_STATE) {
-				setClassLists(Array.from({ length: mazeHeight }, () => Array(mazeWidth).fill('cell')));
+				setClassLists(emptyMaze(mazeHeight, mazeWidth));
 			} else if (stepCount === LAST_STATE) {
 				setClassLists(api.generateFinal());
 			} else {
@@ -172,10 +152,7 @@ export default function Grid({ api }: Props) {
 						LAST_STATE
 					});
 				}}
-				handleReset={() => {
-					setStepCount(FIRST_STATE);
-					handleReset();
-				}}
+				handleReset={handleReset}
 				togglePlay={togglePlay}
 			/>
 			<div id='grid-container'>

@@ -17,6 +17,10 @@ export function resizeMazeElements({ mazeWidth, mazeHeight, setCellWidth, setCel
   const min = Math.min(50, Math.floor(gridConWidth / mazeWidth), Math.floor(gridConHeight / mazeHeight));
   setCellWidth(min);
   setCellHeight(min);
+
+  const grid = document.getElementById('grid') as HTMLDivElement;
+  grid.style.width = `${min * mazeWidth}px`;
+  grid.style.height = `${min * mazeHeight}px`;
 }
 
 type UpdateArgs = {
@@ -25,6 +29,10 @@ type UpdateArgs = {
   setUpdateDir: Dispatch<SetStateAction<number>>;
   updateDir: number;
   LAST_STATE: number;
+}
+
+export function emptyMaze(width: number, height: number): string[][] {
+  return Array.from({ length: height }, () => Array(width).fill('cell'));
 }
 
 export function handleUpdate({ dir, setStepCount, setUpdateDir, updateDir, LAST_STATE }: UpdateArgs) {
