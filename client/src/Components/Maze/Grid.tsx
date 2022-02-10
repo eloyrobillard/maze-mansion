@@ -4,22 +4,19 @@ import React, {
 	useCallback,
 	useContext,
 	useRef,
-	Dispatch,
-	SetStateAction
 } from 'react';
-import { WasmMazeDesc as MazeDescriptor, Api } from 'Types';
+import { Api } from 'Types';
 import { SettingsContext } from 'Dashboard';
 import Commands from './Commands/Commands';
 import { handleUpdate, resizeMazeElements } from './MazeUtils';
 
 type Props = {
 	api: Api;
-	handleReset: () => void;
 }
 
 export const FIRST_STATE = -1;
 
-export default function Grid({ api, handleReset }: Props) {
+export default function Grid({ api }: Props) {
 	const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
 	const [cellWidth, setCellWidth] = useState(50);
@@ -30,6 +27,18 @@ export default function Grid({ api, handleReset }: Props) {
 
 	const [LAST_STATE, setLastState] = useState(0);
 	const [classLists, setClassLists] = useState([['']]);
+
+	function handleReset() {
+		api.newMazeDescriptor(mazeWidth, mazeHeight);
+		setLastState(api.getStepsLen());
+	}
+
+	useEffect(
+		() => {
+			api.newMazeDescriptor(mazeWidth, mazeHeight);
+		},
+		[mazeWidth, mazeHeight, api]
+	);
 	// NOTE update last state index
 	useEffect(
 		() => {
@@ -39,9 +48,7 @@ export default function Grid({ api, handleReset }: Props) {
 	);
 
 	// LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
-	const intervalRef: React.MutableRefObject<NodeJS.Timeout | null> = useRef(
-		null
-	);
+	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const play = useCallback(
 		() => {
