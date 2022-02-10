@@ -1,9 +1,3 @@
-import {
-	useEffect,
-	useContext,
-} from 'react';
-import { SettingsContext } from 'Dashboard';
-
 import Grid from './Grid';
 import { Api } from 'Types';
 import './Maze.css';

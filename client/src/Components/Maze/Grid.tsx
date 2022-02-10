@@ -33,18 +33,12 @@ export default function Grid({ api }: Props) {
 		setLastState(api.getStepsLen());
 	}
 
-	useEffect(
-		() => {
-			api.newMazeDescriptor(mazeWidth, mazeHeight);
-		},
-		[mazeWidth, mazeHeight, api]
-	);
 	// NOTE update last state index
 	useEffect(
 		() => {
 			setLastState(api.getStepsLen());
 		},
-		[api]
+		[api, mazeHeight, mazeWidth]
 	);
 
 	// LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
