@@ -1,4 +1,5 @@
-// The entry file of your WebAssembly module.
+// NOTE #1 uncomment below for Console debug
+// NOTE #2 comment back to compile module
 // import 'wasi';
 // import { Console } from 'as-wasi';
 import { printMaze, generateClassLists, updateClassLists } from './utilsFn';

@@ -1,27 +1,27 @@
-import React, {
+import {
 	useState,
 	useEffect,
 	useContext,
 	Dispatch,
 	SetStateAction
 } from 'react';
-import { SettingsContext } from '../Dashboard';
+import { SettingsContext } from 'Dashboard';
 
 import Grid from './GridWasm';
-import { MazeDescriptor, Api } from '../WasmApi';
+import { MazeDescriptor, Api } from 'WasmApi';
 import './Maze.css';
 
 export { FIRST_STATE } from './GridWasm';
 
-export default function Maze ({ api }: { api: Api }) {
+export default function Maze({ api }: { api: Api }) {
 	const { mazeWidth, mazeHeight } = useContext(SettingsContext);
 
-	const [ descriptor, setDescriptor ]: [
+	const [descriptor, setDescriptor]: [
 		MazeDescriptor,
 		Dispatch<SetStateAction<MazeDescriptor>>
 	] = useState(api.getMazeDescriptor(mazeWidth, mazeHeight));
 
-	function handleReset () {
+	function handleReset() {
 		setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
 	}
 
@@ -30,13 +30,12 @@ export default function Maze ({ api }: { api: Api }) {
 		() => {
 			setDescriptor(api.getMazeDescriptor(mazeWidth, mazeHeight));
 		},
-		[ mazeWidth, mazeHeight, api ]
+		[mazeWidth, mazeHeight, api]
 	);
 
 	return (
 		<div id='maze'>
-			
-			<Grid api={api} descriptor={descriptor} handleReset={handleReset}/>
+			<Grid api={api} descriptor={descriptor} handleReset={handleReset} />
 		</div>
 	);
 }

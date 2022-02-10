@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Settings from './SettingsComp/Settings';
+import Settings from 'SettingsComp/Settings';
 import { formatApi, Api } from './WasmApi';
-import Maze from './MazeComp/Maze';
-import Wasm from './RBT/asc/index';
-import './App.css';
+import Maze from 'MazeComp/Maze';
+import Wasm from 'RBT/asc/index';
+import 'App.css';
 
 export const FPS_INSTANT = 0;
 

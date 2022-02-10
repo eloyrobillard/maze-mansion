@@ -1,8 +1,8 @@
 import { instantiate } from "@assemblyscript/loader";
-import { WasmApi } from '../../WasmApi';
+import { WasmApi } from 'WasmApi';
 
-export default async function Asc() {
-  const module = await instantiate<WasmApi>(fetch('http://localhost:3001/maze/rbt/asc') , {
+export default async function loadWasm() {
+  const module = await instantiate<WasmApi>(fetch('http://localhost:3002/maze') , {
     console: {
       log(msg: number) {
         console.log(`msg: ${(msg && module.exports.__getString(msg)) || msg}`);
