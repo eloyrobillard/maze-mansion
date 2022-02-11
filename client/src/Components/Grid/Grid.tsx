@@ -1,3 +1,4 @@
+
 import React, {
 	useState,
 	useEffect,
@@ -6,6 +7,7 @@ import React, {
 	useReducer,
 	useRef,
 } from 'react';
+import './Grid.css';
 import { Api } from 'Types';
 import { SettingsContext } from 'Dashboard';
 import Commands from './Commands/Commands';
@@ -146,7 +148,7 @@ export default function Grid({ api }: Props) {
 	);
 
 	return (
-		<>
+		<div id='maze'>
 			<Commands
 				handleUpdate={(e) => {
 					e.preventDefault();
@@ -177,6 +179,6 @@ export default function Grid({ api }: Props) {
 						})}
 				</div>
 			</div>
-		</>
+			</div>
 	);
 }
