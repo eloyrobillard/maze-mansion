@@ -40,7 +40,8 @@ The React front-end is split in 4 main components:
 
 1. Dashboard
 2. Grid
-3. Controls
+   1. Commands
+3. Settings
 
 #### Dashboard
 
@@ -56,11 +57,17 @@ Grid uses the API to load CSS classes corresponding to the current maze instance
 
 Grid also handles maze width/height changes by updating the maze instance (WASM side). Cells are resized accordingly.
 
-Finally, play buttons allow to step forward and backward in the construction of the maze, or let it auto-step at the speed specified in Controls.
+##### Commands
 
-#### Controls
+The Commands sub-component contains:
 
-Controls expose controls for:
+- the ⏮️, ⏭️ buttons to jump to the initial or final state of the maze
+- the ⏪, ⏩ buttons to step forward/backward one step
+- the ⏯️️ to auto-step at the speed specified in Settings
+
+#### Settings
+
+Settings expose controls for:
 
 - maze width/height resize
 - maze update speed for auto-step mode

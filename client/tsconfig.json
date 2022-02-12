@@ -25,6 +25,6 @@
     "src"
   ],
   "exclude": [
-    "src/RBT/asc/*"
+    "src/wasm/asc/*"
   ]
 }

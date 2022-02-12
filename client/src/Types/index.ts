@@ -1,1 +1,2 @@
-export type { MazeDescriptor, WasmMazeDesc, Step, Api, WasmApi } from './api.types';
+export type { Api } from './api.type';
+export type { WasmApi } from './wasmApi.type';
