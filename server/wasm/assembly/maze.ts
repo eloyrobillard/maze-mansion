@@ -11,9 +11,13 @@ export class Step {
 }
 
 export class MazeDescriptor { 
-  initial: Maze = new Maze(0 ,0);
   steps: Step[] = [];
   final: Maze = new Maze(0, 0);
+
+	constructor(steps: Step[], final: Maze) {
+		this.steps = steps;
+		this. final = final;
+	}
 }
 
 export class NeighborData {
@@ -39,10 +43,6 @@ export class Cell {
 	}
 }
 
-// grid: i32[][]
-// cellStack: i32[]
-// visited: i32
-// prev: i32
 export class Maze {
 	grid: Cell[][];
 	cellStack: Cell[] = [];
@@ -116,9 +116,6 @@ export class Maze {
 
 	getNext (cell: Cell): Cell | null {
 		const neighborData = this.getNeighbors(cell);
-		// Console.log('neighbor data');
-		// Console.log(neighborData.count.toString());
-		// Console.log(neighborData.neighbors.keys().toString());
 		const keys = neighborData.neighbors.keys();
 		const visitables = new Array<string>();
 		for (let i = 0; i < keys.length; i += 1) {
@@ -127,24 +124,17 @@ export class Maze {
 			}
 		}
 
-		// Console.log('visitables');
-		// Console.log(visitables.toString());
-
 		if (visitables.length === 0) {
 			return null;
 		}
 		const direction = visitables[getRand(visitables.length)];
 		
-		// console.log(direction);
 		const next = neighborData.neighbors.get(direction);
 		neighborData.neighbors.delete(direction);
 		// NOTE remove next from neighborData since now linked to cell
 		next!.visited = true;
 		this.visited += 1;
 		this.updateStack(next!);
-
-		// Console.log('next')
-		// Console.log(next!.toString())
 
 		return next;
 	}

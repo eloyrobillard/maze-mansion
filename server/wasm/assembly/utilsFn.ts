@@ -11,11 +11,11 @@ import {
 	isVisited
 } from './mazeFn';
 
-export function getRand(max: i32): i32 {
+export function getRand (max: i32): i32 {
 	return Math.floor((Math.random() * max) as f32) as i32;
 }
 
-export function printMaze(grid: Int32Array[]): string {
+export function printMaze (grid: Int32Array[]): string {
 	const height = grid.length;
 	if (height <= 0) {
 		return '**\n**';
@@ -77,23 +77,22 @@ export function printMaze(grid: Int32Array[]): string {
 	return res;
 }
 
-export function generateFinalLists(): Array<Array<string>> {
+export function generateFinalLists (): Array<Array<string>> {
 	const grid = instance[2];
 	const height = grid.length;
 	const width = grid[0].length;
 
 	if (height <= 0) {
-		return [[`no height`]];
+		return [ [ `no height` ] ];
 	}
 	if (width <= 0) {
-		return [[`no width`]];
+		return [ [ `no width` ] ];
 	}
 
 	// NOTE checks if grid state is initial or final
 	const isFinal = isVisited(grid, 0, 0);
 
-	const res: string[][] = new Array<Array<string>
-	>(height);
+	const res: string[][] = new Array<Array<string>>(height);
 	for (let i = 0; i < height; i++) {
 		res[i] = new Array<string>(width);
 	}
@@ -104,10 +103,8 @@ export function generateFinalLists(): Array<Array<string>> {
 
 	const base = 'cell visited';
 
-
 	for (let y = 0; y < height; y += 1) {
 		for (let x = 0; x < width; x += 1) {
-			// console.log(`南出矢念 ${x} ${y} ${grid[y][x]}`);
 			let classList = base;
 
 			if (y === 0) {
@@ -125,7 +122,6 @@ export function generateFinalLists(): Array<Array<string>> {
 
 			const neighbors = getNeighbors(grid, x, y);
 			if (neighbors === NULL) {
-				// console.log(`no neighs ${x}, ${y}`);
 				res[y][x] = classList;
 				continue;
 			}
@@ -146,7 +142,6 @@ export function generateFinalLists(): Array<Array<string>> {
 					classList = `${classList} wall-bottom`;
 				}
 			}
-			// console.log(`莫迦かお前 ${x} ${y} ${grid[y][x]}`);
 			if (x + 1 < width) {
 				const neighborsRight = getNeighbors(grid, x + 1, y);
 				//* if has left
@@ -154,15 +149,13 @@ export function generateFinalLists(): Array<Array<string>> {
 					classList = `${classList} wall-right`;
 				}
 			}
-			// console.log(`${x} ${y} ${classList}`);
 			res[y][x] = classList;
-			// console.log(`neighs ${x}, ${y}`);
 		}
 	}
 	return res;
 }
 
-export function updateClassLists(
+export function updateClassLists (
 	grid: Int32Array[],
 	classLists: string[][],
 	step: i32,
@@ -175,7 +168,7 @@ export function updateClassLists(
 	return updateBackward(grid, classLists, step);
 }
 
-function updateForward(
+function updateForward (
 	grid: Int32Array[],
 	classLists: string[][],
 	step: i32
@@ -200,11 +193,10 @@ function updateForward(
 	} else {
 		classLists[cy][cx] = `${currCls} stuck`;
 	}
-	// console.log(classLists[cy][cx]);
 	return classLists;
 }
 
-function updateBackward(
+function updateBackward (
 	grid: Int32Array[],
 	classLists: string[][],
 	step: i32
@@ -213,7 +205,7 @@ function updateBackward(
 	const prev = change[0];
 	const current = change[1];
 	const firstVisit = change[2];
-	
+
 	const cx = getX(current);
 	const cy = getY(current);
 
@@ -234,8 +226,8 @@ function updateBackward(
 		classLists[cy][cx] = `grid[y][x] ${cx === 0
 			? ' wall-left'
 			: cx === grid[0].length - 1 ? ' wall-right' : ''}${cy === 0
-				? ' wall-top'
-				: cy === grid.length - 1 ? ' wall-bottom' : ''}`;
+			? ' wall-top'
+			: cy === grid.length - 1 ? ' wall-bottom' : ''}`;
 	} else {
 		const currNeighs = getNeighbors(grid, cx, cy);
 		const cNeighStrs = neighsToStrings(currNeighs);
@@ -245,7 +237,7 @@ function updateBackward(
 	return classLists;
 }
 
-function getClassList(
+function getClassList (
 	grid: Int32Array[],
 	x: i32,
 	y: i32,
@@ -260,6 +252,6 @@ function getClassList(
 	return `cell visited ${innerWallList}${x === 0
 		? ' wall-left'
 		: x === grid[0].length - 1 ? ' wall-right' : ''}${y === 0
-			? ' wall-top'
-			: y === grid.length - 1 ? ' wall-bottom' : ''}`;
+		? ' wall-top'
+		: y === grid.length - 1 ? ' wall-bottom' : ''}`;
 }

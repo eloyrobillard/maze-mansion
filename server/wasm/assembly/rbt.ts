@@ -5,11 +5,10 @@ import { getRand } from './utils' ;
 export default function RecursiveBacktracker (width: i32, height: i32): MazeDescriptor {
   const maze = new Maze(width, height);
   
-  const res: MazeDescriptor = { 
-    initial: new Maze(width, height), 
-    steps: [], 
-    final: maze
-  };
+  const res: MazeDescriptor = new MazeDescriptor( 
+    [], 
+    maze
+  );
   // Console.log(res.initial.toString());
 
   let current: Cell | null = maze.grid[getRand(height)][getRand(width)];
@@ -22,13 +21,6 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     if (current === null) {
       current = maze.cellStack.pop();
     }
-    // Console.log('prev')
-    // Console.log(maze.prev ? maze.prev!.toString() : 'null')
-    // Console.log('current')
-    // Console.log(current ? current.toString() : 'null');
-    // Console.log('cell stack')
-    // Console.log(maze.cellStack.length.toString());
-    // Console.log('---')
 
     res.steps.push({ 
       prev: maze.prev, 
@@ -50,8 +42,6 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     currentNeighs: maze.getNeighbors(current!),
     firstVisit: true,
   });
-
-  // Console.log(res.final.toString());
   
   return res;
 }
