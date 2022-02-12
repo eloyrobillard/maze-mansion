@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Settings, Maze } from 'Components';
 import { formatApi } from 'Services';
 import { Api } from 'Types';
-import Wasm from 'RBT/asc';
+import Wasm from 'Components/Grid/wasm';
 import 'App.css';
 
 export const FPS_INSTANT = 0;
