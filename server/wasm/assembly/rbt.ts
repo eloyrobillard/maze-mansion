@@ -9,8 +9,8 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
     [], 
     maze
   );
-  // Console.log(res.initial.toString());
 
+  let prev: Cell | null = null;
   let current: Cell | null = maze.grid[getRand(height)][getRand(width)];
   current!.visited = true;
   maze.cellStack.push(current!);
@@ -22,22 +22,23 @@ export default function RecursiveBacktracker (width: i32, height: i32): MazeDesc
       current = maze.cellStack.pop();
     }
 
+    const firstVisit = current.neighborData.ready === false;
     res.steps.push({ 
-      prev: maze.prev, 
-      prevNeighs: maze.prev ? maze.getNeighbors(maze.prev!) : null, 
+      prev, 
+      prevNeighs: prev ? maze.getNeighbors(prev) : null, 
+      firstVisit,
       current,
       currentNeighs: maze.getNeighbors(current),
-      firstVisit: !current.neighborData.ready,
     });
     
-    maze.prev = current;
+    prev = current;
     current = maze.getNext(current);
   }
 
   // NOTE yield last change
   res.steps.push({ 
-    prev: maze.prev, 
-    prevNeighs: maze.prev!.neighborData, 
+    prev, 
+    prevNeighs: prev!.neighborData, 
     current,
     currentNeighs: maze.getNeighbors(current!),
     firstVisit: true,

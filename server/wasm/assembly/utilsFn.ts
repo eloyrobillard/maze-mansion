@@ -179,7 +179,6 @@ function updateForward (
 
 	const cx = getX(current);
 	const cy = getY(current);
-	// console.log(classLists[cy][cx]);
 	const currNeighs = getNeighborsCell(current);
 	const cNeighStrs = neighsToStrings(currNeighs);
 	const currCls = getClassList(grid, cx, cy, cNeighStrs);
@@ -223,7 +222,7 @@ function updateBackward (
 		classLists[py][px] = `${classLists[py][px]} stuck`;
 	} else if (firstVisit) {
 		// NOTE if about to visit current for first time
-		classLists[cy][cx] = `grid[y][x] ${cx === 0
+		classLists[cy][cx] = `cell ${cx === 0
 			? ' wall-left'
 			: cx === grid[0].length - 1 ? ' wall-right' : ''}${cy === 0
 			? ' wall-top'
@@ -231,7 +230,7 @@ function updateBackward (
 	} else {
 		const currNeighs = getNeighbors(grid, cx, cy);
 		const cNeighStrs = neighsToStrings(currNeighs);
-		classLists[cy][cx] = `${getClassList(grid, cx, cy, cNeighStrs)}`;
+		classLists[cy][cx] = getClassList(grid, cx, cy, cNeighStrs);
 	}
 
 	return classLists;

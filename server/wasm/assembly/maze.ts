@@ -47,7 +47,6 @@ export class Maze {
 	grid: Cell[][];
 	cellStack: Cell[] = [];
 	visited: i32 = 0;
-	prev: Cell | null = null;
 
 	constructor (public width: i32, public height: i32) {
 		this.grid = new Array<Cell[]>(height);

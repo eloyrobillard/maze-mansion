@@ -132,28 +132,22 @@ function updateForward (
 	classLists: string[][],
 	change: Step
 ): string[][] {
+	// NOTE AssemblyScript doesn't allow object destructuring
 	const prev = change.prev;
 	const prevNeighs = change.prevNeighs;
 	const current = change.current;
 	const currentNeighs = change.currentNeighs;
 
-	if (prev) {
+	const cx = current!.x;
+	const cy = current!.y;
+	const currentClassList = getClassList(currentNeighs!, cx, cy, maze);
+	classLists[cy][cx] = `${currentClassList} current`;
+	if (prev && prev != current) {
 		const px = prev.x;
 		const py = prev.y;
 		classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
-	}
-
-	const cx = current!.x;
-	const cy = current!.y;
-	if (prev && cx === prev.x && cy === prev.y) {
-		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)} stuck`;
 	} else {
-		classLists[cy][cx] = `${getClassList(
-			currentNeighs!,
-			cx,
-			cy,
-			maze
-		)} current`;
+		classLists[cy][cx] = `${currentClassList} stuck`;
 	}
 
 	return classLists;
@@ -172,25 +166,25 @@ function updateBackward (
 
 	const cx = current!.x;
 	const cy = current!.y;
-	if (!prev) {
-		classLists[cy][cx] = `cell`;
+	if (prev == null) {
+		classLists[cy][cx] = 'cell';
 		return classLists;
 	}
 
 	const px = prev.x;
 	const py = prev.y;
-	classLists[py][px] = `${getClassList(prevNeighs!, px, py, maze)} current`;
+	classLists[py][px] = `current ${getClassList(prevNeighs!, px, py, maze)}`;
 	if (cx === px && cy === py) {
 		classLists[py][px] = `${classLists[py][px]} stuck`;
 	} else if (firstVisit) {
-		// NOTE if about to visit current for first time
+		// NOTE don't erase outer walls by mistake
 		classLists[cy][cx] = `cell ${cx === 0
-			? ' wall-left'
-			: cx === maze.width - 1 ? ' wall-right' : ''}${cy === 0
-			? ' wall-top'
-			: cy === maze.height - 1 ? ' wall-bottom' : ''}`;
+			? 'wall-left'
+			: cx === maze.width - 1 ? 'wall-right' : ''} ${cy === 0
+			? 'wall-top'
+			: cy === maze.height - 1 ? 'wall-bottom' : ''}`;
 	} else {
-		classLists[cy][cx] = `${getClassList(currentNeighs!, cx, cy, maze)}`;
+		classLists[cy][cx] = getClassList(currentNeighs!, cx, cy, maze);
 	}
 
 	return classLists;
