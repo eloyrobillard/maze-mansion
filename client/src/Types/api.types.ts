@@ -1,4 +1,4 @@
-import { Maze, Cell, Neighbors } from '../RBT/ts/maze';
+import { Maze, Cell, Neighbors } from 'RBT/ts/maze';
 export { Maze, Cell } from 'RBT/ts/maze';
 
 export type Step = { 
