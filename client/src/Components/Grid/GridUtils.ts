@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { FIRST_STATE } from './Grid';
+import { FIRST_STEP } from './Grid';
 
 type ResizeArgs = {
   mazeWidth: number,
@@ -24,26 +24,25 @@ export function resizeMazeElements({ mazeWidth, mazeHeight, setCellWidth, setCel
 }
 
 type UpdateArgs = {
-  dir: string;
+  direction: string;
   setStepCount: Dispatch<SetStateAction<number>>;
-  setUpdateDir: Dispatch<SetStateAction<number>>;
+  setDirection: Dispatch<SetStateAction<number>>;
   updateDir: number;
-  LAST_STATE: number;
+  LAST_STEP: number;
 }
 
 export function emptyMaze(width: number, height: number): string[][] {
   return Array.from({ length: height }, () => Array(width).fill('cell'));
 }
 
-export function handleUpdate({ dir, setStepCount, setUpdateDir, updateDir, LAST_STATE }: UpdateArgs) {
-  // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
-  switch (dir) {
+export function handleUpdate({ direction, setStepCount, setDirection, updateDir, LAST_STEP }: UpdateArgs) {
+  switch (direction) {
     case 'next': {
       if (updateDir > 0) {
         // NOTE prev + 2 test to synch stepCount back
-        setStepCount((prev) => Math.min(prev + 1, LAST_STATE));
+        setStepCount((prev) => Math.min(prev + 1, LAST_STEP));
       } else {
-        setUpdateDir(1);
+        setDirection(1);
       }
       break;
     }
@@ -51,19 +50,19 @@ export function handleUpdate({ dir, setStepCount, setUpdateDir, updateDir, LAST_
     case 'previous': {
       if (updateDir < 0) {
         // NOTE prev - 2 test to synch stepCount back
-        setStepCount((prev) => prev - 2 <= FIRST_STATE ? FIRST_STATE : prev - 1);
+        setStepCount((prev) => prev - 2 <= FIRST_STEP ? FIRST_STEP : prev - 1);
       } else {
-        setUpdateDir(-1);
+        setDirection(-1);
       }
       break;
     }
 
     case 'last':
-      setStepCount(LAST_STATE);
+      setStepCount(LAST_STEP);
       break;
 
     case 'first':
-      setStepCount(FIRST_STATE);
+      setStepCount(FIRST_STEP);
       break;
 
     default: break;
