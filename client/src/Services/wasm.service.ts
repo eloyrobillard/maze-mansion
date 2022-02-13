@@ -3,9 +3,6 @@ import { WasmApi, Api } from 'Types';
 
 export function formatApi(api: ASUtil & WasmApi): Api {
 	return {
-		getTextMaze: (width, height) =>
-			api.__getString(api.getTextMaze(width, height)),
-
 		generateFinal: () => {
 			const offset = api.generateFinal();
 			const res = api

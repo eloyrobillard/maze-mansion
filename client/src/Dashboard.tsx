@@ -22,7 +22,6 @@ export default function Dashboard() {
   const [fps, setFps] = useState(10);
 
   const [api, setApi] = useState<Api>({
-    getTextMaze: (width: number, height: number) => '',
     generateFinal: () => [['']],
     updateClasses: (classLists: string[][], change: number, updateDir: number) => [['']],
     newMazeDescriptor: (width: number, height: number) => { return; },
