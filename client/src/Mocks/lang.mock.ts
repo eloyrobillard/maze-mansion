@@ -1,10 +1,12 @@
-export const en = {
+import { Lang } from 'Types';
+
+export const langMock: Lang = {
   title: 'Maze Mansion',
   settings: {
     title: 'Settings',
     width: 'Width',
     height: 'Height',
-    fpsSetting: 'FPS'
+    fps: 'FPS'
   },
   commands: {
     reset: 'New Maze'

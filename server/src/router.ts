@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import getText from './text';
+import getLang from './Lang';
 import Router from 'koa-router';
 const router = new Router();
 
@@ -16,7 +16,7 @@ router.get('/maze', async (ctx) => {
 router.get('/lang/:lang', async (ctx) => {
   try {
     const { lang } = ctx.params;
-    ctx.body = getText(lang);
+    ctx.body = getLang(lang);
   } catch (e) {
     console.log(e);
   }
