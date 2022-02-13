@@ -8,11 +8,7 @@ import { foundEdge, handleUpdate, resizeMazeElements, emptyMaze } from './GridUt
 // -1: empty grid, 0: first cell
 export const FIRST_STEP = -1;
 
-type Props = {
-	api: Api;
-};
-
-export default function Grid({ api }: Props) {
+export default function Grid({ api }: { api: Api }) {
 	const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
 
 	const [cellWidth, setCellWidth] = useState(50);
@@ -86,29 +82,14 @@ export default function Grid({ api }: Props) {
 		intervalRef.current = null;
 	}, []);
 
-	/////////////////////////////////////
-
-	/////////////////////////////////////
-	// update auto-step play/pause
-	/////////////////////////////////////
-
 	const togglePlay = () => {
 		if (!isPlaying) {
+			play();
 			return setIsPlaying(true);
 		}
+		pause();
 		return setIsPlaying(false);
 	};
-
-	// NOTE play/pause on push play button
-	useEffect(
-		() => {
-			if (isPlaying) {
-				return play();
-			}
-			return pause();
-		},
-		[isPlaying, play, pause]
-	);
 
 	/////////////////////////////////////
 
