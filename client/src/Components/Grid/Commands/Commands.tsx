@@ -1,6 +1,6 @@
 import './Commands.css';
 
-type CommandProps = { 
+type CommandProps = {
   handleUpdate: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleReset: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   togglePlay: () => void;

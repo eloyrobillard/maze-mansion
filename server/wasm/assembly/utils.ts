@@ -1,62 +1,11 @@
 import { Maze, NeighborData, Step } from './maze';
 import { instance } from './index';
 
-export function getRand (max: i32): i32 {
+export function getRand(max: i32): i32 {
 	return Math.floor((Math.random() * max) as f32) as i32;
 }
 
-export function printMaze (): string {
-	const maze = instance.final;
-	const grid = maze.grid;
-	let res = `${'*---'.repeat(maze.width)}*`;
-
-	for (let y = 0; y < maze.height; y += 1) {
-		let mid = '\n|';
-		let bot = '*';
-
-		for (let x = 0; x < maze.width; x += 1) {
-			let newRight = '    ';
-			let newBot = '   *';
-			const neighbors = grid[y][x].neighborData.neighbors;
-			if (neighbors.has('bottom')) {
-				newBot = '---*';
-			}
-			if (neighbors.has('right')) {
-				newRight = `   |`;
-			}
-
-			if (y + 1 < maze.height) {
-				const neighborsBot = grid[y + 1][x].neighborData.neighbors;
-				if (neighborsBot.has('top')) {
-					newBot = '---*';
-				}
-
-				bot += `${newBot}`;
-			}
-			if (x + 1 < maze.width) {
-				const neighborsRight = grid[y][x + 1].neighborData.neighbors;
-				if (neighborsRight.has('left')) {
-					newRight = `   |`;
-				}
-			} else {
-				newRight = '   ';
-			}
-
-			/* if (maze.current && x === maze.current.x && y === maze.current.y) {
-				newRight = `${newRight.substr(0, 1)}o${newRight.substr(2)}`;
-			} else if (maze.grid[y][x].visited) {
-				newRight = `${newRight.substr(0, 1)}-${newRight.substr(2)}`;
-			} */
-			mid += newRight;
-		}
-		res += `${mid}|\n${bot}`;
-	}
-	res += '---*'.repeat(maze.width);
-	// console.log(res);
-	return res;
-}
-
-export function generateFinalLists (): string[][] {
+export function generateFinalLists(): string[][] {
 	const maze = instance.final;
 	const grid = maze.grid;
 	const res: string[][] = new Array<Array<string>>(maze.height);
@@ -114,24 +63,19 @@ export function generateFinalLists (): string[][] {
 	return res;
 }
 
-export function updateClassLists (
-	maze: Maze,
+export function updateClassLists(
 	classLists: string[][],
 	change: Step,
 	updateDir: number
 ): string[][] {
 	if (updateDir > 0) {
-		return updateForward(maze, classLists, change);
+		return updateForward(classLists, change);
 	}
 
-	return updateBackward(maze, classLists, change);
+	return updateBackward(classLists, change);
 }
 
-function updateForward (
-	maze: Maze,
-	classLists: string[][],
-	change: Step
-): string[][] {
+function updateForward(classLists: string[][], change: Step): string[][] {
 	// NOTE AssemblyScript doesn't allow object destructuring
 	const prev = change.prev;
 	const prevNeighs = change.prevNeighs;
@@ -140,12 +84,12 @@ function updateForward (
 
 	const cx = current!.x;
 	const cy = current!.y;
-	const currentClassList = getClassList(currentNeighs!, cx, cy, maze);
+	const currentClassList = getClassList(currentNeighs!, cx, cy);
 	classLists[cy][cx] = `${currentClassList} current`;
 	if (prev && prev != current) {
 		const px = prev.x;
 		const py = prev.y;
-		classLists[py][px] = getClassList(prevNeighs!, px, py, maze);
+		classLists[py][px] = getClassList(prevNeighs!, px, py);
 	} else {
 		classLists[cy][cx] = `${currentClassList} stuck`;
 	}
@@ -153,11 +97,7 @@ function updateForward (
 	return classLists;
 }
 
-function updateBackward (
-	maze: Maze,
-	classLists: string[][],
-	change: Step
-): string[][] {
+function updateBackward(classLists: string[][], change: Step): string[][] {
 	const prev = change.prev;
 	const prevNeighs = change.prevNeighs;
 	const current = change.current;
@@ -173,29 +113,31 @@ function updateBackward (
 
 	const px = prev.x;
 	const py = prev.y;
-	classLists[py][px] = `current ${getClassList(prevNeighs!, px, py, maze)}`;
+	classLists[py][px] = `current ${getClassList(prevNeighs!, px, py)}`;
 	if (cx === px && cy === py) {
 		classLists[py][px] = `${classLists[py][px]} stuck`;
 	} else if (firstVisit) {
 		// NOTE don't erase outer walls by mistake
-		classLists[cy][cx] = `cell ${cx === 0
-			? 'wall-left'
-			: cx === maze.width - 1 ? 'wall-right' : ''} ${cy === 0
-			? 'wall-top'
-			: cy === maze.height - 1 ? 'wall-bottom' : ''}`;
+		classLists[cy][cx] = `cell ${keepOuterWalls(cx, cy)}`;
 	} else {
-		classLists[cy][cx] = getClassList(currentNeighs!, cx, cy, maze);
+		classLists[cy][cx] = getClassList(currentNeighs!, cx, cy);
 	}
 
 	return classLists;
 }
 
-function getClassList (
-	neighborData: NeighborData,
-	x: number,
-	y: number,
-	maze: Maze
-): string {
+function keepOuterWalls(x: i32, y: i32): string {
+	const maze = instance.final;
+
+	return `${x === 0
+		? 'wall-left'
+		: x === maze.width - 1 ? 'wall-right' : ''} ${y === 0
+			? 'wall-top'
+			: y === maze.height - 1 ? 'wall-bottom' : ''}`;
+}
+
+function getClassList(neighborData: NeighborData, x: number, y: number): string {
+	const maze = instance.final;
 	const keys = neighborData.neighbors.keys();
 	const classes = new Array<string>();
 	for (let i = 0; i < keys.length; i += 1) {
@@ -206,6 +148,6 @@ function getClassList (
 	return `cell visited ${innerWallList}${x === 0
 		? ' wall-left'
 		: x === maze.width - 1 ? ' wall-right' : ''}${y === 0
-		? ' wall-top'
-		: y === maze.height - 1 ? ' wall-bottom' : ''}`;
+			? ' wall-top'
+			: y === maze.height - 1 ? ' wall-bottom' : ''}`;
 }

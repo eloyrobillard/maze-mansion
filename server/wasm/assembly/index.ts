@@ -23,7 +23,7 @@ export function updateClasses(
 	step: i32,
 	updateDir: i32
 ): string[][] {
-	return updateClassLists(instance.final, classLists, instance.steps[step], updateDir);
+	return updateClassLists(classLists, instance.steps[step], updateDir);
 }
 
 export function newMazeDescriptor(width: i32, height: i32): void {

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { FIRST_STATE } from './Grid';
+import { FIRST_STEP } from './Grid';
+import { Api } from 'Types';
 
 type ResizeArgs = {
   mazeWidth: number,
@@ -23,47 +24,66 @@ export function resizeMazeElements({ mazeWidth, mazeHeight, setCellWidth, setCel
   grid.style.height = `${min * mazeHeight}px`;
 }
 
-type UpdateArgs = {
-  dir: string;
-  setStepCount: Dispatch<SetStateAction<number>>;
-  setUpdateDir: Dispatch<SetStateAction<number>>;
-  updateDir: number;
-  LAST_STATE: number;
-}
-
 export function emptyMaze(width: number, height: number): string[][] {
   return Array.from({ length: height }, () => Array(width).fill('cell'));
 }
 
-export function handleUpdate({ dir, setStepCount, setUpdateDir, updateDir, LAST_STATE }: UpdateArgs) {
-  // LINK currentTarget => https://stackoverflow.com/questions/42634373/react-event-target-is-not-the-element-i-set-event-listener-on
-  switch (dir) {
+type EdgeArgs = {
+  mazeHeight: number;
+  mazeWidth: number;
+  api: Api;
+  setDirection: (direction: number) => void;
+  setIsPlaying: (isPlaying: boolean) => void;
+  setClassLists: (classLists: string[][]) => void;
+}
+
+export function foundEdge(toFirst: boolean, { api, mazeHeight, mazeWidth, setDirection, setIsPlaying, setClassLists }: EdgeArgs) {
+  if (toFirst) {
+    setDirection(1);
+    setClassLists(emptyMaze(mazeHeight, mazeWidth));
+  } else {
+    setDirection(-1);
+    setClassLists(api.generateFinal());
+  }
+  setIsPlaying(false);
+}
+
+type UpdateArgs = {
+  direction: string;
+  setStepCount: Dispatch<SetStateAction<number>>;
+  setDirection: Dispatch<SetStateAction<number>>;
+  currentDirection: number;
+  LAST_STEP: number;
+}
+
+export function handleUpdate({ direction, setStepCount, setDirection, currentDirection, LAST_STEP }: UpdateArgs) {
+  switch (direction) {
     case 'next': {
-      if (updateDir > 0) {
+      if (currentDirection > 0) {
         // NOTE prev + 2 test to synch stepCount back
-        setStepCount((prev) => Math.min(prev + 1, LAST_STATE));
+        setStepCount((prev) => Math.min(prev + 1, LAST_STEP));
       } else {
-        setUpdateDir(1);
+        setDirection(1);
       }
       break;
     }
 
     case 'previous': {
-      if (updateDir < 0) {
+      if (currentDirection < 0) {
         // NOTE prev - 2 test to synch stepCount back
-        setStepCount((prev) => prev - 2 <= FIRST_STATE ? FIRST_STATE : prev - 1);
+        setStepCount((prev) => prev - 2 <= FIRST_STEP ? FIRST_STEP : prev - 1);
       } else {
-        setUpdateDir(-1);
+        setDirection(-1);
       }
       break;
     }
 
     case 'last':
-      setStepCount(LAST_STATE);
+      setStepCount(LAST_STEP);
       break;
 
     case 'first':
-      setStepCount(FIRST_STATE);
+      setStepCount(FIRST_STEP);
       break;
 
     default: break;

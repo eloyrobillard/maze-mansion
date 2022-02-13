@@ -1,7 +1,5 @@
-// import { Console } from 'as-wasi';
 import { getRand } from './utils';
 
-// i32 (prev/Neighs) i32 (current/Neighs) i32 (firstVisit -> bool)
 export class Step { 
   prev: Cell | null;
   prevNeighs: NeighborData | null; 
@@ -27,7 +25,6 @@ export class NeighborData {
 	neighbors: Map<string, Cell | null>
 }
 
-// ?? XX YY NV
 export class Cell {
 	visited: boolean = false;
 	neighborData: NeighborData = {

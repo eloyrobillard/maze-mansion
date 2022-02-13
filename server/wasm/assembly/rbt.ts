@@ -1,4 +1,3 @@
-// import { Console } from 'as-wasi';
 import { Cell, Maze, MazeDescriptor } from './maze';
 import { getRand } from './utils' ;
 

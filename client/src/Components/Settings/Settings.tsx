@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import SpeedSetting from './SpeedSetting/SpeedSetting';
-import { SettingsContext } from 'Dashboard';
+import { SettingsContext } from 'Contexts';
 import './Settings.css';
 
 export default function Settings() {
