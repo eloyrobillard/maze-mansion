@@ -1,0 +1,13 @@
+#nav-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #316745;
+  box-shadow: 0 0.2rem 0.3rem #244d33;
+  text-align: center;
+  color: white;
+}

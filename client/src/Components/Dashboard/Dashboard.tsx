@@ -4,7 +4,7 @@ import { SettingsProvider } from 'Contexts';
 import { formatApi } from 'Services';
 import { Api } from 'Types';
 import Wasm from 'wasm';
-import 'App.css';
+import './Dashboard.css';
 
 export const FPS_INSTANT = 0;
 

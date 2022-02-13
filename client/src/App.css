@@ -1,37 +1,3 @@
-#dashboard {
-  min-height: 70%;
-  padding-top: 6.5%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-#commands {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-}
-
-#commands #player-commands {
-  display: flex;
-  justify-content: space-between;
-}
-
-#commands button {
-  font-size: 1.5rem;
-}
-
-#top-bar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #316745;
-  box-shadow: 0 0.2rem 0.3rem #244d33;
-  text-align: center;
-  color: white;
-}
-
 h1:lang(en) {
   font-family: -apple-system,
     BlinkMacSystemFont,
@@ -58,20 +24,6 @@ h1:lang(jp) {
     'FangSong',
     'DengXian',
     'DFKai-SB';
-}
-
-#top-bar h1 {
-  margin: 0.5rem;
-}
-
-#settings input,
-#settings button:lang(en) {
-  font-family: 'Source Sans Pro', 'georgia', 'serif';
-}
-
-#settings input,
-#settings button:lang(jp) {
-  font-family: 'マメロン', 'UD デジタル 教科書体 N-R', 'ピグモ', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
 }
 
 .App {

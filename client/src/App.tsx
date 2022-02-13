@@ -1,4 +1,4 @@
-import { Dashboard } from 'Components';
+import { Dashboard, NavBar } from 'Components';
 import { LangProvider } from 'Contexts';
 import { getLang } from 'Services';
 import { langMock } from 'Mocks';
@@ -19,14 +19,8 @@ function App() {
 
   return (
     <div className="App" lang={langAttribute}>
-      <div id="top-bar">
-        <h1>{lang.title}</h1>
-        <select onClick={handleClick}>
-          <option value="en">English</option>
-          <option value="jp">日本語</option>
-        </select>
-      </div>
       <LangProvider value={lang}>
+        <NavBar handleClick={handleClick} />
         <Dashboard />
       </LangProvider>
     </div>
