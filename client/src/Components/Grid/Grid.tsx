@@ -7,10 +7,11 @@ import {
 } from 'react';
 import './Grid.css';
 import { Api } from 'Types';
-import { SettingsContext } from 'Dashboard';
+import { SettingsContext } from 'Contexts';
 import Commands from './Commands/Commands';
 import { handleUpdate, resizeMazeElements, emptyMaze } from './GridUtils';
 
+// -1: empty grid, 0: first cell
 export const FIRST_STEP = -1;
 
 type Props = {

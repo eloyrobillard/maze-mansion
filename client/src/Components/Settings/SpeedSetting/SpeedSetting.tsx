@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
-import { SettingsContext } from 'Dashboard';
+import { SettingsContext } from 'Contexts';
 import './SpeedSettings.css';
 
 const maxFPS = 100;
 
 export default function SpeedSetting() {
-  const {fps, setFps} = useContext(SettingsContext);
+  const { fps, setFps } = useContext(SettingsContext);
 
-  function handleFps(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleFps = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFps(Number(e.target.value));
-  }
+  };
 
   return (
     <form id="speed-choice">
@@ -23,9 +23,9 @@ export default function SpeedSetting() {
       <input type="range"
         min="1"
         max={maxFPS}
-        name="fps-range" 
-        value={fps} 
-        onChange={handleFps}/>
+        name="fps-range"
+        value={fps}
+        onChange={handleFps} />
     </form>
-  )
+  );
 }
