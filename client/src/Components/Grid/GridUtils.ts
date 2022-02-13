@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FIRST_STEP } from './Grid';
+import { Api } from 'Types';
 
 type ResizeArgs = {
   mazeWidth: number,
@@ -23,16 +24,36 @@ export function resizeMazeElements({ mazeWidth, mazeHeight, setCellWidth, setCel
   grid.style.height = `${min * mazeHeight}px`;
 }
 
+export function emptyMaze(width: number, height: number): string[][] {
+  return Array.from({ length: height }, () => Array(width).fill('cell'));
+}
+
+type EdgeArgs = {
+  mazeHeight: number;
+  mazeWidth: number;
+  api: Api;
+  setDirection: (direction: number) => void;
+  setIsPlaying: (isPlaying: boolean) => void;
+  setClassLists: (classLists: string[][]) => void;
+}
+
+export function foundEdge(toFirst: boolean, { api, mazeHeight, mazeWidth, setDirection, setIsPlaying, setClassLists }: EdgeArgs) {
+  if (toFirst) {
+    setDirection(1);
+    setClassLists(emptyMaze(mazeHeight, mazeWidth));
+  } else {
+    setDirection(-1);
+    setClassLists(api.generateFinal());
+  }
+  setIsPlaying(false);
+}
+
 type UpdateArgs = {
   direction: string;
   setStepCount: Dispatch<SetStateAction<number>>;
   setDirection: Dispatch<SetStateAction<number>>;
   updateDir: number;
   LAST_STEP: number;
-}
-
-export function emptyMaze(width: number, height: number): string[][] {
-  return Array.from({ length: height }, () => Array(width).fill('cell'));
 }
 
 export function handleUpdate({ direction, setStepCount, setDirection, updateDir, LAST_STEP }: UpdateArgs) {

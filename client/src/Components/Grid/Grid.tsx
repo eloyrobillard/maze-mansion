@@ -1,22 +1,16 @@
-import {
-	useState,
-	useEffect,
-	useCallback,
-	useContext,
-	useRef,
-} from 'react';
+import { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import './Grid.css';
 import { Api } from 'Types';
 import { SettingsContext } from 'Contexts';
 import Commands from './Commands/Commands';
-import { handleUpdate, resizeMazeElements, emptyMaze } from './GridUtils';
+import { foundEdge, handleUpdate, resizeMazeElements, emptyMaze } from './GridUtils';
 
 // -1: empty grid, 0: first cell
 export const FIRST_STEP = -1;
 
 type Props = {
 	api: Api;
-}
+};
 
 export default function Grid({ api }: Props) {
 	const { mazeWidth, mazeHeight, fps } = useContext(SettingsContext);
@@ -28,7 +22,9 @@ export default function Grid({ api }: Props) {
 	const [updateDir, setDirection] = useState(1);
 
 	const [LAST_STEP, setLastStep] = useState(0);
-	const [classLists, setClassLists] = useState(emptyMaze(mazeWidth, mazeHeight));
+	const [classLists, setClassLists] = useState(
+		emptyMaze(mazeWidth, mazeHeight)
+	);
 
 	/////////////////////////////////////
 	// grid setup
@@ -47,9 +43,12 @@ export default function Grid({ api }: Props) {
 	};
 
 	// NOTE setup first maze
-	useEffect(() => {
-		handleReset();
-	}, [api]);
+	useEffect(
+		() => {
+			handleReset();
+		},
+		[api]
+	);
 
 	/////////////////////////////////////
 
@@ -90,15 +89,15 @@ export default function Grid({ api }: Props) {
 	/////////////////////////////////////
 
 	/////////////////////////////////////
-	// update auto-step play/pause and direction
+	// update auto-step play/pause
 	/////////////////////////////////////
-	
+
 	const togglePlay = () => {
 		if (!isPlaying) {
 			return setIsPlaying(true);
 		}
 		return setIsPlaying(false);
-	}
+	};
 
 	// NOTE play/pause on push play button
 	useEffect(
@@ -111,44 +110,23 @@ export default function Grid({ api }: Props) {
 		[isPlaying, play, pause]
 	);
 
-	// NOTE pause automatically when at the end
-	useEffect(
-		() => {
-			if (stepCount === LAST_STEP || stepCount === FIRST_STEP) {
-				setIsPlaying(false);
-			}
-		},
-		[stepCount, LAST_STEP]
-	);
-
-	// NOTE update direction on reaching either end
-	useEffect(
-		() => {
-			if (stepCount === FIRST_STEP) {
-				setDirection(1);
-			} else if (stepCount === LAST_STEP) {
-				setDirection(-1);
-			}
-		},
-		[stepCount, LAST_STEP]
-	);
-
 	/////////////////////////////////////
 
 	// NOTE step through maze, forward and backward
 	useEffect(
 		() => {
-			if (stepCount === FIRST_STEP) {
-				setClassLists(emptyMaze(mazeHeight, mazeWidth));
-			} else if (stepCount === LAST_STEP) {
-				setClassLists(api.generateFinal());
+			if (stepCount === FIRST_STEP || stepCount === LAST_STEP) {
+				foundEdge(stepCount === FIRST_STEP, {
+					api,
+					mazeHeight,
+					mazeWidth,
+					setDirection,
+					setClassLists,
+					setIsPlaying
+				});
 			} else {
 				setClassLists((cls: string[][]) =>
-					api.updateClasses(
-						cls,
-						stepCount,
-						updateDir
-					)
+					api.updateClasses(cls, stepCount, updateDir)
 				);
 			}
 		},
@@ -161,6 +139,7 @@ export default function Grid({ api }: Props) {
 				handleUpdate={(e) => {
 					e.preventDefault();
 					handleUpdate({
+						// NOTE name of button is direction
 						direction: e.currentTarget.id.split('-')[0],
 						setStepCount,
 						setDirection,
