@@ -27,7 +27,7 @@ export default function Grid({ api }: Props) {
 	const [stepCount, setStepCount] = useState(FIRST_STEP);
 	const [updateDir, setDirection] = useState(1);
 
-	const [LAST_STEP, setLastState] = useReducer((_: number, api: Api) => api.getStepsLen(), 0);
+	const [LAST_STEP, setLastStep] = useReducer((_: number, api: Api) => api.getStepsLen(), 0);
 	const [classLists, setClassLists] = useState(emptyMaze(mazeWidth, mazeHeight));
 
 	/////////////////////////////////////
@@ -43,7 +43,7 @@ export default function Grid({ api }: Props) {
 		});
 		setStepCount(FIRST_STEP);
 		api.newMazeDescriptor(mazeWidth, mazeHeight);
-		setLastState(api);
+		setLastStep(api);
 	};
 
 	// NOTE setup first maze
