@@ -4,18 +4,21 @@ import { getLang } from 'Services';
 import { langMock } from 'Mocks';
 import { Lang } from 'Types';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function App() {
   const [lang, setLang] = useState<Lang>(langMock);
+  const [langAttribute, setLangAttribute] = useState('en');
 
   const handleClick = async (e: React.MouseEvent<HTMLSelectElement, MouseEvent>) => {
     e.preventDefault();
-    setLang(await getLang(e.currentTarget.value as string));
+    const langAttribute = e.currentTarget.value;
+    setLang(await getLang(langAttribute));
+    setLangAttribute(langAttribute);
   }
 
   return (
-    <div className="App">
+    <div className="App" lang={langAttribute}>
       <div id="top-bar">
         <h1>{lang.title}</h1>
         <select onClick={handleClick}>
