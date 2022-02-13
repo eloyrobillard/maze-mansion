@@ -52,14 +52,14 @@ type UpdateArgs = {
   direction: string;
   setStepCount: Dispatch<SetStateAction<number>>;
   setDirection: Dispatch<SetStateAction<number>>;
-  updateDir: number;
+  currentDirection: number;
   LAST_STEP: number;
 }
 
-export function handleUpdate({ direction, setStepCount, setDirection, updateDir, LAST_STEP }: UpdateArgs) {
+export function handleUpdate({ direction, setStepCount, setDirection, currentDirection, LAST_STEP }: UpdateArgs) {
   switch (direction) {
     case 'next': {
-      if (updateDir > 0) {
+      if (currentDirection > 0) {
         // NOTE prev + 2 test to synch stepCount back
         setStepCount((prev) => Math.min(prev + 1, LAST_STEP));
       } else {
@@ -69,7 +69,7 @@ export function handleUpdate({ direction, setStepCount, setDirection, updateDir,
     }
 
     case 'previous': {
-      if (updateDir < 0) {
+      if (currentDirection < 0) {
         // NOTE prev - 2 test to synch stepCount back
         setStepCount((prev) => prev - 2 <= FIRST_STEP ? FIRST_STEP : prev - 1);
       } else {

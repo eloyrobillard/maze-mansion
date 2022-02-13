@@ -15,7 +15,7 @@ export default function Grid({ api }: { api: Api }) {
 	const [cellHeight, setCellHeight] = useState(50);
 
 	const [stepCount, setStepCount] = useState(FIRST_STEP);
-	const [updateDir, setDirection] = useState(1);
+	const [direction, setDirection] = useState(1);
 
 	const [LAST_STEP, setLastStep] = useState(0);
 	const [classLists, setClassLists] = useState(
@@ -58,20 +58,19 @@ export default function Grid({ api }: { api: Api }) {
 	const play = useCallback(
 		() => {
 			if (intervalRef.current !== null) {
-				// NOTE fps change = interval speed change
 				clearInterval(intervalRef.current);
 			}
 			intervalRef.current = setInterval(() => {
 				handleUpdate({
-					direction: updateDir > 0 ? 'next' : 'previous',
+					direction: direction > 0 ? 'next' : 'previous',
 					setStepCount,
 					setDirection,
-					updateDir,
+					currentDirection: direction,
 					LAST_STEP
 				});
 			}, Math.floor(1000 / fps));
 		},
-		[updateDir, fps, LAST_STEP]
+		[direction, fps, LAST_STEP]
 	);
 
 	const pause = useCallback(() => {
@@ -107,11 +106,11 @@ export default function Grid({ api }: { api: Api }) {
 				});
 			} else {
 				setClassLists((cls: string[][]) =>
-					api.updateClasses(cls, stepCount, updateDir)
+					api.updateClasses(cls, stepCount, direction)
 				);
 			}
 		},
-		[mazeHeight, mazeWidth, stepCount, updateDir, LAST_STEP, api]
+		[mazeHeight, mazeWidth, stepCount, direction, LAST_STEP, api]
 	);
 
 	return (
@@ -124,7 +123,7 @@ export default function Grid({ api }: { api: Api }) {
 						direction: e.currentTarget.id.split('-')[0],
 						setStepCount,
 						setDirection,
-						updateDir,
+						currentDirection: direction,
 						LAST_STEP
 					});
 				}}
