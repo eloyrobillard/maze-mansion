@@ -31,31 +31,22 @@ export default function Grid({ api }: Props) {
 	const [LAST_STATE, setLastState] = useReducer((_: number, api: Api) => api.getStepsLen(), 0);
 	const [classLists, setClassLists] = useState(emptyMaze(mazeWidth, mazeHeight));
 
-	function handleReset() {
+	const handleReset = () => {
 		resizeMazeElements({
 			mazeWidth,
 			mazeHeight,
 			setCellWidth,
 			setCellHeight
 		});
-		setClassLists(emptyMaze(mazeWidth, mazeHeight));
 		setStepCount(FIRST_STATE);
 		api.newMazeDescriptor(mazeWidth, mazeHeight);
 		setLastState(api);
-	}
+	};
 
-	// NOTE update last state index
-	useEffect(
-		() => {
-			resizeMazeElements({
-				mazeWidth,
-				mazeHeight,
-				setCellWidth,
-				setCellHeight
-			});
-		},
-		[api]
-	);
+	// NOTE setup first maze
+	useEffect(() => {
+		handleReset();
+	}, [api]);
 
 	// LINK https://rios-studio.com/tech/react-hook%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Btimeout%E3%81%A8timeinterval%E3%80%90%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%87%8D%E8%A4%87%E3%81%99%E3%82%8B%E3%80%91
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -179,6 +170,6 @@ export default function Grid({ api }: Props) {
 						})}
 				</div>
 			</div>
-			</div>
+		</div>
 	);
 }
