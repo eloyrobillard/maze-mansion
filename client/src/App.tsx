@@ -9,17 +9,19 @@ import { useEffect, useState } from 'react';
 function App() {
   const [lang, setLang] = useState<Lang>(langMock);
 
-  useEffect(() => {
-    (async () => {
-      setLang(await getLang('jp'));
-    })();
-  }, [])
-
+  const handleClick = async (e: React.MouseEvent<HTMLSelectElement, MouseEvent>) => {
+    e.preventDefault();
+    setLang(await getLang(e.currentTarget.value as string));
+  }
 
   return (
     <div className="App">
       <div id="top-bar">
         <h1>{lang.title}</h1>
+        <select onClick={handleClick}>
+          <option value="en">English</option>
+          <option value="jp">日本語</option>
+        </select>
       </div>
       <LangProvider value={lang}>
         <Dashboard />
