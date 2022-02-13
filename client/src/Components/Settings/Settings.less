@@ -11,13 +11,23 @@
   // NOTE remove tiny arrow buttons from number input fields
   // LINK https://hirooooo-lab.com/development/html5-input-type-number-customize/
   & input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button {
+  input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
 
   & input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
+  }
+
+  & input:lang(en),
+  & button:lang(en) {
+    font-family: 'Source Sans Pro', 'georgia', 'serif';
+  }
+
+  & input:lang(jp),
+  & button:lang(jp) {
+    font-family: 'マメロン', 'UD デジタル 教科書体 N-R', 'ピグモ', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
   }
 
   & h1 {
@@ -37,7 +47,7 @@
     flex-direction: column;
 
     width: 80%;
-    
+
     & * {
       font-size: 1rem;
     }
@@ -52,7 +62,8 @@
       display: flex;
       flex-direction: column;
 
-      & #inputs, #labels {
+      & #inputs,
+      #labels {
         width: 100%;
         display: flex;
         justify-content: space-around;

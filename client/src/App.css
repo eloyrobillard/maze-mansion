@@ -1,41 +1,31 @@
-#dashboard {
-  min-height: 70%;
-  padding-top: 6.5%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
+h1:lang(en) {
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    proximanova-semibold,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
 }
-#commands {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
+
+h1:lang(jp) {
+  font-family: 'ポプらむ☆キュート',
+    'ピグモ',
+    'マメロン',
+    '白川 篆文',
+    '春秋tsu-教育漢字',
+    'MingLiU_HKSCS-ExtB',
+    'Microsoft JhengHei UI',
+    'KaiTi',
+    'FangSong',
+    'DengXian',
+    'DFKai-SB';
 }
-#commands #player-commands {
-  display: flex;
-  justify-content: space-between;
-}
-#commands button {
-  font-size: 1.5rem;
-}
-#top-bar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #316745;
-  box-shadow: 0 0.2rem 0.3rem #244d33;
-  text-align: center;
-  color: white;
-  font-family: 'ポプらむ☆キュート', 'ピグモ', 'マメロン', '白川 篆文', '春秋tsu-教育漢字', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
-}
-#top-bar h1 {
-  margin: 0.75rem;
-}
-#settings,
-#settings input,
-#settings button {
-  font-family: 'マメロン', 'UD デジタル 教科書体 N-R', 'ピグモ', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
-}
+
 .App {
   background-image: url('bg-maze.svg');
   min-height: 100vh;

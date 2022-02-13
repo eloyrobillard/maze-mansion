@@ -1,15 +1,26 @@
 #commands {
-  & #player-commands button {
-    background-color: transparent;
-    border: none;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+
+  & #player-commands {
+    display: flex;
+    justify-content: space-between;
+
+    & button {
+      background-color: transparent;
+      border: none;
+      font-size: 2.5rem;
+    }
   }
 
   & #reset {
     margin-bottom: 0.5rem;
+    font-size: 1.8rem;
 
     background-color: #4DB56A;
     color: #15543B;
-    
+
     &:hover {
       background-color: #005731;
       border-color: #4DB56A;
@@ -23,9 +34,5 @@
 
     border: 3px solid #CADBCF;
     border-radius: 2%;
-  }
-
-  & #toggle-play {
-    font-size: 2.5rem;
   }
 }

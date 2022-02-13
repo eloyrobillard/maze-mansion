@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { SettingsContext } from 'Contexts';
+import { SettingsContext, LangContext } from 'Contexts';
 import './SpeedSettings.css';
 
 const maxFPS = 100;
 
 export default function SpeedSetting() {
   const { fps, setFps } = useContext(SettingsContext);
+  const { settings: { fps: fpsLang } } = useContext(LangContext);
 
   const handleFps = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -14,7 +15,7 @@ export default function SpeedSetting() {
 
   return (
     <form id="speed-choice">
-      <label htmlFor="fps-range">FPS設定</label>
+      <label htmlFor="fps-range">{fpsLang}</label>
       <div id="indicators">
         <span>1</span>
         <span id="fps-span">{fps}</span>

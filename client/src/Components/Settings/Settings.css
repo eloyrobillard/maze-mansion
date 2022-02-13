@@ -15,6 +15,14 @@
   -moz-appearance: textfield;
   appearance: textfield;
 }
+#settings input:lang(en),
+#settings button:lang(en) {
+  font-family: 'Source Sans Pro', 'georgia', 'serif';
+}
+#settings input:lang(jp),
+#settings button:lang(jp) {
+  font-family: 'マメロン', 'UD デジタル 教科書体 N-R', 'ピグモ', 'MingLiU_HKSCS-ExtB', 'Microsoft JhengHei UI', 'KaiTi', 'FangSong', 'DengXian', 'DFKai-SB';
+}
 #settings h1 {
   text-align: center;
 }

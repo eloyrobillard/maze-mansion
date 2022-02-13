@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { LangContext } from 'Contexts';
 import './Commands.css';
 
 type CommandProps = {
@@ -7,6 +9,8 @@ type CommandProps = {
 }
 
 export default function Commands({handleUpdate, handleReset, togglePlay}: CommandProps) {
+  const { commands: {reset}} = useContext(LangContext);
+
   return (
     <div id="commands">
       <div id="player-commands">
@@ -16,7 +20,7 @@ export default function Commands({handleUpdate, handleReset, togglePlay}: Comman
         <button id="next-state" onClick={handleUpdate} title="次へ移動">⏩</button>
         <button id="last-state" onClick={handleUpdate} title="最後へ移動">⏭️</button>
       </div>
-      <button id="reset" type="submit" onClick={handleReset} title="新しい迷路">新しい迷路</button>
+      <button id="reset" type="submit" onClick={handleReset} title="新しい迷路">{reset}</button>
     </div>
   )
 }
