@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Settings, Maze } from 'Components';
+import { Settings, Grid } from 'Components';
 import { SettingsProvider } from 'Contexts';
 import { formatApi } from 'Services';
 import { Api } from 'Types';
@@ -38,7 +38,7 @@ export default function Dashboard() {
         fps,
         setFps,
       }}>
-        <Maze api={api} />
+        <Grid api={api} />
         <Settings />
       </SettingsProvider>
     </div>
