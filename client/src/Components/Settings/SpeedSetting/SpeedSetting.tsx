@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { SettingsContext, LangContext } from 'Contexts';
-import './SpeedSettings.css';
+import './SpeedSetting.css';
 
 const maxFPS = 100;
 
