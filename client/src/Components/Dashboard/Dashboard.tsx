@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Settings, Grid } from 'Components';
 import { SettingsProvider } from 'Contexts';
 import { formatApi } from 'Services';
+import { apiMock } from 'Mocks';
 import { Api } from 'Types';
 import Wasm from 'wasm';
 import './Dashboard.css';
@@ -13,12 +14,7 @@ export default function Dashboard() {
   const [mazeHeight, setHeight] = useState(10);
   const [fps, setFps] = useState(25);
 
-  const [api, setApi] = useState<Api>({
-    generateFinal: () => [['']],
-    updateClasses: (classLists: string[][], change: number, updateDir: number) => [['']],
-    newMazeDescriptor: (width: number, height: number) => { return; },
-    getStepsLen: () => 0
-  });
+  const [api, setApi] = useState<Api>(apiMock);
 
   useEffect(() => {
     (async () => {

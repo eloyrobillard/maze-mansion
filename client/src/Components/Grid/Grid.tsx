@@ -1,9 +1,9 @@
+import { foundEdge, handleUpdate, resizeMazeElements, emptyMaze } from './GridUtils';
 import { useState, useEffect, useCallback, useContext, useRef } from 'react';
-import './Grid.css';
-import { Api } from 'Types';
 import { SettingsContext } from 'Contexts';
 import Commands from './Commands/Commands';
-import { foundEdge, handleUpdate, resizeMazeElements, emptyMaze } from './GridUtils';
+import { Api } from 'Types';
+import './Grid.css';
 
 // -1: empty grid, 0: first cell
 export const FIRST_STEP = -1;
@@ -119,7 +119,7 @@ export default function Grid({ api }: { api: Api }) {
 				handleUpdate={(e) => {
 					e.preventDefault();
 					handleUpdate({
-						// NOTE name of button is direction
+						// NOTE name of button is destination
 						direction: e.currentTarget.id.split('-')[0],
 						setStepCount,
 						setDirection,

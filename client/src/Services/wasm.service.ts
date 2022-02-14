@@ -12,6 +12,7 @@ export function formatApi(api: ASUtil & WasmApi): Api {
 		},
 
 		updateClasses: (cls, step, dir) => {
+			// NOTE pin class lists in WASM module's heap
 			const strArrsPtrs = cls.map((arr, i) => {
 				const strsPtr = arr.map((str) => api.__pin(api.__newString(str)));
 				const res = api.__pin(api.__newArray(api.ArrayOfStrings_ID, strsPtr));
@@ -23,6 +24,7 @@ export function formatApi(api: ASUtil & WasmApi): Api {
 			);
 			strArrsPtrs.forEach(api.__unpin);
 
+			// NOTE retrieve update class lists
 			const resPtr = api.updateClasses(clsPtr, step, dir);
 			const res = api
 				.__getArray(resPtr)

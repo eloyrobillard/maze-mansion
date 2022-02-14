@@ -49,13 +49,17 @@ Loads the WebAssembly (WASM) API for maze construction, and passes it to Grid.
 
 #### Grid
 
-Grid uses the API to load CSS classes corresponding to the current maze instance (WASM side). These classes are applied to a grid of squares, and represent:
+Grid uses the WASM API to load CSS classes corresponding to the current maze instance (WASM side). These classes are applied to a grid of squares, and show:
 
 - the current cell
 - walls between cells
 - unexplored cells
 
 Grid also handles maze width/height changes by updating the maze instance (WASM side). Cells are resized accordingly.
+
+##### WASM API
+
+The api sends the current CSS class lists (string[][]) with AssemblyScript's ＿pin method, which gives them an address in the WASM heap. The updated class lists are retrieved with ＿getArray and ＿getString.
 
 ##### Commands
 
@@ -85,6 +89,21 @@ It's just a recursive backtracker implementation, but in AssemblyScript. It expo
 - resetting the maze instance
 - get CSS classes for the finished maze
 - update current CSS classes with the next step
+
+## AssemblyScript
+
+AssemblyScript is built to look like TypeScript, but to use WASM types (i32, f64, etc). On the other hand, it is a young project, and the compiler [misses some features](https://www.assemblyscript.org/status.html#webassembly-features) that a JavaScript/TypeScript user would typically expect:
+
+- no try-catch (throwing currently aborts the program)
+- no closures (which makes .map or .reduce hard to use)
+- no destructuring assignments
+- etc...
+
+Some other differences to know about:
+
+- type `number` is the same as `f64`, which makes it incompatible with all integer types
+- function return types must be specified
+- ＿pin-ned resources must be ＿unpin-ned to allow garbage collection
 
 ## References
 
