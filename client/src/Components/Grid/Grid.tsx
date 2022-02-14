@@ -119,7 +119,7 @@ export default function Grid({ api }: { api: Api }) {
 				handleUpdate={(e) => {
 					e.preventDefault();
 					handleUpdate({
-						// NOTE name of button is direction
+						// NOTE name of button is destination
 						direction: e.currentTarget.id.split('-')[0],
 						setStepCount,
 						setDirection,
