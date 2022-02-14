@@ -34,18 +34,31 @@ Serves as a follow-up to [another project](https://github.com/eloyrobillard/Legu
 
 ## Some more detail
 
+``` mermaid
+flowchart LR
+A[Server] -->|WASM| B(Dashboard)
+B --> C{Wasm API}
+C -->|Grid| D[Commands]
+C -->|Settings| E[SpeedSetting]
+```
+
 ### Front End
 
 The React front-end is split in 4 main components:
 
 1. Dashboard
-2. Grid
+   2. Wasm API
+3. Grid
    1. Commands
-3. Settings
+4. Settings
 
 #### Dashboard
 
 Loads the WebAssembly (WASM) API for maze construction, and passes it to Grid.
+
+##### WASM API
+
+The api sends the current CSS class lists (string[][]) with AssemblyScript's ＿pin method, which gives them an address in the WASM heap. The updated class lists are retrieved with ＿getArray and ＿getString.
 
 #### Grid
 
@@ -56,10 +69,6 @@ Grid uses the WASM API to load CSS classes corresponding to the current maze ins
 - unexplored cells
 
 Grid also handles maze width/height changes by updating the maze instance (WASM side). Cells are resized accordingly.
-
-##### WASM API
-
-The api sends the current CSS class lists (string[][]) with AssemblyScript's ＿pin method, which gives them an address in the WASM heap. The updated class lists are retrieved with ＿getArray and ＿getString.
 
 ##### Commands
 
